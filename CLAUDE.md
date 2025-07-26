@@ -33,6 +33,11 @@ This is a personal Neovim configuration using a modular structure with the nativ
 ### Plugin Architecture
 **IMPORTANT**: This configuration uses Neovim's native package system (vim.pack.add) NOT LazyVim or any other plugin manager. Plugin configurations should NOT return LazyVim specs but instead should directly configure the plugin using vim.pack.add() and native Neovim APIs.
 
+**vim.pack.add() Usage**: vim.pack.add() takes a table with the full plugin URL:
+```lua
+vim.pack.add({ 'https://github.com/username/plugin-name' })
+```
+
 Each plugin is configured in its own subdirectory under `plugins/`:
 - **blink** - Completion engine with custom Colemak keybindings
 - **conform** - Code formatting with StyLua integration

@@ -1,22 +1,5 @@
 vim.pack.add({ 'https://github.com/folke/snacks.nvim' })
 
-local logo = require('plugins.snacks.logo')
-
----@class snacks.dashboard.Config
-local dashboard = {
-	enabled = false,
-	preset = {
-		header = logo,
-	},
-}
-
-local open_explorer = function()
-	require('snacks').picker.explorer({
-		hidden = true,
-		ignored = true,
-	})
-end
-
 local open_grep = function()
 	require('snacks').picker.grep({
 		hidden = true,
@@ -36,7 +19,6 @@ vim.keymap.set('n', ',,', open_files, { desc = 'Find Files' })
 vim.keymap.set('n', '<leader>/', open_grep, { desc = 'Find Text' })
 
 require('snacks').setup({
-	dashboard = dashboard,
 	bigfile = { enabled = true },
 	notifier = { enabled = true },
 	quickfile = { enabled = true },

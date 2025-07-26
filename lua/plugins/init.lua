@@ -1,5 +1,6 @@
 vim.pack.add({ 'https://github.com/nvim-tree/nvim-web-devicons' })
 
+require('plugins.auto-session')
 require('plugins.autopair')
 require('plugins.blink')
 require('plugins.codesnap')
