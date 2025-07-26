@@ -1,4 +1,4 @@
-# s1n7ax's Neovim Configuration
+# My Neovim Configuration
 
 Modern Neovim config for Colemak users. Uses native `vim.pack` and latest LSP architecture.
 
