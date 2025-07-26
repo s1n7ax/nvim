@@ -3,7 +3,7 @@ vim.pack.add({ 'https://github.com/Goose97/timber.nvim' })
 -- Configure timber
 require('timber').setup({
 	keymaps = {
-		insert_log_below = ',dd',
+		insert_log_below = ',d',
 		insert_log_above = nil,
 		insert_plain_log_below = nil,
 		insert_plain_log_above = nil,
@@ -15,4 +15,3 @@ require('timber').setup({
 		add_log_targets_to_batch_operator = nil,
 	},
 })
-

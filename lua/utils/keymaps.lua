@@ -14,7 +14,7 @@ function M.mapper(mode)
 				}
 			end
 
-			vim.keymap.set(mode, key, action)
+			vim.keymap.set(mode, key, action, options)
 		end
 	end
 end

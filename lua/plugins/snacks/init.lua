@@ -1,22 +1,32 @@
 vim.pack.add({ 'https://github.com/folke/snacks.nvim' })
 
+local snacks = require('snacks')
+local utils = require('utils.keymaps')
+local nmap = utils.mapper('n')
+
 local open_grep = function()
-	require('snacks').picker.grep({
+	snacks.picker.grep({
 		hidden = true,
 		ignored = false,
 	})
 end
 
 local open_files = function()
-	require('snacks').picker.files({
+	snacks.picker.files({
 		hidden = true,
 		ignored = false,
 	})
 end
 
--- vim.keymap.set('n', '<leader>e', explorer)
-vim.keymap.set('n', ',,', open_files, { desc = 'Find Files' })
-vim.keymap.set('n', '<leader>/', open_grep, { desc = 'Find Text' })
+local open_zen = function()
+	snacks.zen()
+end
+
+nmap({
+	{ ',,', open_files, 'Find Files' },
+	{ ',a', open_zen, 'Find Text' },
+	{ '<leader>/', open_grep, 'Find Text' },
+})
 
 require('snacks').setup({
 	bigfile = { enabled = true },
