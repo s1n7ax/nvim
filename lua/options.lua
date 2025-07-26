@@ -24,11 +24,3 @@ vim.g.s1n7ax_window_horizontal_percentage = 0.8 -- Focused window width percenta
 vim.g.s1n7ax_window_vertical_percentage = 0.7 -- Focused window height percentage
 vim.g.s1n7ax_window_ignore_filetypes =
 	{ 'help', 'qf', 'quickfix', 'NvimTree', 'neo-tree', 'checkhealth' } -- Skip resizing for these filetypes
-
--- Diagnostic configuration
-vim.diagnostic.config({
-	underline = {
-		severity = vim.diagnostic.severity.ERROR,
-	},
-	severity_sort = true,
-})

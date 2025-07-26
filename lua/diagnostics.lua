@@ -4,11 +4,7 @@ local constants = require('constants')
 vim.diagnostic.config({
 	underline = true,
 	update_in_insert = false,
-	virtual_text = {
-		spacing = 4,
-		source = 'if_many',
-		prefix = '●',
-	},
+	virtual_text = false,
 	severity_sort = true,
 	signs = {
 		text = {
@@ -19,4 +15,3 @@ vim.diagnostic.config({
 		},
 	},
 })
-

@@ -42,6 +42,7 @@ cmap({
 })
 
 -- normal mode keymaps
+-- stylua: ignore
 nmap({
 	{ '<c-s>', ':silent w<cr>', 'Save' },
 	{ '<c-q>', ':confirm q<cr>', 'Close' },
@@ -68,6 +69,8 @@ nmap({
 	-- LSP
 	{ 'gd', vim.lsp.buf.definition, 'Go to definition' },
 	{ 'I', vim.lsp.buf.hover, 'LSP hover info' },
+	{ ']d', function() vim.diagnostic.jump({ count = 1, float = true }) end, 'Next diagnostic' },
+	{ '[d', function() vim.diagnostic.jump({ count = -1, float = true }) end, 'Previous diagnostic' },
 })
 
 -- insert mode keymaps
