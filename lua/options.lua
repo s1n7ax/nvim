@@ -10,8 +10,8 @@ vim.o.hlsearch = false
 vim.o.splitright = true
 vim.o.splitbelow = true
 
--- Global status line
-vim.o.laststatus = 3
+-- Disable status line
+vim.o.laststatus = 0
 
 -- Disable text wrapping
 vim.o.wrap = false

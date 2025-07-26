@@ -67,6 +67,7 @@ nmap({
 	{ '<a-i>', split_right, 'Split right' },
 	-- LSP
 	{ 'gd', vim.lsp.buf.definition, 'Go to definition' },
+	{ 'I', vim.lsp.buf.hover, 'LSP hover info' },
 })
 
 -- insert mode keymaps
