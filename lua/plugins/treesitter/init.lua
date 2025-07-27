@@ -42,6 +42,7 @@ require('nvim-treesitter.configs').setup({
 		'vue',
 		'xml',
 		'yaml',
+		'svelte',
 	},
 	incremental_selection = {
 		enable = true,

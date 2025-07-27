@@ -1,19 +1,13 @@
 -- Auto commands for various features
 
 -- Yank highlight functionality
-vim.api.nvim_set_hl(0, 'YankHighlight', {
-	bg = '#3d59a1',
-	fg = '#ffffff',
-	bold = true,
-})
+-- stylua: ignore
+vim.api.nvim_set_hl( 0, 'YankHighlight', { bg = '#3d59a1', fg = '#ffffff', bold = true })
 
 vim.api.nvim_create_autocmd('TextYankPost', {
 	group = vim.api.nvim_create_augroup('YankHighlight', { clear = true }),
 	callback = function()
-		vim.highlight.on_yank({
-			higroup = 'YankHighlight',
-			timeout = 100,
-		})
+		vim.hl.on_yank({ higroup = 'YankHighlight', timeout = 100 })
 	end,
 })
 
@@ -49,6 +43,7 @@ vim.api.nvim_create_autocmd('BufWinEnter', {
 vim.api.nvim_create_autocmd('FileType', {
 	pattern = 'qf',
 	callback = function()
-		vim.keymap.set('n', '<CR>', '<CR>', { buffer = true, desc = 'Open quickfix entry' })
+		-- stylua: ignore
+		vim.keymap.set( 'n', '<CR>', '<CR>', { buffer = true, desc = 'Open quickfix entry' })
 	end,
 })
