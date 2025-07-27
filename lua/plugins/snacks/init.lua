@@ -30,11 +30,16 @@ nmap({
 
 require('snacks').setup({
 	bigfile = { enabled = true },
-	notifier = { enabled = true },
-	quickfile = { enabled = true },
+	dashboard = { enabled = false },
+	explorer = { enabled = false },
+	indent = { enabled = false },
+	input = { enabled = true },
+	notifier = { enabled = false },
+	quickfile = { enabled = false },
+	scope = { enabled = false },
+	scroll = { enabled = false },
 	statuscolumn = { enabled = true },
 	words = { enabled = true },
-	scope = { enabled = false },
 	picker = {
 		sources = {
 			explorer = {

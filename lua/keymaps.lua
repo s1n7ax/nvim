@@ -56,6 +56,8 @@ nmap({
 	{ '<C-l>', '<C-i>zz', 'Go to next jump point' },
 	{ '<C-o>', '<C-o>zz', 'Go to prev jump point' },
 	{ '^', '0', 'Go to start of line' },
+	{ '<C-u>', '<C-u>zz', 'Scroll up and center' },
+	{ '<C-d>', '<C-d>zz', 'Scroll down and center' },
 	-- Window navigation
 	{ '<c-n>', navigate_window('j'), 'Window down' },
 	{ '<c-e>', navigate_window('k'), 'Window up' },
