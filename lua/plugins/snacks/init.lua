@@ -5,17 +5,11 @@ local utils = require('utils.keymaps')
 local nmap = utils.mapper('n')
 
 local open_grep = function()
-	snacks.picker.grep({
-		hidden = true,
-		ignored = false,
-	})
+	snacks.picker.grep({ hidden = true, ignored = false })
 end
 
 local open_files = function()
-	snacks.picker.smart({
-		hidden = true,
-		ignored = false,
-	})
+	snacks.picker.smart({ hidden = true, ignored = false })
 end
 
 local open_zen = function()
@@ -101,10 +95,7 @@ require('snacks').setup({
 			dim = false,
 		},
 		win = {
-			style = {
-				backdrop = { transparent = false },
-			},
-			width = 100,
+			style = { backdrop = { transparent = false } },
 		},
 	},
 })

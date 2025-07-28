@@ -20,6 +20,8 @@ vim.o.wrap = false
 vim.o.clipboard = 'unnamedplus'
 vim.o.splitkeep = 'cursor'
 
+vim.o.messagesopt = 'hit-enter,history:5000'
+
 vim.g.s1n7ax_window_horizontal_percentage = 0.8 -- Focused window width percentage
 vim.g.s1n7ax_window_vertical_percentage = 0.7 -- Focused window height percentage
 vim.g.s1n7ax_window_ignore_filetypes =
