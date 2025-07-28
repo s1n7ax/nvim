@@ -7,13 +7,16 @@ require('oil').setup({
 	use_default_keymaps = false,
 	view_options = {
 		show_hidden = true,
-		is_always_hidden = function(name, bufnr)
+		is_always_hidden = function(name)
 			return name == '..'
 		end,
 	},
 	keymaps = {
 		['<backspace>'] = { 'actions.parent', mode = 'n' },
-		['<CR>'] = 'actions.select',
+		['<CR>'] = { 'actions.select', mode = 'n' },
+		['<leader>e'] = { 'actions.close', mode = 'n' },
+		['za'] = { 'actions.toggle_hidden', mode = 'n' },
+		['='] = { 'actions.open_cwd', mode = 'n' },
 	},
 })
 

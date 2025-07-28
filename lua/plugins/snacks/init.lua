@@ -12,7 +12,7 @@ local open_grep = function()
 end
 
 local open_files = function()
-	snacks.picker.files({
+	snacks.picker.smart({
 		hidden = true,
 		ignored = false,
 	})
@@ -22,11 +22,19 @@ local open_zen = function()
 	snacks.zen()
 end
 
+-- stylua: ignore
 nmap({
-	{ ',,', open_files, 'Find Files' },
-	{ ',a', open_zen, 'Find Text' },
-	{ '<leader>/', open_grep, 'Find Text' },
-	{ '<leader>sh', snacks.picker.help, 'Find Help' },
+	{ ',,', open_files, 'Find files' },
+	{ ',a', open_zen, 'Find text' },
+	{ '<leader>/', open_grep, 'Find text' },
+	{ '<leader>sh', snacks.picker.help, 'Find help' },
+	{ '<leader>sb', snacks.picker.git_branches, 'Find git branches' },
+	{ '<leader>sl', snacks.picker.lines, 'Find lines' },
+	{ '<leader>sc', snacks.picker.commands, 'Find commands' },
+	{ '<leader>sd', snacks.picker.diagnostics, 'Find diagnostics' },
+	{ '<leader>sk', snacks.picker.keymaps, 'Find keymaps' },
+	{ '<leader>ss', snacks.picker.lsp_workspace_symbols, 'Find workspace symbols', },
+	{ '<leader>sr', snacks.picker.lsp_symbols, 'Find symbols' },
 })
 
 require('snacks').setup({
