@@ -1,14 +1,24 @@
 local M = {}
 
 M.servers = {
-	'lua_ls',
-	'denols',
+	'bashls',
 	'biome',
+	'biome',
+	'cssls',
+	'denols',
+	'docker_compose_language_service',
+	'emmet_language_server',
+	'eslint',
+	'fish_lsp',
+	'html',
+	'jsonls',
+	'lua_ls',
+	'nil_ls',
 	'svelte',
+	'tailwindcss',
+	'ts_ls',
 }
 
-for _, server in ipairs(M.servers) do
-	vim.lsp.enable(server)
-end
+vim.lsp.enable(M.servers)
 
 return M

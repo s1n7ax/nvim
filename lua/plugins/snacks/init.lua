@@ -26,6 +26,7 @@ nmap({
 	{ ',,', open_files, 'Find Files' },
 	{ ',a', open_zen, 'Find Text' },
 	{ '<leader>/', open_grep, 'Find Text' },
+	{ '<leader>sh', snacks.picker.help, 'Find Help' },
 })
 
 require('snacks').setup({
