@@ -53,6 +53,31 @@ This configuration is heavily customized for the Colemak keyboard layout:
 - Text manipulation keys are remapped accordingly
 - Completion uses `<c-n>/<c-e>` for navigation
 
+### Keymap Philosophy
+This config uses a frequency-based keymap organization system optimized for Colemak:
+
+#### Key Group Priority System
+- **Comma-based (most frequent)**: Reserved for most used actions
+  - `,,` - fuzzy finder (snacks.picker.files)
+  - `,a` - zen mode toggle
+  - `,d` - timber insert_log_below
+- **Leader groups**: Assigned by plugin frequency, prioritizing home row keys
+  - `<leader>t` - Snacks (high frequency, home row position)
+  - `<leader>s` - Secondary frequent plugins
+  - `<leader>q` - Less frequent plugins (upper row acceptable like codesnap)
+- **Native replacements**: Enhance existing Neovim keymaps instead of creating new groups
+  - Example: neoscroll enhances native scrolling - no dedicated key group needed
+  - Example: ufo improves native folding - replaces default fold keymaps
+
+#### Within-Group Key Assignment
+- **Home row priority**: Most used actions get home row keys within each group
+  - `<leader>tt` - snacks.picker.lines (frequent)
+  - `<leader>tl` - snacks.picker.help (less frequent)
+- **Position over semantics**: Key position based on frequency, not function name
+  - Don't use `<leader>th` for help just because it starts with 'h'
+  - Use ergonomic key positions based on actual usage patterns
+- **Colemak home row optimization**: `t`, `n`, `s`, `r` are prioritized for frequent actions
+
 ### Window Management
 Advanced window management with auto-resizing functionality:
 - **Navigation**: `<C-m/n/e/i>` for left/down/up/right window navigation

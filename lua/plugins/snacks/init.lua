@@ -21,16 +21,16 @@ end
 -- stylua: ignore
 nmap({
 	{ ',,', open_files, 'Find files' },
-	{ ',a', open_zen, 'Find text' },
+	{ ',a', open_zen, 'Zen mode' },
 	{ '<leader>/', open_grep, 'Find text' },
-	{ '<leader>sh', snacks.picker.help, 'Find help' },
-	{ '<leader>sb', snacks.picker.git_branches, 'Find git branches' },
-	{ '<leader>sl', snacks.picker.lines, 'Find lines' },
-	{ '<leader>sc', snacks.picker.commands, 'Find commands' },
-	{ '<leader>sd', snacks.picker.diagnostics, 'Find diagnostics' },
-	{ '<leader>sk', snacks.picker.keymaps, 'Find keymaps' },
-	{ '<leader>ss', snacks.picker.lsp_workspace_symbols, 'Find workspace symbols', },
-	{ '<leader>sr', snacks.picker.lsp_symbols, 'Find symbols' },
+	{ '<leader>nn', snacks.picker.lines, 'Find lines' },
+	{ '<leader>nt', snacks.picker.diagnostics, 'Find diagnostics' },
+	{ '<leader>ns', snacks.picker.git_branches, 'Find git branches' },
+	{ '<leader>nr', snacks.picker.lsp_workspace_symbols, 'Find workspace symbols', },
+	{ '<leader>na', snacks.picker.keymaps, 'Find keymaps' },
+	{ '<leader>ne', snacks.picker.commands, 'Find commands' },
+	{ '<leader>ni', snacks.picker.lsp_symbols, 'Find symbols' },
+	{ '<leader>nl', snacks.picker.help, 'Find help' },
 })
 
 require('snacks').setup({

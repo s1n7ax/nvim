@@ -5,12 +5,12 @@ local vmap = mapper('x')
 
 -- stylua: ignore
 nmap({
-	{ '<leader>hd', '<cmd>DiffviewFileHistory %<cr>', 'Git diff file' },
-	{ '<leader>hD', '<cmd>DiffviewFileHistory<cr>', 'Git diff branch' },
+	{ '<leader>ii', '<cmd>DiffviewFileHistory %<cr>', 'Git diff file' },
+	{ '<leader>in', '<cmd>DiffviewFileHistory<cr>', 'Git diff branch' },
 })
 
 vmap({
-	{ '<leader>hd', ':DiffviewFileHistory<cr>', 'Git diff selection' },
+	{ '<leader>ii', ':DiffviewFileHistory<cr>', 'Git diff selection' },
 })
 
 require('diffview').setup()

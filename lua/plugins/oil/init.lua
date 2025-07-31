@@ -12,11 +12,11 @@ require('oil').setup({
 	keymaps = {
 		['<backspace>'] = { 'actions.parent', mode = 'n' },
 		['<CR>'] = { 'actions.select', mode = 'n' },
-		['<leader>e'] = { 'actions.close', mode = 'n' },
+		[',r'] = { 'actions.close', mode = 'n' },
 		['za'] = { 'actions.toggle_hidden', mode = 'n' },
 		['='] = { 'actions.open_cwd', mode = 'n' },
 	},
 })
 
 -- stylua: ignore
-vim.keymap.set('n', '<leader>e', '<cmd>Oil<cr>', { desc = 'Open parent directory' })
+vim.keymap.set('n', ',r', '<cmd>Oil<cr>', { desc = 'Open parent directory' })
