@@ -1,5 +1,3 @@
-vim.pack.add({ 'https://github.com/sindrets/winshift.nvim' })
-
 -- Set up keymap for WinShift
 vim.keymap.set('n', '<c-w>m', '<cmd>WinShift<cr>', { desc = 'Shift window mode' })
 

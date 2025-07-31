@@ -1,5 +1,3 @@
-vim.pack.add({ 'https://github.com/stevearc/oil.nvim' })
-
 require('oil').setup({
 	columns = { 'icon' },
 	delete_to_trash = true,

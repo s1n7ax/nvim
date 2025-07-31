@@ -1,8 +1,3 @@
-vim.pack.add({
-	'https://github.com/kevinhwang91/nvim-ufo',
-	'https://github.com/kevinhwang91/promise-async',
-})
-
 local lsp = require('lsp')
 
 vim.o.foldcolumn = '1' -- '0' is not bad

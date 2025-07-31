@@ -1,5 +1,3 @@
-vim.pack.add({ 'https://github.com/folke/flash.nvim' })
-
 local utils = require('utils')
 local mapper = utils.mapper
 local nmap = mapper('n')

@@ -1,4 +1,44 @@
-vim.pack.add({ 'https://github.com/nvim-tree/nvim-web-devicons' })
+vim.pack.add({
+	'https://github.com/Goose97/timber.nvim',
+	'https://github.com/L3MON4D3/LuaSnip',
+	'https://github.com/Saghen/blink.cmp',
+	'https://github.com/ThePrimeagen/harpoon',
+	'https://github.com/chrisgrieser/nvim-spider',
+	'https://github.com/echasnovski/mini.move',
+	'https://github.com/folke/flash.nvim',
+	'https://github.com/folke/lazydev.nvim',
+	'https://github.com/folke/snacks.nvim',
+	'https://github.com/folke/tokyonight.nvim',
+	'https://github.com/j-hui/fidget.nvim',
+	'https://github.com/karb94/neoscroll.nvim',
+	'https://github.com/kevinhwang91/nvim-ufo',
+	'https://github.com/kevinhwang91/promise-async',
+	'https://github.com/lewis6991/gitsigns.nvim',
+	'https://github.com/linrongbin16/gitlinker.nvim',
+	'https://github.com/mfussenegger/nvim-lint',
+	'https://github.com/mistricky/codesnap.nvim',
+	'https://github.com/mistweaverco/kulala.nvim',
+	'https://github.com/monaqa/dial.nvim',
+	'https://github.com/neovim/nvim-lspconfig',
+	'https://github.com/norcalli/nvim-colorizer.lua',
+	'https://github.com/nvim-lua/plenary.nvim',
+	'https://github.com/nvim-tree/nvim-web-devicons',
+	'https://github.com/nvim-treesitter/nvim-treesitter',
+	'https://github.com/nvim-treesitter/nvim-treesitter-context',
+	'https://github.com/nvim-treesitter/nvim-treesitter-textobjects',
+	'https://github.com/rmagatti/auto-session',
+	'https://github.com/s1n7ax/nvim-comment-frame',
+	'https://github.com/s1n7ax/nvim-snips',
+	'https://github.com/s1n7ax/nvim-terminal',
+	'https://github.com/s1n7ax/nvim-ts-utils',
+	'https://github.com/sindrets/diffview.nvim',
+	'https://github.com/sindrets/winshift.nvim',
+	'https://github.com/smoka7/hop.nvim',
+	'https://github.com/stevearc/conform.nvim',
+	'https://github.com/stevearc/oil.nvim',
+	'https://github.com/stevearc/overseer.nvim',
+	'https://github.com/windwp/nvim-autopairs',
+})
 
 require('plugins.auto-session')
 require('plugins.autopair')
@@ -17,10 +57,11 @@ require('plugins.harpoon')
 require('plugins.hop')
 require('plugins.kulala')
 require('plugins.lazydev')
-require('plugins.lspconfig')
 require('plugins.lint')
+require('plugins.lspconfig')
 require('plugins.luasnip')
 require('plugins.mini-move')
+require('plugins.neoscroll')
 require('plugins.oil')
 require('plugins.overseer')
 require('plugins.snacks')

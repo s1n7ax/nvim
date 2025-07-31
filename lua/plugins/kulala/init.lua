@@ -1,8 +1,3 @@
-vim.pack.add({
-	'https://github.com/mistweaverco/kulala.nvim',
-	'https://github.com/nvim-treesitter/nvim-treesitter',
-})
-
 local utils = require('utils')
 local mapper = utils.mapper
 local nmap = mapper('n')

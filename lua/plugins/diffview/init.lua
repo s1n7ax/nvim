@@ -1,6 +1,3 @@
-vim.pack.add({ 'https://github.com/sindrets/diffview.nvim' })
-vim.pack.add({ 'https://github.com/nvim-lua/plenary.nvim' })
-
 local utils = require('utils')
 local mapper = utils.mapper
 local nmap = mapper('n')

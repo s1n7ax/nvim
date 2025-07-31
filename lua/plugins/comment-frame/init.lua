@@ -1,5 +1,3 @@
-vim.pack.add({ 'https://github.com/s1n7ax/nvim-comment-frame' })
-
 local utils = require('utils')
 local mapper = utils.mapper
 local normal_map = mapper('n')

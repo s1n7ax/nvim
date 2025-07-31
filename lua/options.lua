@@ -5,6 +5,7 @@ vim.o.signcolumn = 'yes:2'
 vim.o.cmdheight = 0
 vim.o.more = false
 vim.o.hlsearch = false
+vim.o.ignorecase = true
 
 -- Window split behavior
 vim.o.splitright = true

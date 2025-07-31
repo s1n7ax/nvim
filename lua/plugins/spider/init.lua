@@ -1,5 +1,3 @@
-vim.pack.add({ 'https://github.com/chrisgrieser/nvim-spider' })
-
 -- Configure spider
 require('spider').setup({
 	subwordMovement = false,

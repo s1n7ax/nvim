@@ -1,10 +1,3 @@
-vim.pack.add({
-	'https://github.com/L3MON4D3/LuaSnip',
-	'https://github.com/s1n7ax/nvim-snips',
-	'https://github.com/s1n7ax/nvim-ts-utils',
-	'https://github.com/nvim-treesitter/nvim-treesitter',
-})
-
 local helper = require('plugins.luasnip.helper')
 
 helper.register_snippets()

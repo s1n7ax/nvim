@@ -1,5 +1,3 @@
-vim.pack.add({ 'https://github.com/folke/snacks.nvim' })
-
 local snacks = require('snacks')
 local utils = require('utils.keymaps')
 local nmap = utils.mapper('n')
@@ -9,7 +7,11 @@ local open_grep = function()
 end
 
 local open_files = function()
-	snacks.picker.smart({ hidden = true, ignored = false })
+	snacks.picker.smart({
+		hidden = true,
+		ignored = false,
+		filter = { cwd = true },
+	})
 end
 
 local open_zen = function()

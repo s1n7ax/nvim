@@ -1,5 +1,3 @@
-vim.pack.add({ 'https://github.com/Goose97/timber.nvim' })
-
 -- Configure timber
 require('timber').setup({
 	keymaps = {

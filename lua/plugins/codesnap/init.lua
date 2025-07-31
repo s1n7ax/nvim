@@ -1,5 +1,3 @@
-vim.pack.add({ 'https://github.com/mistricky/codesnap.nvim' })
-
 require('codesnap').setup({
 	has_breadcrumbs = true,
 	watermark = '',

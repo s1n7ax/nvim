@@ -1,5 +1,3 @@
-vim.pack.add({ 'https://github.com/linrongbin16/gitlinker.nvim' })
-
 local utils = require('utils')
 local mapper = utils.mapper
 local normal_map = mapper('n')

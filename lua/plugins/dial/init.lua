@@ -1,5 +1,3 @@
-vim.pack.add({ 'https://github.com/monaqa/dial.nvim' })
-
 local utils = require('utils')
 local mapper = utils.mapper
 local nmap = mapper('n')
