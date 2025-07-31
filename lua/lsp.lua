@@ -5,6 +5,7 @@ M.servers = {
 	'biome',
 	'biome',
 	'cssls',
+	'vtsls',
 	'denols',
 	'docker_compose_language_service',
 	'emmet_language_server',
