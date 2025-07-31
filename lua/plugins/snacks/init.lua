@@ -30,7 +30,8 @@ nmap({
 	{ '<leader>na', snacks.picker.keymaps, 'Find keymaps' },
 	{ '<leader>ne', snacks.picker.commands, 'Find commands' },
 	{ '<leader>ni', snacks.picker.lsp_symbols, 'Find symbols' },
-	{ '<leader>nl', snacks.picker.help, 'Find help' },
+	{ '<leader>no', snacks.picker.buffers, 'Find symbols' },
+	{ '<leader>nh', snacks.picker.help, 'Find help' },
 })
 
 require('snacks').setup({
