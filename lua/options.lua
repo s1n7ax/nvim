@@ -25,5 +25,12 @@ vim.o.messagesopt = 'hit-enter,history:5000'
 
 vim.g.s1n7ax_window_horizontal_percentage = 0.8 -- Focused window width percentage
 vim.g.s1n7ax_window_vertical_percentage = 0.7 -- Focused window height percentage
-vim.g.s1n7ax_window_ignore_filetypes =
-	{ 'help', 'qf', 'quickfix', 'NvimTree', 'neo-tree', 'checkhealth' } -- Skip resizing for these filetypes
+vim.g.s1n7ax_window_ignore_filetypes = {
+	'help',
+	'qf',
+	'quickfix',
+	'NvimTree',
+	'neo-tree',
+	'checkhealth',
+	'nvim-pack',
+} -- Skip resizing for these filetypes
