@@ -44,8 +44,8 @@ cmap({
 -- normal mode keymaps
 -- stylua: ignore
 nmap({
-	{ '<c-s>', ':silent w<cr>', 'Save' },
-	{ '<c-d>', ':confirm q<cr>', 'Close' },
+	{ '<c-q>', ':confirm quit<cr>', 'Close' },
+	{ '<c-h>', ':silent w<cr>', 'Save' },
 	{ '<leader><leader>o', '<cmd>messages<cr>', 'Open messages window' },
 	{ '<leader>p', 'a <esc>p', 'Paste After a Space' },
 	{ '[<leader>', add_line_above, 'Add line above' },

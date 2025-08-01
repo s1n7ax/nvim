@@ -27,21 +27,45 @@ nvim
 
 ## Colemak Keys
 
-- Navigate: `m/n/e/i` (left/down/up/right)
-- Insert: `h`
-- Find files: `,,`
-- Search: `<leader>/`
-- Completion: `<C-n>/<C-e>` to navigate
+### Core Navigation (Colemak Remapped)
+- Navigate: `m/n/e/i` (left/down/up/right) - replaces hjkl
+- Insert: `h` - replaces i
+- Marks: `j` - replaces m  
+- Find next: `k` - replaces n
+- End of word: `l` - replaces e
+
+### Core Keymaps
+- `<C-s>` - Save file
+- `<C-d>` - Close/quit
+- `<C-m/n/e/i>` - Window navigation
+- `<A-m/n/e/i>` - Window splitting
+- `gd` - LSP go to definition
+- `I` - LSP hover info
+- `]d/[d` - Next/previous diagnostic
+- `<leader>yp/yn` - Copy file path/name
+
+### Insert Mode Enhancements
+- `<C-c>` - Escape
+- `<C-s>` - Save
+- `<C-v>` - Paste
+- `<M-a/e>` - Jump to line start/end
+- `<M-k>` - Delete line
+- `<M-y>` - Duplicate line
 
 ## Plugin Keymaps (Frequency-Based)
 
-### Comma-based (Most Frequent) - Left Hand Home Row
+### Comma-based (Most Frequent)
 - `,,` - Find files (snacks.picker.files)
 - `,a` - Zen mode (snacks.zen)
 - `,d` - Insert log below (timber)
-- `,r` - Open/close file explorer (oil)
+- `,t` - Open/close file explorer (oil)
+- `,l` - Add file to harpoon
+- `,L` - Open harpoon UI
+- `,n` - Init/expand treesitter selection
+- `,s` - Scope incremental selection
+- `,e` - Node decremental selection
 
-### Snacks (`<leader>n`) - Most Frequent Plugin
+### Snacks (`<leader>n`) - Picker/Finder
 - `<leader>nn` - Find lines
 - `<leader>nt` - Find diagnostics  
 - `<leader>ns` - Find git branches
@@ -49,12 +73,19 @@ nvim
 - `<leader>na` - Find keymaps
 - `<leader>ne` - Find commands
 - `<leader>ni` - Find symbols
-- `<leader>nl` - Find help
+- `<leader>no` - Find buffers
+- `<leader>nh` - Find help
+- `<leader>/` - Find text (grep)
+
+### LSP Navigation (Snacks)
+- `<C-t>` - Go to definition
+- `<C-s>` - Go to implementation
+- `<C-r>` - Find references
 
 ### Overseer (`<leader>e`) - Task Runner
 - `<leader>ee` - Toggle task list
 - `<leader>en` - Run task
-- `<leader>ei` - Quick action recent task
+- `<leader>ei` - Quick action
 - `<leader>et` - Overseer info
 - `<leader>es` - Task builder
 - `<leader>er` - Task action
@@ -62,58 +93,62 @@ nvim
 - `<leader>el` - Load bundle
 
 ### Git Tools (`<leader>i`) - Diffview & Gitlinker
-- `<leader>ii` - Git diff file (diffview)
-- `<leader>in` - Git diff branch (diffview)
-- `<leader>ie` - Copy git link (gitlinker)
+- `<leader>ii` - Git diff file
+- `<leader>in` - Git diff branch  
+- `<leader>ie` - Copy git link
 
-### Comment Frame (`<leader>t`) - Least Frequent
+### Kulala (`<leader>r`) - REST Client
+- `<leader>ra` - Run all requests
+- `<leader>rs` - Send request
+- `<leader>rt` - Toggle view
+- `<leader>re` - Previous request
+- `<leader>rn` - Next request
+
+### Comment Frame (`<leader>t`)
 - `<leader>tt` - Add comment frame
 - `<leader>tn` - Add multiline comment frame
 
-### Harpoon - File Navigation
-- `,l` - Add file to harpoon
-- `,L` - Open harpoon UI
+### File Navigation & Bookmarks
 - `<C-1>` to `<C-5>` - Navigate to harpoon files 1-5
-
-### Kulala (`<leader>r`) - REST Client
-- `<leader>ra` - Send all requests
-- `<leader>rs` - Send the request
-- `<leader>rt` - Toggle headers/body view
-- `<leader>re` - Jump to previous request
-- `<leader>rn` - Jump to next request
 
 ### Motion & Navigation Plugins
 - `s` - Hop to word
 - `M` - Hop to line
-- `r` - Remote Flash (operator mode)
-- `S` - Flash Treesitter (normal/operator/visual)
-- `R` - Treesitter Search (normal)
+- `S` - Flash treesitter (all modes)
+- `R` - Treesitter search (normal)
+- `r` - Remote flash (operator-pending)
 - `w` - Enhanced word forward (spider)
-- `l` - Enhanced end-of-word (spider, remapped from `e`)
+- `l` - Enhanced end-of-word (spider)
 - `b` - Enhanced word backward (spider)
 
+### Completion (Blink.cmp)
+- `<C-space>` - Show completion
+- `<C-n>` - Next completion item
+- `<C-e>` - Previous completion item
+- `<CR>` - Accept completion
+
+### Text Objects (Treesitter)
+**Around/Inside pairs (Colemak 'a'/'h')**:
+- `ak/hk` - Around/inside block
+- `ac/hc` - Around/inside class
+- `af/hf` - Around/inside function
+- `al/hl` - Around/inside loop
+- `aa/ha` - Around/inside argument
+- `a?/h?` - Around/inside conditional
+
 ### Text Manipulation
-- `<C-m>/<C-i>/<C-n>/<C-e>` - Move text left/right/down/up (mini-move)
 - `<C-a>/<C-x>` - Increment/decrement numbers (dial)
 - `g<C-a>/g<C-x>` - Global increment/decrement (dial)
-- `cw`/`dw` - Change/delete to end of word (spider, remapped to `ce`/`de`)
+- `cw` → `ce`, `dw` → `de` - Word operation remaps (spider)
 
-### Window Management
-- `<C-w>m` - Enter WinShift mode
-- `zR`/`zM` - Open/close all folds (ufo)
+### Folding (UFO)
+- `zR` - Open all folds
+- `zM` - Close all folds
 
-### Completion & Snippets
-- `<C-space>` - Show completion (blink)
-- `<C-n>/<C-e>` - Navigate completion up/down (blink)
-- `<CR>` - Accept completion (blink)
-- `<C-i>` - Expand snippet or jump next (luasnip)
+### Window Management (WinShift)
+- `<C-w>m` - Enter window shift mode
+- In shift mode: `m/n/e/i` - Move window directionally
 
-### LSP & File Operations
-- `gd` - Go to definition
-- `I` - LSP hover info
-- `]d`/`[d` - Next/previous diagnostic
-- `<leader>yp` - Copy file path
-- `<leader>yn` - Copy file name
 
 ## Adding LSP Servers
 
