@@ -45,7 +45,7 @@ cmap({
 -- stylua: ignore
 nmap({
 	{ '<c-s>', ':silent w<cr>', 'Save' },
-	{ '<c-q>', ':confirm q<cr>', 'Close' },
+	{ '<c-d>', ':confirm q<cr>', 'Close' },
 	{ '<leader><leader>o', '<cmd>messages<cr>', 'Open messages window' },
 	{ '<leader>p', 'a <esc>p', 'Paste After a Space' },
 	{ '[<leader>', add_line_above, 'Add line above' },

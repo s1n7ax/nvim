@@ -32,6 +32,11 @@ nmap({
 	{ '<leader>ni', snacks.picker.lsp_symbols, 'Find symbols' },
 	{ '<leader>no', snacks.picker.buffers, 'Find symbols' },
 	{ '<leader>nh', snacks.picker.help, 'Find help' },
+
+	-- lsp keymaps
+	{ "<c-t>", snacks.picker.lsp_definitions, "Goto Definition" },
+	{ "<c-s>", snacks.picker.lsp_implementations, "Goto Implementation" },
+	{ "<c-r>", snacks.picker.lsp_references, { desc = "References", nowait = true } },
 })
 
 require('snacks').setup({

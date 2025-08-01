@@ -6,6 +6,7 @@ vim.o.cmdheight = 0
 vim.o.more = false
 vim.o.hlsearch = false
 vim.o.ignorecase = true
+vim.o.autowriteall = true
 
 -- Window split behavior
 vim.o.splitright = true
