@@ -45,7 +45,7 @@ cmap({
 -- stylua: ignore
 nmap({
 	{ '<c-q>', ':confirm quit<cr>', 'Close' },
-	{ '<c-h>', ':silent w<cr>', 'Save' },
+	{ '<c-s>', ':silent w<cr>', 'Save' },
 	{ '<leader><leader>o', '<cmd>messages<cr>', 'Open messages window' },
 	{ '<leader>p', 'a <esc>p', 'Paste After a Space' },
 	{ '[<leader>', add_line_above, 'Add line above' },
@@ -67,7 +67,7 @@ nmap({
 	{ '<a-e>', split_top, 'Split up' },
 	{ '<a-i>', split_right, 'Split right' },
 	-- LSP
-	{ 'gd', vim.lsp.buf.definition, 'Go to definition' },
+	-- { 'gd', vim.lsp.buf.definition, 'Go to definition' },
 	{ 'I', vim.lsp.buf.hover, 'LSP hover info' },
 	{ ']d', function() vim.diagnostic.jump({ count = 1, float = true }) end, 'Next diagnostic' },
 	{ '[d', function() vim.diagnostic.jump({ count = -1, float = true }) end, 'Previous diagnostic' },

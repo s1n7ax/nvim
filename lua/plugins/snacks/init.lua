@@ -3,7 +3,7 @@ local utils = require('utils.keymaps')
 local nmap = utils.mapper('n')
 
 local open_grep = function()
-	snacks.picker.grep({ hidden = true, ignored = false })
+	snacks.picker.grep({ hidden = true, ignored = false, regex = false })
 end
 
 local open_files = function()
@@ -34,9 +34,9 @@ nmap({
 	{ '<leader>nh', snacks.picker.help, 'Find help' },
 
 	-- lsp keymaps
-	{ "<c-t>", snacks.picker.lsp_definitions, "Goto Definition" },
-	{ "<c-s>", snacks.picker.lsp_implementations, "Goto Implementation" },
-	{ "<c-r>", snacks.picker.lsp_references, { desc = "References", nowait = true } },
+	{ 'gd', snacks.picker.lsp_definitions, "Goto Definition" },
+	{ 'gri', snacks.picker.lsp_implementations, "Goto Implementation" },
+	{ 'grr', snacks.picker.lsp_references, { desc = "References", nowait = true } },
 })
 
 require('snacks').setup({

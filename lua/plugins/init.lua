@@ -38,6 +38,7 @@ vim.pack.add({
 	'https://github.com/stevearc/oil.nvim',
 	'https://github.com/stevearc/overseer.nvim',
 	'https://github.com/windwp/nvim-autopairs',
+	'https://github.com/folke/which-key.nvim',
 })
 
 require('plugins.auto-session')
@@ -73,3 +74,4 @@ require('plugins.treesitter')
 require('plugins.treesitter-context')
 require('plugins.ufo')
 require('plugins.winshift')
+require('plugins.whichkey')
