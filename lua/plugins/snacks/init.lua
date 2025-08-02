@@ -6,22 +6,15 @@ local open_grep = function()
 	snacks.picker.grep({ hidden = true, ignored = false, regex = false })
 end
 
+-- stylua: ignore
 local open_files = function()
-	snacks.picker.smart({
-		hidden = true,
-		ignored = false,
-		filter = { cwd = true },
-	})
-end
-
-local open_zen = function()
-	snacks.zen()
+	snacks.picker.smart({ hidden = true, ignored = false, filter = { cwd = true } })
 end
 
 -- stylua: ignore
 nmap({
 	{ ',,', open_files, 'Find files' },
-	{ ',a', open_zen, 'Zen mode' },
+	{ ',a', snacks.zen, 'Zen mode' },
 	{ '<leader>/', open_grep, 'Find text' },
 	{ '<leader>nn', snacks.picker.lines, 'Find lines' },
 	{ '<leader>nt', snacks.picker.diagnostics, 'Find diagnostics' },
