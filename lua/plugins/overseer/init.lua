@@ -1,9 +1,9 @@
 local utils = require('utils')
 local mapper = utils.mapper
-local normal_map = mapper('n')
+local nmap = mapper('n')
 
 -- stylua: ignore
-normal_map({
+nmap({
 	{ '<leader>ee', '<cmd>OverseerRun<cr>', 'Run task' },
 	{ '<leader>en', '<cmd>OverseerToggle<cr>', 'Task list' },
 	{ '<leader>et', '<cmd>OverseerQuickAction<cr>', 'Action recent task' },
