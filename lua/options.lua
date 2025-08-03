@@ -7,6 +7,7 @@ vim.o.more = false
 vim.o.hlsearch = false
 vim.o.ignorecase = true
 vim.o.autowriteall = true
+vim.o.swapfile = false
 
 -- Window split behavior
 vim.o.splitright = true

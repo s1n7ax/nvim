@@ -14,7 +14,7 @@ end
 -- stylua: ignore
 nmap({
 	{ ',,', open_files, 'Find files' },
-	{ ',a', snacks.zen, 'Zen mode' },
+	{ ',a', function() snacks.zen() end, 'Zen mode' },
 	{ '<leader>/', open_grep, 'Find text' },
 	{ '<leader>nn', snacks.picker.lines, 'Find lines' },
 	{ '<leader>nt', snacks.picker.diagnostics, 'Find diagnostics' },
