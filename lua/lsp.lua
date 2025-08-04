@@ -13,7 +13,7 @@ M.servers = {
 	'fish_lsp',
 	'html',
 	'jsonls',
-	'lua_ls',
+	'emmylua_ls',
 	'nil_ls',
 	'svelte',
 	'tailwindcss',

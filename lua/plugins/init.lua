@@ -39,6 +39,7 @@ vim.pack.add({
 	'https://github.com/stevearc/overseer.nvim',
 	'https://github.com/windwp/nvim-autopairs',
 	'https://github.com/folke/which-key.nvim',
+	'https://github.com/catppuccin/nvim',
 })
 
 require('plugins.auto-session')
