@@ -1,5 +1,4 @@
-vim.o.sessionoptions =
-	'blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions'
+vim.opt.sessionoptions:remove({ 'help', 'tabpages', 'terminal' })
 
 ---@type AutoSession.Config
 require('auto-session').setup({
