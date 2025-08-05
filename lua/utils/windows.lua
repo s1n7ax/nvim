@@ -4,7 +4,7 @@ local M = {}
 function M.auto_resize_windows()
 	local current_win = vim.api.nvim_get_current_win()
 	local windows = vim.api.nvim_list_wins()
-	
+
 	-- Only resize if we have multiple windows
 	if #windows <= 1 then
 		return
@@ -16,11 +16,17 @@ function M.auto_resize_windows()
 		return
 	end
 
-	-- Skip if current buffer has ignored filetype
+	-- Skip if current buffer has ignored filetype or is a special buffer
 	local current_buf = vim.api.nvim_win_get_buf(current_win)
 	local current_ft = vim.api.nvim_buf_get_option(current_buf, 'filetype')
+	local current_buftype = vim.api.nvim_buf_get_option(current_buf, 'buftype')
 	local ignore_filetypes = vim.g.s1n7ax_window_ignore_filetypes or {}
-	
+
+	-- Skip if buftype indicates a special buffer (help, quickfix, etc.)
+	if current_buftype ~= '' and current_buftype ~= 'acwrite' then
+		return
+	end
+
 	for _, ft in ipairs(ignore_filetypes) do
 		if current_ft == ft then
 			return
@@ -35,10 +41,10 @@ function M.auto_resize_windows()
 			table.insert(normal_windows, win)
 		end
 	end
-	
+
 	-- Update windows list to only include normal windows
 	windows = normal_windows
-	
+
 	-- Only resize if we have multiple normal windows
 	if #windows <= 1 then
 		return
@@ -54,17 +60,17 @@ function M.auto_resize_windows()
 			row = pos[1],
 			col = pos[2],
 			width = width,
-			height = height
+			height = height,
 		}
 	end
 
 	local current_info = window_info[current_win]
-	
+
 	-- Find windows that share the same row (horizontal neighbors)
 	local horizontal_neighbors = {}
 	-- Find windows that share the same column (vertical neighbors)
 	local vertical_neighbors = {}
-	
+
 	for win, info in pairs(window_info) do
 		if win ~= current_win then
 			if info.row == current_info.row then
@@ -83,13 +89,15 @@ function M.auto_resize_windows()
 	if should_resize_width then
 		-- Resize width for horizontal splits
 		local total_width = vim.o.columns
-		local horizontal_percentage = vim.g.s1n7ax_window_horizontal_percentage or 0.7
+		local horizontal_percentage = vim.g.s1n7ax_window_horizontal_percentage
+			or 0.7
 		local focused_width = math.floor(total_width * horizontal_percentage)
-		local other_width = math.floor((total_width - focused_width) / (#horizontal_neighbors))
-		
+		local other_width =
+			math.floor((total_width - focused_width) / #horizontal_neighbors)
+
 		-- Set focused window width
 		pcall(vim.api.nvim_win_set_width, current_win, focused_width)
-		
+
 		-- Set other windows width
 		for _, win in ipairs(horizontal_neighbors) do
 			pcall(vim.api.nvim_win_set_width, win, other_width)
@@ -101,11 +109,12 @@ function M.auto_resize_windows()
 		local total_height = vim.o.lines - vim.o.cmdheight - 1
 		local vertical_percentage = vim.g.s1n7ax_window_vertical_percentage or 0.7
 		local focused_height = math.floor(total_height * vertical_percentage)
-		local other_height = math.floor((total_height - focused_height) / (#vertical_neighbors))
-		
+		local other_height =
+			math.floor((total_height - focused_height) / #vertical_neighbors)
+
 		-- Set focused window height
 		pcall(vim.api.nvim_win_set_height, current_win, focused_height)
-		
+
 		-- Set other windows height
 		for _, win in ipairs(vertical_neighbors) do
 			pcall(vim.api.nvim_win_set_height, win, other_height)
@@ -169,4 +178,3 @@ function M.split_bottom()
 end
 
 return M
-
