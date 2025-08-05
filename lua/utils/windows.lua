@@ -30,7 +30,7 @@ local function is_diffview_tab()
 		end
 
 		-- Check filetype
-		local ft = vim.api.nvim_buf_get_option(buf, 'filetype')
+		local ft = vim.bo[buf].filetype
 		if ft == 'DiffviewFiles' or ft == 'DiffviewFileHistory' then
 			return true
 		end
@@ -62,8 +62,7 @@ function M.auto_resize_windows()
 
 	-- Skip if current buffer has ignored filetype or is a special buffer
 	local current_buf = vim.api.nvim_win_get_buf(current_win)
-	local current_ft = vim.api.nvim_buf_get_option(current_buf, 'filetype')
-	local current_buftype = vim.api.nvim_buf_get_option(current_buf, 'buftype')
+	local current_ft = vim.bo[current_buf].filetype
 	local ignore_filetypes = vim.g.s1n7ax_window_ignore_filetypes or {}
 
 	for _, ft in ipairs(ignore_filetypes) do
@@ -164,7 +163,7 @@ end
 -- Window navigation with auto-resize
 function M.navigate_window(direction)
 	return function()
-		vim.cmd('wincmd ' .. direction)
+		vim.cmd.wincmd(direction)
 		-- Auto-resize windows after navigation
 		vim.schedule(function()
 			M.auto_resize_windows()
