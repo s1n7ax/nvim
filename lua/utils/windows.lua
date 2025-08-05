@@ -1,5 +1,44 @@
 local M = {}
 
+-- Check if current tab is a diffview tab
+local function is_diffview_tab()
+	-- Method 1: Use diffview API (most reliable)
+	local ok, lib = pcall(require, 'diffview.lib')
+	if ok then
+		local current_view = lib.get_current_view()
+		if current_view then
+			return true
+		end
+	end
+
+	-- Method 2: Check windows in current tab
+	local tab_windows = vim.api.nvim_tabpage_list_wins(0)
+	for _, win in ipairs(tab_windows) do
+		local buf = vim.api.nvim_win_get_buf(win)
+		local buf_name = vim.api.nvim_buf_get_name(buf)
+
+		-- Check for diffview:// URL scheme
+		if buf_name:match('diffview://') then
+			return true
+		end
+
+		-- Check for diffview buffer variables
+		local ok_var, diffview_var =
+			pcall(vim.api.nvim_buf_get_var, buf, 'diffview_view')
+		if ok_var and diffview_var then
+			return true
+		end
+
+		-- Check filetype
+		local ft = vim.api.nvim_buf_get_option(buf, 'filetype')
+		if ft == 'DiffviewFiles' or ft == 'DiffviewFileHistory' then
+			return true
+		end
+	end
+
+	return false
+end
+
 -- Auto-resize windows functionality
 function M.auto_resize_windows()
 	local current_win = vim.api.nvim_get_current_win()
@@ -16,16 +55,16 @@ function M.auto_resize_windows()
 		return
 	end
 
+	-- Skip if current tab is a diffview tab
+	if is_diffview_tab() then
+		return
+	end
+
 	-- Skip if current buffer has ignored filetype or is a special buffer
 	local current_buf = vim.api.nvim_win_get_buf(current_win)
 	local current_ft = vim.api.nvim_buf_get_option(current_buf, 'filetype')
 	local current_buftype = vim.api.nvim_buf_get_option(current_buf, 'buftype')
 	local ignore_filetypes = vim.g.s1n7ax_window_ignore_filetypes or {}
-
-	-- Skip if buftype indicates a special buffer (help, quickfix, etc.)
-	if current_buftype ~= '' and current_buftype ~= 'acwrite' then
-		return
-	end
 
 	for _, ft in ipairs(ignore_filetypes) do
 		if current_ft == ft then

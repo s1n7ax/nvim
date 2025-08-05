@@ -54,4 +54,5 @@ vim.g.s1n7ax_window_ignore_filetypes = {
 	'neo-tree',
 	'checkhealth',
 	'nvim-pack',
+	'DiffviewFiles',
 } -- Skip resizing for these filetypes
