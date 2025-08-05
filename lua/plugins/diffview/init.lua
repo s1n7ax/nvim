@@ -10,7 +10,7 @@ nmap({
 })
 
 vmap({
-	{ '<leader>ii', ':DiffviewFileHistory<cr>', 'Git diff selection' },
+	{ '<leader>ii', '<cmd>DiffviewFileHistory<cr>', 'Git diff selection' },
 })
 
 require('diffview').setup()
