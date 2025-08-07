@@ -55,4 +55,5 @@ vim.g.s1n7ax_window_ignore_filetypes = {
 	'checkhealth',
 	'nvim-pack',
 	'DiffviewFiles',
+	'OverseerList',
 } -- Skip resizing for these filetypes
