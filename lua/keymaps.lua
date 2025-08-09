@@ -52,7 +52,7 @@ nmap({
 	{ ']<leader>', add_line_below, 'Add line below' },
 	{ 'x', '"_x', 'Delete Character' },
 	{ "''", '``zz', 'Go to last jump point' },
-	{ '0', '^', 'Go to first character of line' },
+	{ '0', '^5zH', 'Go to first character of line' },
 	{ '<C-l>', '<C-i>zz', 'Go to next jump point' },
 	{ '<C-o>', '<C-o>zz', 'Go to prev jump point' },
 	{ '^', '0', 'Go to start of line' },

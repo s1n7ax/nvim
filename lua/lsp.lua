@@ -18,6 +18,7 @@ M.servers = {
 	'svelte',
 	'tailwindcss',
 	'ts_ls',
+	'gh_actions_ls',
 }
 
 vim.lsp.enable(M.servers)
