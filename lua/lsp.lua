@@ -19,6 +19,7 @@ M.servers = {
 	'tailwindcss',
 	'ts_ls',
 	'gh_actions_ls',
+	'groovyls',
 }
 
 vim.lsp.enable(M.servers)
