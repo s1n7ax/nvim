@@ -7,6 +7,7 @@ vim.pack.add({
 	'https://github.com/echasnovski/mini.move',
 	'https://github.com/folke/flash.nvim',
 	'https://github.com/folke/lazydev.nvim',
+	'https://github.com/folke/noice.nvim',
 	'https://github.com/folke/snacks.nvim',
 	'https://github.com/folke/tokyonight.nvim',
 	'https://github.com/j-hui/fidget.nvim',
@@ -19,6 +20,7 @@ vim.pack.add({
 	'https://github.com/mistricky/codesnap.nvim',
 	'https://github.com/mistweaverco/kulala.nvim',
 	'https://github.com/monaqa/dial.nvim',
+	'https://github.com/MunifTanjim/nui.nvim',
 	'https://github.com/neovim/nvim-lspconfig',
 	'https://github.com/norcalli/nvim-colorizer.lua',
 	'https://github.com/nvim-lua/plenary.nvim',
@@ -64,6 +66,7 @@ require('plugins.lspconfig')
 require('plugins.luasnip')
 require('plugins.mini-move')
 require('plugins.neoscroll')
+require('plugins.noice')
 require('plugins.oil')
 require('plugins.overseer')
 require('plugins.snacks')
