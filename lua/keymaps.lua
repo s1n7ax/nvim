@@ -1,4 +1,5 @@
 local utils = require('utils')
+local clipboard = require('utils.clipboard')
 
 local mapper = utils.mapper
 local navigate_window = utils.windows.navigate_window
@@ -72,8 +73,8 @@ nmap({
 	{ ']d', function() vim.diagnostic.jump({ count = 1, float = true }) end, 'Next diagnostic' },
 	{ '[d', function() vim.diagnostic.jump({ count = -1, float = true }) end, 'Previous diagnostic' },
 	-- File path
-	{ '<leader>yy', function() vim.fn.setreg('+', vim.fn.expand('%:p')) end, 'Copy file path to clipboard' },
-	{ '<leader>yn', function() vim.fn.setreg('+', vim.fn.expand('%:t')) end, 'Copy file name to clipboard' },
+	{ '<leader>yy', clipboard.copy_file_path, 'Copy file path to clipboard' },
+	{ '<leader>yn', clipboard.copy_file_name, 'Copy file name to clipboard' },
 
 	{ '<leader>oo', function () require('utils.pack').pick_pkg_to_update() end, "Update packages" }
 })
