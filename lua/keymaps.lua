@@ -72,7 +72,7 @@ nmap({
 	{ ']d', function() vim.diagnostic.jump({ count = 1, float = true }) end, 'Next diagnostic' },
 	{ '[d', function() vim.diagnostic.jump({ count = -1, float = true }) end, 'Previous diagnostic' },
 	-- File path
-	{ '<leader>yp', function() vim.fn.setreg('+', vim.fn.expand('%:p')) end, 'Copy file path to clipboard' },
+	{ '<leader>yy', function() vim.fn.setreg('+', vim.fn.expand('%:p')) end, 'Copy file path to clipboard' },
 	{ '<leader>yn', function() vim.fn.setreg('+', vim.fn.expand('%:t')) end, 'Copy file name to clipboard' },
 
 	{ '<leader>oo', function () require('utils.pack').pick_pkg_to_update() end, "Update packages" }

@@ -55,5 +55,9 @@ vim.g.s1n7ax_window_ignore_filetypes = {
 	'checkhealth',
 	'nvim-pack',
 	'DiffviewFiles',
-	'OverseerList',
 } -- Skip resizing for these filetypes
+vim.g.s1n7ax_window_vertical_only_filetypes = {
+	'OverseerList',
+	'OverseerForm',
+	'overseer',
+} -- Resize vertically only for these filetypes
