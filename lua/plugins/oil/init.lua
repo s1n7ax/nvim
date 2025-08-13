@@ -17,7 +17,7 @@ require('oil').setup({
 		['za'] = { 'actions.toggle_hidden', mode = 'n' },
 		['='] = { 'actions.open_cwd', mode = 'n' },
 		['<C-v>'] = { 'actions.select', opts = { vertical = true } },
-		['<C-s>'] = { 'actions.select', opts = { horizontal = true } },
+		['<C-x>'] = { 'actions.select', opts = { horizontal = true } },
 	},
 })
 

@@ -10,7 +10,6 @@ vim.pack.add({
 	'https://github.com/folke/noice.nvim',
 	'https://github.com/folke/snacks.nvim',
 	'https://github.com/folke/tokyonight.nvim',
-	'https://github.com/j-hui/fidget.nvim',
 	'https://github.com/karb94/neoscroll.nvim',
 	'https://github.com/kevinhwang91/nvim-ufo',
 	'https://github.com/kevinhwang91/promise-async',
@@ -53,7 +52,6 @@ require('plugins.comment-frame')
 require('plugins.conform')
 require('plugins.dial')
 require('plugins.diffview')
-require('plugins.fidget')
 require('plugins.flash')
 require('plugins.gitlinker')
 require('plugins.gitsigns')
