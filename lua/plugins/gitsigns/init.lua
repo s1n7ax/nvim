@@ -1,7 +1,7 @@
 require('gitsigns').setup({
 	current_line_blame = true,
 	word_diff = false,
-	linehl = true,
+	linehl = false,
 })
 
 -- Git hunk navigation keymaps
