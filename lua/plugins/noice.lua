@@ -5,7 +5,7 @@ local nmap = utils.mapper('n')
 nmap({
 	{ '<leader>mn', function() require('noice').cmd('last') end, 'Show last message', },
 	{ '<leader>mh', function() require('noice').cmd('history') end, 'Show message history', },
-	{ '<leader>ma', function() require('noice').cmd('all') end, 'Show all messages', },
+	{ '<leader>mm', function() require('noice').cmd('all') end, 'Show all messages', },
 })
 
 require('noice').setup({

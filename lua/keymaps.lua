@@ -2,7 +2,7 @@ local utils = require('utils')
 local clipboard = require('utils.clipboard')
 
 local mapper = utils.mapper
-local navigate_window = utils.windows.navigate_window
+-- local navigate_window = utils.windows.navigate_window
 local split_left = utils.windows.split_left
 local split_right = utils.windows.split_right
 local split_top = utils.windows.split_top
@@ -17,7 +17,8 @@ local cmap = mapper('c')
 local nmap = mapper('n')
 local imap = mapper('i')
 local tmap = mapper('t')
-local vmap = mapper('x')
+local xmap = mapper('x')
+local vmap = mapper('v')
 
 -- colemak remaps
 amap({
@@ -105,3 +106,8 @@ vmap({
 	{ 'p', 'P', 'Paste yanked text' },
 	{ '$', 'g_', 'Select until end of line' },
 })
+
+-- neovim has x mode in keymap for vim.lsp.buf.selection_range
+-- I don't really need that and keymap and this collides with coleman move right
+-- in visual mode keymap
+vim.keymap.del('x', 'in')
