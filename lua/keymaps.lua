@@ -17,7 +17,6 @@ local cmap = mapper('c')
 local nmap = mapper('n')
 local imap = mapper('i')
 local tmap = mapper('t')
-local xmap = mapper('x')
 local vmap = mapper('v')
 
 -- colemak remaps
