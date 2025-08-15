@@ -37,24 +37,9 @@ vim.diagnostic.config({
 		end,
 		format = function(diagnostic)
 			local source = diagnostic.source and diagnostic.source or 'unknown'
-			local code = diagnostic.code and string.format(' (%s)', diagnostic.code)
-				or ''
 			-- Clean up source by removing unwanted characters
 			local source_text = source:gsub('[.%%]', '')
-			local separator_width = 40
-			local padding =
-				math.max(0, math.floor((separator_width - #source_text) / 2))
-			local left_sep = string.rep('─', padding)
-			local right_sep =
-				string.rep('─', separator_width - padding - #source_text)
-			return string.format(
-				'%s%s%s\n%s%s\n',
-				left_sep,
-				source_text,
-				right_sep,
-				diagnostic.message,
-				code
-			)
+			return string.format('%s (%s)', diagnostic.message, source_text)
 		end,
 		suffix = function()
 			return ' ', 'DiagnosticFloatingHint'
