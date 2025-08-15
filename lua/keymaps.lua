@@ -58,10 +58,14 @@ nmap({
 	{ '<C-o>', '<C-o>zz', 'Go to prev jump point' },
 	{ '^', '0', 'Go to start of line' },
 	-- Window navigation
-	{ '<c-n>', navigate_window('j'), 'Window down' },
-	{ '<c-e>', navigate_window('k'), 'Window up' },
-	{ '<c-m>', navigate_window('h'), 'Window left' },
-	{ '<c-i>', navigate_window('l'), 'Window right' },
+	{ '<c-n>', '<c-w>j', 'Window down' },
+	{ '<c-e>', '<c-w>k', 'Window up' },
+	{ '<c-m>', '<c-w>h', 'Window left' },
+	{ '<c-i>', '<c-w>l', 'Window right' },
+	-- { '<c-n>', navigate_window('j'), 'Window down' },
+	-- { '<c-e>', navigate_window('k'), 'Window up' },
+	-- { '<c-m>', navigate_window('h'), 'Window left' },
+	-- { '<c-i>', navigate_window('l'), 'Window right' },
 	-- Window splitting
 	{ '<a-m>', split_left, 'Split left' },
 	{ '<a-n>', split_bottom, 'Split down' },

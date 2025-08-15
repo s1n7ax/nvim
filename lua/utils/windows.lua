@@ -64,7 +64,8 @@ function M.auto_resize_windows()
 	local current_buf = vim.api.nvim_win_get_buf(current_win)
 	local current_ft = vim.bo[current_buf].filetype
 	local ignore_filetypes = vim.g.s1n7ax_window_ignore_filetypes or {}
-	local vertical_only_filetypes = vim.g.s1n7ax_window_vertical_only_filetypes or {}
+	local vertical_only_filetypes = vim.g.s1n7ax_window_vertical_only_filetypes
+		or {}
 
 	-- Check if current window should only resize vertically
 	local is_vertical_only = false
@@ -74,7 +75,6 @@ function M.auto_resize_windows()
 			break
 		end
 	end
-
 
 	for _, ft in ipairs(ignore_filetypes) do
 		if current_ft == ft then
@@ -142,11 +142,15 @@ function M.auto_resize_windows()
 				break
 			end
 		end
-		if has_vertical_only_neighbor then break end
+		if has_vertical_only_neighbor then
+			break
+		end
 	end
 
 	-- Determine if we should resize horizontally or vertically
-	local should_resize_width = #horizontal_neighbors > 0 and not is_vertical_only and not has_vertical_only_neighbor
+	local should_resize_width = #horizontal_neighbors > 0
+		and not is_vertical_only
+		and not has_vertical_only_neighbor
 	local should_resize_height = #vertical_neighbors > 0
 
 	if should_resize_width then
@@ -183,17 +187,8 @@ function M.auto_resize_windows()
 			pcall(vim.api.nvim_win_set_height, win, other_height)
 		end
 	end
-end
 
--- Window navigation with auto-resize
-function M.navigate_window(direction)
-	return function()
-		vim.cmd.wincmd(direction)
-		-- Auto-resize windows after navigation
-		vim.schedule(function()
-			M.auto_resize_windows()
-		end)
-	end
+	vim.cmd('normal! 5zH')
 end
 
 function M.split_left()
