@@ -48,3 +48,31 @@ vim.api.nvim_create_autocmd('FileType', {
 		vim.keymap.set( 'n', '<CR>', '<CR>', { buffer = true, desc = 'Open quickfix entry' })
 	end,
 })
+
+-- Spell check control based on buffer type and filetype
+vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWinEnter' }, {
+	group = vim.api.nvim_create_augroup('SpellCheckControl', { clear = true }),
+	callback = function()
+		local bufname = vim.fn.expand('%')
+		local filetype = vim.bo.filetype
+		local disable_for_empty = vim.g.s1n7ax_spell_disable_for_empty_buffers
+		local disable_filetypes = vim.g.s1n7ax_spell_disable_filetypes or {}
+
+		local should_disable = false
+
+		-- Check if should disable for empty buffers
+		if disable_for_empty and bufname == '' then
+			should_disable = true
+		end
+
+		-- Check if filetype is in disable list
+		for _, ft in ipairs(disable_filetypes) do
+			if filetype == ft then
+				should_disable = true
+				break
+			end
+		end
+
+		vim.wo.spell = not should_disable
+	end,
+})

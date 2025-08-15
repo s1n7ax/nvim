@@ -5,8 +5,7 @@ local M = {}
 
 function M.register_snippets()
 	for _, language in ipairs(config.languages) do
-		local module_path =
-			string.format('plugins.luasnip.snippets.%s', language)
+		local module_path = string.format('plugins.luasnip.snippets.%s', language)
 
 		local ok, snip = pcall(require, module_path)
 

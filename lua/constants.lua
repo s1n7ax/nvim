@@ -70,4 +70,3 @@ M.icons = {
 }
 
 return M
-

@@ -12,4 +12,3 @@ visual_map({
 })
 
 require('gitlinker').setup()
-

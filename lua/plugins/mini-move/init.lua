@@ -11,4 +11,3 @@ require('mini.move').setup({
 		line_up = nil,
 	},
 })
-

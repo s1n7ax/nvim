@@ -11,4 +11,3 @@ nmap({
 require('hop').setup({
 	keys = 'dhwyfuplaorisetn',
 })
-

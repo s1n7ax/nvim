@@ -1,5 +1,10 @@
 -- Set up keymap for WinShift
-vim.keymap.set('n', '<c-w>m', '<cmd>WinShift<cr>', { desc = 'Shift window mode' })
+vim.keymap.set(
+	'n',
+	'<c-w>m',
+	'<cmd>WinShift<cr>',
+	{ desc = 'Shift window mode' }
+)
 
 -- Configure winshift with Colemak keymaps
 require('winshift').setup({

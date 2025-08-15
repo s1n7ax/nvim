@@ -8,4 +8,3 @@ vim.api.nvim_create_autocmd({ 'BufWritePost', 'TextChanged', 'InsertLeave' }, {
 		require('lint').try_lint()
 	end,
 })
-
