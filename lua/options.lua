@@ -35,6 +35,7 @@ vim.o.winminwidth = 5
 vim.o.wrap = false
 vim.opt.shortmess:append({ W = true, I = true, c = true, C = true })
 vim.opt.spelllang = { 'en' }
+vim.o.spell = true
 vim.opt.fillchars = {
 	foldopen = '',
 	foldclose = '',
