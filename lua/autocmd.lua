@@ -22,6 +22,7 @@ vim.api.nvim_create_autocmd('WinEnter', {
 })
 
 vim.api.nvim_create_autocmd('BufWinEnter', {
+	group = vim.api.nvim_create_augroup('WinBar', { clear = true }),
 	pattern = '*',
 	callback = function()
 		-- skip if a pop up window
@@ -36,11 +37,11 @@ vim.api.nvim_create_autocmd('BufWinEnter', {
 
 		vim.wo.winbar = "%{%v:lua.require'utils.winbar'.eval()%}"
 	end,
-	group = vim.api.nvim_create_augroup('WinBar', {}),
 })
 
 -- Restore <CR> behavior in quickfix and location lists
 vim.api.nvim_create_autocmd('FileType', {
+	group = vim.api.nvim_create_augroup('QuickfixRemap', { clear = true }),
 	pattern = 'qf',
 	callback = function()
 		-- stylua: ignore
