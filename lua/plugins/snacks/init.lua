@@ -27,9 +27,9 @@ nmap({
 	{ '<leader>nh', snacks.picker.help, 'Find help' },
 
 	-- lsp keymaps
-	{ 'gd', snacks.picker.lsp_definitions, "Goto Definition" },
-	{ 'gri', snacks.picker.lsp_implementations, "Goto Implementation" },
-	{ 'grr', snacks.picker.lsp_references, { desc = "References", nowait = true } },
+	{ '<leader>tt', snacks.picker.lsp_definitions, "Goto Definition" },
+	{ '<leader>tn', snacks.picker.lsp_references, { desc = "References", nowait = true } },
+	{ '<leader>ti', snacks.picker.lsp_implementations, "Goto Implementation" },
 })
 
 require('snacks').setup({
