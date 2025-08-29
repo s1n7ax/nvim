@@ -41,6 +41,7 @@ vim.pack.add({
 	'https://github.com/windwp/nvim-autopairs',
 	'https://github.com/folke/which-key.nvim',
 	'https://github.com/catppuccin/nvim',
+	'https://github.com/b0o/SchemaStore.nvim',
 })
 
 require('plugins.auto-session')
