@@ -34,8 +34,6 @@ vim.o.wildmode = 'longest:full,full'
 vim.o.winminwidth = 5
 vim.o.wrap = false
 vim.opt.shortmess:append({ W = true, I = true, c = true, C = true })
-vim.opt.spelllang = { 'en' }
-vim.o.spell = true
 vim.opt.fillchars = {
 	foldopen = '',
 	foldclose = '',
@@ -62,11 +60,3 @@ vim.g.s1n7ax_window_vertical_only_filetypes = {
 	'OverseerForm',
 	'overseer',
 } -- Resize vertically only for these filetypes
-
-vim.g.s1n7ax_spell_disable_for_empty_buffers = true -- Disable spell check for buffers without files
-vim.g.s1n7ax_spell_disable_filetypes = {
-	'git',
-	'gitcommit',
-	'gitrebase',
-	'gitconfig',
-} -- Disable spell check for these filetypes
