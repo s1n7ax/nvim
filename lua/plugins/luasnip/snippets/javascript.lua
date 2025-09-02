@@ -1,6 +1,18 @@
-local tbl = require('utils.table')
-
 local M = {}
+
+local tbl_concat = function(a, b)
+	local c = {}
+
+	for _, v in ipairs(a) do
+		table.insert(c, v)
+	end
+
+	for _, v in ipairs(b) do
+		table.insert(c, v)
+	end
+
+	return c
+end
 
 function M.setup()
 	local ls = require('luasnip')
@@ -39,7 +51,7 @@ function M.setup()
 			s('v', js.choices.variable()),
 		}
 
-		return tbl.concat(common_snip(), snips)
+		return tbl_concat(common_snip(), snips)
 	end
 
 	local ts_snip = function()
@@ -49,7 +61,7 @@ function M.setup()
 			s('v', ts.choices.variable()),
 		}
 
-		return tbl.concat(common_snip(), snips)
+		return tbl_concat(common_snip(), snips)
 	end
 
 	local jsx_snip = function()
@@ -60,7 +72,7 @@ function M.setup()
 			s('ue', jsr.primitives.use_effect()),
 		}
 
-		return tbl.concat(js_snip(), snips)
+		return tbl_concat(js_snip(), snips)
 	end
 
 	local tsx_snip = function()
@@ -73,7 +85,7 @@ function M.setup()
 			s('ur', jsr.primitives.use_ref()),
 		}
 
-		return tbl.concat(ts_snip(), snips)
+		return tbl_concat(ts_snip(), snips)
 	end
 
 	local svelte_snips = function()
@@ -81,7 +93,7 @@ function M.setup()
 			s('scr', sv.primitives.script()),
 		}
 
-		return tbl.concat(ts_snip(), snips)
+		return tbl_concat(ts_snip(), snips)
 	end
 
 	ls.add_snippets('javascript', js_snip())

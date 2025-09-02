@@ -71,11 +71,14 @@ nmap({
 	{ '<a-n>', split_bottom, 'Split down' },
 	{ '<a-e>', split_top, 'Split up' },
 	{ '<a-i>', split_right, 'Split right' },
+
 	-- LSP
-	-- { 'gd', vim.lsp.buf.definition, 'Go to definition' },
+	{ '<leader>ne', vim.lsp.buf.rename, 'Rename' },
+	{ '<leader>no', utils.lsp.action["source.organizeImports"] },
 	{ 'I', vim.lsp.buf.hover, 'LSP hover info' },
 	{ ']d', function() vim.diagnostic.jump({ count = 1, float = true }) end, 'Next diagnostic' },
 	{ '[d', function() vim.diagnostic.jump({ count = -1, float = true }) end, 'Previous diagnostic' },
+
 	-- File path
 	{ '<leader>yy', clipboard.copy_file_path, 'Copy file path to clipboard' },
 	{ '<leader>yn', clipboard.copy_file_name, 'Copy file name to clipboard' },

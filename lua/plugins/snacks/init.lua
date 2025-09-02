@@ -16,20 +16,20 @@ nmap({
 	{ ',,', open_files, 'Find files' },
 	{ ',a', function() snacks.zen() end, 'Zen mode' },
 	{ '<leader>/', open_grep, 'Find text' },
-	{ '<leader>nn', snacks.picker.lines, 'Find lines' },
-	{ '<leader>nt', snacks.picker.diagnostics, 'Find diagnostics' },
-	{ '<leader>ns', snacks.picker.git_branches, 'Find git branches' },
-	{ '<leader>nr', snacks.picker.lsp_workspace_symbols, 'Find workspace symbols', },
-	{ '<leader>na', snacks.picker.keymaps, 'Find keymaps' },
-	{ '<leader>ne', snacks.picker.commands, 'Find commands' },
-	{ '<leader>ni', snacks.picker.lsp_symbols, 'Find symbols' },
-	{ '<leader>no', snacks.picker.buffers, 'Find symbols' },
-	{ '<leader>nh', snacks.picker.help, 'Find help' },
+	{ '<leader>tn', snacks.picker.lines, 'Find lines' },
+	{ '<leader>tt', snacks.picker.diagnostics, 'Find diagnostics' },
+	{ '<leader>ts', snacks.picker.git_branches, 'Find git branches' },
+	{ '<leader>tr', snacks.picker.lsp_workspace_symbols, 'Find workspace symbols', },
+	{ '<leader>ta', snacks.picker.keymaps, 'Find keymaps' },
+	{ '<leader>te', snacks.picker.commands, 'Find commands' },
+	{ '<leader>ti', snacks.picker.lsp_symbols, 'Find symbols' },
+	{ '<leader>to', snacks.picker.buffers, 'Find symbols' },
+	{ '<leader>th', snacks.picker.help, 'Find help' },
 
 	-- lsp keymaps
-	{ '<leader>tt', snacks.picker.lsp_definitions, "Goto Definition" },
-	{ '<leader>tn', snacks.picker.lsp_references, { desc = "References", nowait = true } },
-	{ '<leader>ti', snacks.picker.lsp_implementations, "Goto Implementation" },
+	{ '<leader>nn', snacks.picker.lsp_definitions, "Goto Definition" },
+	{ '<leader>ni', snacks.picker.lsp_references, { desc = "References", nowait = true } },
+	{ '<leader>no', snacks.picker.lsp_implementations, "Goto Implementation" },
 })
 
 require('snacks').setup({
