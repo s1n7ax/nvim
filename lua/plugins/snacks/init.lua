@@ -29,7 +29,7 @@ nmap({
 	-- lsp keymaps
 	{ '<leader>nn', snacks.picker.lsp_definitions, "Goto Definition" },
 	{ '<leader>ni', snacks.picker.lsp_references, { desc = "References", nowait = true } },
-	{ '<leader>no', snacks.picker.lsp_implementations, "Goto Implementation" },
+	{ '<leader>nr', snacks.picker.lsp_implementations, "Goto Implementation" },
 })
 
 require('snacks').setup({

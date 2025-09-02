@@ -74,7 +74,13 @@ nmap({
 
 	-- LSP
 	{ '<leader>ne', vim.lsp.buf.rename, 'Rename' },
-	{ '<leader>no', utils.lsp.action["source.organizeImports"] },
+	{ '<leader>no', utils.lsp.action["source.organizeImports"], 'Organize imports' },
+	{ '<leader>nt', function ()
+		vim.lsp.buf.code_action({ context = { only = { 'quickfix' } } })
+	end, 'Code actions quickfix' },
+	{ '<leader>ns', function ()
+		vim.lsp.buf.code_action({ context = { only = { 'refactor' } } })
+	end, 'Code actions refactor' },
 	{ 'I', vim.lsp.buf.hover, 'LSP hover info' },
 	{ ']d', function() vim.diagnostic.jump({ count = 1, float = true }) end, 'Next diagnostic' },
 	{ '[d', function() vim.diagnostic.jump({ count = -1, float = true }) end, 'Previous diagnostic' },
