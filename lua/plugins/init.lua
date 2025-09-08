@@ -42,6 +42,7 @@ vim.pack.add({
 	'https://github.com/folke/which-key.nvim',
 	'https://github.com/catppuccin/nvim',
 	'https://github.com/b0o/SchemaStore.nvim',
+	'https://github.com/supermaven-inc/supermaven-nvim',
 })
 
 require('plugins.auto-session')
@@ -78,3 +79,4 @@ require('plugins.treesitter-context')
 require('plugins.ufo')
 require('plugins.winshift')
 require('plugins.whichkey')
+require('plugins.supermaven')
