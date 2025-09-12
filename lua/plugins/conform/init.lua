@@ -1,5 +1,5 @@
 local formatters = {
-	prettierd = { 'javascript', 'typescript', 'json' },
+	prettierd = { 'javascript', 'typescript', 'json', 'css' },
 	stylua = { 'lua' },
 	nixfmt = { 'nix' },
 }
