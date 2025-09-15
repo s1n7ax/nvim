@@ -34,6 +34,7 @@ blink.setup({
 		['<c-n>'] = { 'select_next', 'snippet_forward', 'fallback' },
 		['<c-e>'] = { 'select_prev', 'snippet_backward', 'fallback' },
 		['<cr>'] = { 'select_and_accept', 'fallback' },
+		['<c-l>'] = { 'cancel', 'fallback' },
 	},
 	completion = {
 		menu = { border = 'single' },
