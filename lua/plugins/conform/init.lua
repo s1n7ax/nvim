@@ -1,5 +1,13 @@
 local formatters = {
-	prettierd = { 'javascript', 'typescript', 'json', 'css' },
+	prettierd = {
+		'javascript',
+		'javascriptreact',
+		'typescript',
+		'typescriptreact',
+		'svelte',
+		'json',
+		'css',
+	},
 	stylua = { 'lua' },
 	nixfmt = { 'nix' },
 }
