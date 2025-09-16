@@ -38,6 +38,7 @@ require('nvim-treesitter.configs').setup({
 		'xml',
 		'yaml',
 		'svelte',
+		'groovy',
 	},
 	highlight = {
 		enable = true,
