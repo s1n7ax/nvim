@@ -16,15 +16,19 @@ nmap({
 	{ ',,', open_files, 'Find files' },
 	{ ',a', function() snacks.zen() end, 'Zen mode' },
 	{ '<leader>/', open_grep, 'Find text' },
+
 	{ '<leader>tn', snacks.picker.lines, 'Find lines' },
+	{ '<leader>te', snacks.picker.commands, 'Find commands' },
+	{ '<leader>ti', snacks.picker.lsp_symbols, 'Find symbols' },
+	{ '<leader>to', snacks.picker.buffers, 'Find buffers' },
+
 	{ '<leader>tt', snacks.picker.diagnostics, 'Find diagnostics' },
 	{ '<leader>ts', snacks.picker.git_branches, 'Find git branches' },
 	{ '<leader>tr', snacks.picker.lsp_workspace_symbols, 'Find workspace symbols', },
 	{ '<leader>ta', snacks.picker.keymaps, 'Find keymaps' },
-	{ '<leader>te', snacks.picker.commands, 'Find commands' },
-	{ '<leader>ti', snacks.picker.lsp_symbols, 'Find symbols' },
-	{ '<leader>to', snacks.picker.buffers, 'Find symbols' },
 	{ '<leader>th', snacks.picker.help, 'Find help' },
+
+	{ '<leader>tf', snacks.picker.files, 'Find help' },
 
 	-- lsp keymaps
 	{ '<leader>nn', snacks.picker.lsp_definitions, "Goto Definition" },
