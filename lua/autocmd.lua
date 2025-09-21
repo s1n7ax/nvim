@@ -48,4 +48,3 @@ vim.api.nvim_create_autocmd('FileType', {
 		vim.keymap.set( 'n', '<CR>', '<CR>', { buffer = true, desc = 'Open quickfix entry' })
 	end,
 })
-
