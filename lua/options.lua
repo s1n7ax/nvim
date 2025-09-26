@@ -33,6 +33,7 @@ vim.o.undolevels = 10000
 vim.o.wildmode = 'longest:full,full'
 vim.o.winminwidth = 5
 vim.o.wrap = false
+vim.o.winborder = 'rounded'
 vim.opt.shortmess:append({ W = true, I = true, c = true, C = true })
 vim.opt.fillchars = {
 	foldopen = '',
