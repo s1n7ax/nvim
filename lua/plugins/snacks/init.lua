@@ -21,6 +21,7 @@ nmap({
 	{ '<leader>te', snacks.picker.commands, 'Find commands' },
 	{ '<leader>ti', snacks.picker.lsp_symbols, 'Find symbols' },
 	{ '<leader>to', snacks.picker.buffers, 'Find buffers' },
+	{ "<leader>tl", snacks.picker.lsp_type_definitions, desc = "Find type definition" },
 
 	{ '<leader>tt', snacks.picker.diagnostics, 'Find diagnostics' },
 	{ '<leader>ts', snacks.picker.git_branches, 'Find git branches' },

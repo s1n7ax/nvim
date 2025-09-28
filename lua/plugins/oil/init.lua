@@ -22,4 +22,4 @@ require('oil').setup({
 })
 
 -- stylua: ignore
-vim.keymap.set('n', ',t', '<cmd>Oil<cr>', { desc = 'Open parent directory' })
+vim.keymap.set('n', ',t', '<cmd>Oil<cr>', { desc = 'Open files explorer' })
