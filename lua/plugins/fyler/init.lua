@@ -1,4 +1,5 @@
 require('fyler').setup({
+	default_explorer = true,
 	icon_provider = 'nvim_web_devicons',
 	mappings = {
 		[',t'] = 'CloseView',
@@ -10,6 +11,11 @@ require('fyler').setup({
 		['.'] = 'GotoNode',
 		['#'] = 'CollapseAll',
 		['<BS>'] = 'CollapseNode',
+	},
+	buf_opts = {},
+	win_opts = {
+		-- number = false,
+		-- relativenumber = false,
 	},
 })
 
