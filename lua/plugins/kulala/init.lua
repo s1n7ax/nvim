@@ -6,7 +6,7 @@ local nmap = mapper('n')
 nmap({
 	{ '<leader>r', '', '+Rest' },
 	{ '<leader>ra', function() require('kulala').run_all() end, 'Send all requests', },
-	{ '<leader>rs', function() require('kulala').run() end, 'Send the request', },
+	{ '<leader>rr', function() require('kulala').run() end, 'Send the request', },
 	{ '<leader>rt', function() require('kulala').toggle_view() end, 'Toggle headers/body', },
 	{ '<leader>re', function() require('kulala').jump_prev() end, 'Jump to previous request', },
 	{ '<leader>rn', function() require('kulala').jump_next() end, 'Jump to next request', },
