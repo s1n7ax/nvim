@@ -7,6 +7,7 @@ wk.setup({
 		rules = {
 			{ pattern = 'terminal', icon = '  ', color = 'red' },
 			{ pattern = 'find', icon = '  ', color = 'blue' },
+			{ pattern = 'search', icon = '  ', color = 'blue' },
 			{ pattern = 'git', icon = ' 󰊢 ', color = 'red' },
 			{ pattern = 'task', icon = '  ', color = 'green' },
 			{ pattern = 'comment', icon = ' 󰆈 ', color = 'blue' },
@@ -21,11 +22,15 @@ wk.setup({
 
 -- stylua: ignore
 wk.add({
-	{ '<leader>n', group = 'Finder' },
+	{ '<leader>t', group = 'Finder' },
+	{ '<leader>n', group = 'LSP' },
 	{ '<leader>e', group = 'Task Runner' },
 	{ '<leader>i', group = 'Git' },
 	{ '<leader>c', group = 'Comments' },
 	{ '<leader>o', group = 'Package Manager' },
+	{ '<leader>u', group = 'Toggle' },
+	{ '<leader>m', group = 'Messages' },
+	{ '<leader>s', group = 'Search & Replace' },
 	{ '<leader>/' },
 
 	{ '<leader>r', group ='Request' },
