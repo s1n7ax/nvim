@@ -89,7 +89,8 @@ nmap({
 	{ '<leader>yy', clipboard.copy_file_path, 'Copy file path to clipboard' },
 	{ '<leader>yn', clipboard.copy_file_name, 'Copy file name to clipboard' },
 
-	{ '<leader>oo', function () require('utils.pack').pick_pkg_to_update() end, "Update packages" }
+	{ '<leader>oo', function () vim.pack.update() end, "Update packages" },
+	{ '<leader>on', function () require('utils.pack').pick_pkg_to_update() end, "Update packages" }
 })
 
 -- insert mode keymaps
