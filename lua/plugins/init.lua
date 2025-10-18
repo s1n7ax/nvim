@@ -36,7 +36,7 @@ vim.pack.add({
 	'https://github.com/sindrets/winshift.nvim',
 	'https://github.com/smoka7/hop.nvim',
 	'https://github.com/stevearc/conform.nvim',
-	'https://github.com/stevearc/oil.nvim',
+	-- 'https://github.com/stevearc/oil.nvim',
 	'https://github.com/stevearc/overseer.nvim',
 	'https://github.com/windwp/nvim-autopairs',
 	'https://github.com/folke/which-key.nvim',
@@ -44,7 +44,7 @@ vim.pack.add({
 	'https://github.com/b0o/SchemaStore.nvim',
 	'https://github.com/supermaven-inc/supermaven-nvim',
 	'https://github.com/MagicDuck/grug-far.nvim',
-	-- 'https://github.com/A7Lavinraj/fyler.nvim',
+	'https://github.com/A7Lavinraj/fyler.nvim',
 })
 
 require('plugins.auto-session')
@@ -69,7 +69,7 @@ require('plugins.luasnip')
 require('plugins.mini-move')
 require('plugins.neoscroll')
 require('plugins.noice')
-require('plugins.oil')
+-- require('plugins.oil')
 require('plugins.overseer')
 require('plugins.snacks')
 require('plugins.spider')
@@ -83,4 +83,4 @@ require('plugins.winshift')
 require('plugins.whichkey')
 require('plugins.supermaven')
 require('plugins.grug-far')
--- require('plugins.fyler')
+require('plugins.fyler')

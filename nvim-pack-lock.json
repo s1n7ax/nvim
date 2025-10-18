@@ -1,11 +1,11 @@
 {
   "plugins": {
     "LuaSnip": {
-      "rev": "7381330",
+      "rev": "f958d98",
       "src": "https://github.com/L3MON4D3/LuaSnip"
     },
     "SchemaStore.nvim": {
-      "rev": "7d0a0b9",
+      "rev": "e71cc06",
       "src": "https://github.com/b0o/SchemaStore.nvim"
     },
     "auto-session": {
@@ -13,7 +13,7 @@
       "src": "https://github.com/rmagatti/auto-session"
     },
     "blink.cmp": {
-      "rev": "2b44b9c",
+      "rev": "cb87357",
       "src": "https://github.com/Saghen/blink.cmp"
     },
     "codesnap.nvim": {
@@ -36,6 +36,10 @@
       "rev": "2febce6",
       "src": "https://github.com/folke/flash.nvim"
     },
+    "fyler.nvim": {
+      "rev": "f19870c",
+      "src": "https://github.com/A7Lavinraj/fyler.nvim"
+    },
     "gitlinker.nvim": {
       "rev": "7c1fae1",
       "src": "https://github.com/linrongbin16/gitlinker.nvim"
@@ -45,7 +49,7 @@
       "src": "https://github.com/lewis6991/gitsigns.nvim"
     },
     "grug-far.nvim": {
-      "rev": "48f9afb",
+      "rev": "3e72397",
       "src": "https://github.com/MagicDuck/grug-far.nvim"
     },
     "harpoon": {
@@ -85,7 +89,7 @@
       "src": "https://github.com/catppuccin/nvim"
     },
     "nvim-autopairs": {
-      "rev": "23320e7",
+      "rev": "7a2c97c",
       "src": "https://github.com/windwp/nvim-autopairs"
     },
     "nvim-colorizer.lua": {
@@ -101,7 +105,7 @@
       "src": "https://github.com/mfussenegger/nvim-lint"
     },
     "nvim-lspconfig": {
-      "rev": "e688b48",
+      "rev": "ac98db2",
       "src": "https://github.com/neovim/nvim-lspconfig"
     },
     "nvim-snips": {
@@ -109,7 +113,7 @@
       "src": "https://github.com/s1n7ax/nvim-snips"
     },
     "nvim-spider": {
-      "rev": "220efa6",
+      "rev": "a7705d7",
       "src": "https://github.com/chrisgrieser/nvim-spider"
     },
     "nvim-terminal": {
@@ -141,11 +145,11 @@
       "src": "https://github.com/nvim-tree/nvim-web-devicons"
     },
     "oil.nvim": {
-      "rev": "919e155",
+      "rev": "7194872",
       "src": "https://github.com/stevearc/oil.nvim"
     },
     "overseer.nvim": {
-      "rev": "fe7b2f9",
+      "rev": "9334595",
       "src": "https://github.com/stevearc/overseer.nvim"
     },
     "plenary.nvim": {
@@ -157,7 +161,7 @@
       "src": "https://github.com/kevinhwang91/promise-async"
     },
     "snacks.nvim": {
-      "rev": "dae80fb",
+      "rev": "b59ef39",
       "src": "https://github.com/folke/snacks.nvim"
     },
     "supermaven-nvim": {
@@ -165,11 +169,11 @@
       "src": "https://github.com/supermaven-inc/supermaven-nvim"
     },
     "timber.nvim": {
-      "rev": "d32f10e",
+      "rev": "405a9af",
       "src": "https://github.com/Goose97/timber.nvim"
     },
     "tokyonight.nvim": {
-      "rev": "00d92e6",
+      "rev": "d14614c",
       "src": "https://github.com/folke/tokyonight.nvim"
     },
     "which-key.nvim": {
