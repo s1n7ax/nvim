@@ -1,6 +1,7 @@
 require('fyler').setup({
 	default_explorer = true,
 	icon_provider = 'nvim_web_devicons',
+	delete_to_trash = true,
 	mappings = {
 		[',t'] = 'CloseView',
 		['<CR>'] = 'Select',

@@ -9,11 +9,11 @@
       "src": "https://github.com/b0o/SchemaStore.nvim"
     },
     "auto-session": {
-      "rev": "788ada9",
+      "rev": "f0eb3d6",
       "src": "https://github.com/rmagatti/auto-session"
     },
     "blink.cmp": {
-      "rev": "8743384",
+      "rev": "afc4f4d",
       "src": "https://github.com/Saghen/blink.cmp"
     },
     "codesnap.nvim": {
@@ -33,15 +33,15 @@
       "src": "https://github.com/sindrets/diffview.nvim"
     },
     "flash.nvim": {
-      "rev": "3be9bf7",
+      "rev": "fcea7ff",
       "src": "https://github.com/folke/flash.nvim"
     },
     "fyler.nvim": {
-      "rev": "f19870c",
+      "rev": "d6b855c",
       "src": "https://github.com/A7Lavinraj/fyler.nvim"
     },
     "gitlinker.nvim": {
-      "rev": "7c1fae1",
+      "rev": "63cfbb7",
       "src": "https://github.com/linrongbin16/gitlinker.nvim"
     },
     "gitsigns.nvim": {
@@ -61,11 +61,11 @@
       "src": "https://github.com/smoka7/hop.nvim"
     },
     "kulala.nvim": {
-      "rev": "183bf44",
+      "rev": "9a9308b",
       "src": "https://github.com/mistweaverco/kulala.nvim"
     },
     "lazydev.nvim": {
-      "rev": "01bc2aa",
+      "rev": "c2dfe35",
       "src": "https://github.com/folke/lazydev.nvim"
     },
     "mini.move": {
@@ -77,7 +77,7 @@
       "src": "https://github.com/karb94/neoscroll.nvim"
     },
     "noice.nvim": {
-      "rev": "c86aea5",
+      "rev": "5099348",
       "src": "https://github.com/folke/noice.nvim"
     },
     "nui.nvim": {
@@ -85,7 +85,7 @@
       "src": "https://github.com/MunifTanjim/nui.nvim"
     },
     "nvim": {
-      "rev": "af58927",
+      "rev": "8c4125e",
       "src": "https://github.com/catppuccin/nvim"
     },
     "nvim-autopairs": {
@@ -105,7 +105,7 @@
       "src": "https://github.com/mfussenegger/nvim-lint"
     },
     "nvim-lspconfig": {
-      "rev": "a9b2fb5",
+      "rev": "cbd1e91",
       "src": "https://github.com/neovim/nvim-lspconfig"
     },
     "nvim-snips": {
@@ -141,7 +141,7 @@
       "src": "https://github.com/kevinhwang91/nvim-ufo"
     },
     "nvim-web-devicons": {
-      "rev": "b8221e4",
+      "rev": "8dcb311",
       "src": "https://github.com/nvim-tree/nvim-web-devicons"
     },
     "oil.nvim": {
@@ -161,7 +161,7 @@
       "src": "https://github.com/kevinhwang91/promise-async"
     },
     "snacks.nvim": {
-      "rev": "c952834",
+      "rev": "59c5545",
       "src": "https://github.com/folke/snacks.nvim"
     },
     "supermaven-nvim": {
@@ -173,11 +173,11 @@
       "src": "https://github.com/Goose97/timber.nvim"
     },
     "tokyonight.nvim": {
-      "rev": "4fe1b0c",
+      "rev": "2642dbb",
       "src": "https://github.com/folke/tokyonight.nvim"
     },
     "which-key.nvim": {
-      "rev": "b4177e3",
+      "rev": "3aab214",
       "src": "https://github.com/folke/which-key.nvim"
     },
     "winshift.nvim": {
