@@ -5,11 +5,11 @@
       "src": "https://github.com/L3MON4D3/LuaSnip"
     },
     "SchemaStore.nvim": {
-      "rev": "4341619",
+      "rev": "3b0d7d7",
       "src": "https://github.com/b0o/SchemaStore.nvim"
     },
     "auto-session": {
-      "rev": "f0eb3d6",
+      "rev": "4cd20bb",
       "src": "https://github.com/rmagatti/auto-session"
     },
     "blink.cmp": {
@@ -105,7 +105,7 @@
       "src": "https://github.com/mfussenegger/nvim-lint"
     },
     "nvim-lspconfig": {
-      "rev": "cbd1e91",
+      "rev": "87d3018",
       "src": "https://github.com/neovim/nvim-lspconfig"
     },
     "nvim-snips": {
@@ -161,7 +161,7 @@
       "src": "https://github.com/kevinhwang91/promise-async"
     },
     "snacks.nvim": {
-      "rev": "59c5545",
+      "rev": "ba529d4",
       "src": "https://github.com/folke/snacks.nvim"
     },
     "supermaven-nvim": {

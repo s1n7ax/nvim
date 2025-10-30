@@ -35,6 +35,11 @@ nmap({
 	{ '<leader>nn', snacks.picker.lsp_definitions, "Goto Definition" },
 	{ '<leader>ni', snacks.picker.lsp_references, { desc = "References", nowait = true } },
 	{ '<leader>nr', snacks.picker.lsp_implementations, "Goto Implementation" },
+
+	-- git
+	{ '<leader>is', function ()
+	snacks.lazygit()
+	end, "Open lazygit" }
 })
 
 require('snacks').setup({
@@ -44,7 +49,7 @@ require('snacks').setup({
 	indent = { enabled = false },
 	input = { enabled = true },
 	notifier = { enabled = false },
-	quickfile = { enabled = false },
+	quickfile = { enabled = true },
 	scope = { enabled = false },
 	scroll = { enabled = false },
 	statuscolumn = { enabled = true },
