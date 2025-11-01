@@ -37,9 +37,7 @@ nmap({
 	{ '<leader>nr', snacks.picker.lsp_implementations, "Goto Implementation" },
 
 	-- git
-	{ '<leader>is', function ()
-	snacks.lazygit()
-	end, "Open lazygit" }
+	{ '<leader>is', function () snacks.lazygit() end, "Open lazygit" }
 })
 
 require('snacks').setup({

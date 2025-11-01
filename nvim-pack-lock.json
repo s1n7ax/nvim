@@ -5,15 +5,15 @@
       "src": "https://github.com/L3MON4D3/LuaSnip"
     },
     "SchemaStore.nvim": {
-      "rev": "3b0d7d7",
+      "rev": "09bc713",
       "src": "https://github.com/b0o/SchemaStore.nvim"
     },
     "auto-session": {
-      "rev": "4cd20bb",
+      "rev": "292492a",
       "src": "https://github.com/rmagatti/auto-session"
     },
     "blink.cmp": {
-      "rev": "afc4f4d",
+      "rev": "2408f14",
       "src": "https://github.com/Saghen/blink.cmp"
     },
     "codesnap.nvim": {
@@ -65,7 +65,7 @@
       "src": "https://github.com/mistweaverco/kulala.nvim"
     },
     "lazydev.nvim": {
-      "rev": "c2dfe35",
+      "rev": "371cd74",
       "src": "https://github.com/folke/lazydev.nvim"
     },
     "mini.move": {
@@ -85,7 +85,7 @@
       "src": "https://github.com/MunifTanjim/nui.nvim"
     },
     "nvim": {
-      "rev": "8c4125e",
+      "rev": "234fc04",
       "src": "https://github.com/catppuccin/nvim"
     },
     "nvim-autopairs": {
@@ -101,11 +101,11 @@
       "src": "https://github.com/s1n7ax/nvim-comment-frame"
     },
     "nvim-lint": {
-      "rev": "9da1fb9",
+      "rev": "8c694e1",
       "src": "https://github.com/mfussenegger/nvim-lint"
     },
     "nvim-lspconfig": {
-      "rev": "87d3018",
+      "rev": "a89bfcf",
       "src": "https://github.com/neovim/nvim-lspconfig"
     },
     "nvim-snips": {
@@ -129,7 +129,7 @@
       "src": "https://github.com/nvim-treesitter/nvim-treesitter-context"
     },
     "nvim-treesitter-textobjects": {
-      "rev": "a9742cb",
+      "rev": "5ca4aaa",
       "src": "https://github.com/nvim-treesitter/nvim-treesitter-textobjects"
     },
     "nvim-ts-utils": {
@@ -161,7 +161,7 @@
       "src": "https://github.com/kevinhwang91/promise-async"
     },
     "snacks.nvim": {
-      "rev": "ba529d4",
+      "rev": "6f60105",
       "src": "https://github.com/folke/snacks.nvim"
     },
     "supermaven-nvim": {
