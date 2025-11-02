@@ -40,13 +40,20 @@ nmap({
 	{ '<leader>is', function () snacks.lazygit() end, "Open lazygit" },
 
 	-- gh
-	{ '<leader>ir', function () snacks.picker.gh_pr() end, "GitHub Pull Requests (open)" }
+	{ '<leader>ir', function () snacks.picker.gh_pr() end, "GitHub Pull Requests (open)" },
+
+	-- file
+	{ ',t', function() snacks.explorer.reveal() end, "Explorer"  },
 })
 
 require('snacks').setup({
 	bigfile = { enabled = true },
 	dashboard = { enabled = false },
-	explorer = { enabled = false },
+	explorer = {
+		enabled = true,
+		replace_netrw = true,
+		trash = true,
+	},
 	indent = { enabled = false },
 	input = { enabled = true },
 	notifier = { enabled = false },
@@ -68,10 +75,10 @@ require('snacks').setup({
 				},
 				auto_close = true,
 				layout = {
-					preset = 'select',
+					preset = 'dropdown',
 					layout = {
-						width = 0.8,
-						height = 0.8,
+						width = 0.9,
+						height = vim.o.lines,
 					},
 				},
 			},
