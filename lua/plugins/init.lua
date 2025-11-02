@@ -44,7 +44,7 @@ vim.pack.add({
 	'https://github.com/b0o/SchemaStore.nvim',
 	'https://github.com/supermaven-inc/supermaven-nvim',
 	'https://github.com/MagicDuck/grug-far.nvim',
-	'https://github.com/A7Lavinraj/fyler.nvim',
+	-- 'https://github.com/A7Lavinraj/fyler.nvim',
 })
 
 require('plugins.auto-session')
@@ -83,4 +83,4 @@ require('plugins.winshift')
 require('plugins.whichkey')
 require('plugins.supermaven')
 require('plugins.grug-far')
-require('plugins.fyler')
+-- require('plugins.fyler')
