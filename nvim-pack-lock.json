@@ -32,6 +32,10 @@
       "rev": "4516612",
       "src": "https://github.com/sindrets/diffview.nvim"
     },
+    "everforest": {
+      "rev": "f518edb",
+      "src": "https://github.com/sainnhe/everforest"
+    },
     "flash.nvim": {
       "rev": "fcea7ff",
       "src": "https://github.com/folke/flash.nvim"
@@ -52,6 +56,10 @@
       "rev": "3e72397",
       "src": "https://github.com/MagicDuck/grug-far.nvim"
     },
+    "gruvbox": {
+      "rev": "697c002",
+      "src": "https://github.com/morhetz/gruvbox"
+    },
     "harpoon": {
       "rev": "1bc17e3",
       "src": "https://github.com/ThePrimeagen/harpoon"
@@ -64,6 +72,10 @@
       "rev": "e7e29f0",
       "src": "https://github.com/HakonHarnes/img-clip.nvim"
     },
+    "kanagawa.nvim": {
+      "rev": "aef7f5c",
+      "src": "https://github.com/rebelot/kanagawa.nvim"
+    },
     "kulala.nvim": {
       "rev": "9a9308b",
       "src": "https://github.com/mistweaverco/kulala.nvim"
@@ -72,6 +84,10 @@
       "rev": "371cd74",
       "src": "https://github.com/folke/lazydev.nvim"
     },
+    "melange-nvim": {
+      "rev": "ce42f6b",
+      "src": "https://github.com/savq/melange-nvim"
+    },
     "mini.move": {
       "rev": "f33406a",
       "src": "https://github.com/echasnovski/mini.move"
@@ -79,6 +95,14 @@
     "neoscroll.nvim": {
       "rev": "f957373",
       "src": "https://github.com/karb94/neoscroll.nvim"
+    },
+    "neovim": {
+      "rev": "72a04c4",
+      "src": "https://github.com/rose-pine/neovim"
+    },
+    "nightfox.nvim": {
+      "rev": "ba47d4b",
+      "src": "https://github.com/EdenEast/nightfox.nvim"
     },
     "noice.nvim": {
       "rev": "5099348",
@@ -152,9 +176,17 @@
       "rev": "7e1cd77",
       "src": "https://github.com/stevearc/oil.nvim"
     },
+    "onedark.vim": {
+      "rev": "68dca19",
+      "src": "https://github.com/joshdick/onedark.vim"
+    },
     "overseer.nvim": {
       "rev": "c77c78b",
       "src": "https://github.com/stevearc/overseer.nvim"
+    },
+    "oxocarbon.nvim": {
+      "rev": "9f85f60",
+      "src": "https://github.com/nyoom-engineering/oxocarbon.nvim"
     },
     "plenary.nvim": {
       "rev": "b9fd522",
@@ -172,6 +204,10 @@
       "rev": "07d20fc",
       "src": "https://github.com/supermaven-inc/supermaven-nvim"
     },
+    "thorn.nvim": {
+      "rev": "f7ef3a3",
+      "src": "https://github.com/jpwol/thorn.nvim"
+    },
     "timber.nvim": {
       "rev": "405a9af",
       "src": "https://github.com/Goose97/timber.nvim"
@@ -179,6 +215,10 @@
     "tokyonight.nvim": {
       "rev": "2642dbb",
       "src": "https://github.com/folke/tokyonight.nvim"
+    },
+    "vague.nvim": {
+      "rev": "dba2805",
+      "src": "https://github.com/vague-theme/vague.nvim"
     },
     "which-key.nvim": {
       "rev": "3aab214",

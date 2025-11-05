@@ -9,7 +9,6 @@ vim.pack.add({
 	'https://github.com/folke/lazydev.nvim',
 	'https://github.com/folke/noice.nvim',
 	'https://github.com/folke/snacks.nvim',
-	'https://github.com/folke/tokyonight.nvim',
 	'https://github.com/karb94/neoscroll.nvim',
 	'https://github.com/kevinhwang91/nvim-ufo',
 	'https://github.com/kevinhwang91/promise-async',
@@ -40,12 +39,25 @@ vim.pack.add({
 	'https://github.com/stevearc/overseer.nvim',
 	'https://github.com/windwp/nvim-autopairs',
 	'https://github.com/folke/which-key.nvim',
-	'https://github.com/catppuccin/nvim',
 	'https://github.com/b0o/SchemaStore.nvim',
 	'https://github.com/supermaven-inc/supermaven-nvim',
 	'https://github.com/MagicDuck/grug-far.nvim',
 	-- 'https://github.com/A7Lavinraj/fyler.nvim',
 	'https://github.com/HakonHarnes/img-clip.nvim',
+
+	-- themes
+	'https://github.com/catppuccin/nvim',
+	'https://github.com/folke/tokyonight.nvim',
+	'https://github.com/rebelot/kanagawa.nvim',
+	'https://github.com/morhetz/gruvbox',
+	'https://github.com/sainnhe/everforest',
+	'https://github.com/EdenEast/nightfox.nvim',
+	'https://github.com/savq/melange-nvim',
+	'https://github.com/nyoom-engineering/oxocarbon.nvim',
+	'https://github.com/jpwol/thorn.nvim',
+	'https://github.com/vague-theme/vague.nvim',
+	'https://github.com/rose-pine/neovim',
+	'https://github.com/joshdick/onedark.vim',
 })
 
 require('plugins.auto-session')
