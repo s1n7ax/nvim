@@ -58,7 +58,7 @@ vim.keymap.set('n', '<leader>ut', function()
 	vim.b.disable_autoformat = toggled
 	vim.g.disable_autoformat = toggled
 	vim.notify('Auto-formatting ' .. (toggled and 'disabled' or 'enabled'))
-end)
+end, { desc = 'Toggle auto-formatting' })
 
 vim.api.nvim_create_user_command('Format', function(args)
 	local range = nil
