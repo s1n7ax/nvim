@@ -60,6 +60,10 @@
       "rev": "707049f",
       "src": "https://github.com/smoka7/hop.nvim"
     },
+    "img-clip.nvim": {
+      "rev": "e7e29f0",
+      "src": "https://github.com/HakonHarnes/img-clip.nvim"
+    },
     "kulala.nvim": {
       "rev": "9a9308b",
       "src": "https://github.com/mistweaverco/kulala.nvim"
