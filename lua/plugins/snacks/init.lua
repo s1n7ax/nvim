@@ -87,6 +87,14 @@ require('snacks').setup({
 			},
 		},
 
+		layout = {
+			preset = 'default',
+			layout = {
+				width = 0.9,
+				height = vim.o.lines,
+			},
+		},
+
 		win = {
 			input = {
 				keys = {
