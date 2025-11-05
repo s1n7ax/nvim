@@ -65,6 +65,8 @@ require('snacks').setup({
 	picker = {
 		sources = {
 			explorer = {
+				hidden = true,
+				ignored = true,
 				win = {
 					list = {
 						keys = {
@@ -73,6 +75,7 @@ require('snacks').setup({
 						},
 					},
 				},
+
 				auto_close = true,
 				layout = {
 					preset = 'dropdown',
