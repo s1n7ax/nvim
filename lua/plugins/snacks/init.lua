@@ -63,6 +63,13 @@ require('snacks').setup({
 	scroll = { enabled = false },
 	statuscolumn = { enabled = true },
 	words = { enabled = true },
+	lazygit = {
+		enabled = true,
+		win = {
+			width = vim.o.columns,
+			height = vim.o.lines,
+		},
+	},
 	picker = {
 		sources = {
 			explorer = {
@@ -81,7 +88,7 @@ require('snacks').setup({
 				layout = {
 					preset = 'dropdown',
 					layout = {
-						width = 0.9,
+						width = vim.o.columns,
 						height = vim.o.lines,
 					},
 				},
@@ -91,7 +98,7 @@ require('snacks').setup({
 		layout = {
 			preset = 'default',
 			layout = {
-				width = 0.9,
+				width = vim.o.columns,
 				height = vim.o.lines,
 			},
 		},
