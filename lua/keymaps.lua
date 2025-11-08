@@ -52,7 +52,7 @@ nmap({
 	{ '[<leader>', add_line_above, 'Add line above' },
 	{ ']<leader>', add_line_below, 'Add line below' },
 	{ 'x', '"_x', 'Delete Character' },
-	{ ',s', '<cmd>set spell!<cr>', 'Toggle spell check' },
+	{ '<leader>uz', '<cmd>set spell!<cr>', 'Toggle spell check' },
 	{ "''", '``zz', 'Go to last jump point' },
 	{ '0', '^5zH', 'Go to first character of line' },
 	{ '<C-l>', '<C-i>zz', 'Go to next jump point' },

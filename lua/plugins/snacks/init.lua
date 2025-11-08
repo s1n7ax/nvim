@@ -2,6 +2,9 @@ local snacks = require('snacks')
 local utils = require('utils.keymaps')
 local nmap = utils.mapper('n')
 
+local WIDTH = 0.7
+local HEIGHT = vim.o.lines
+
 local open_grep = function()
 	snacks.picker.grep({ hidden = true, ignored = false, regex = false })
 end
@@ -38,13 +41,19 @@ nmap({
 	{ '<leader>nr', snacks.picker.lsp_implementations, "Goto Implementation" },
 
 	-- git
-	{ '<leader>is', function () snacks.lazygit() end, "Open lazygit" },
+	{ ',s', function () snacks.lazygit() end, "Open lazygit" },
 
 	-- gh
 	{ '<leader>ir', function () snacks.picker.gh_pr() end, "GitHub Pull Requests (open)" },
 
 	-- file
 	{ ',t', function() snacks.explorer.reveal() end, "Explorer"  },
+
+	-- claude
+	{ ',a', function()
+		snacks.terminal.toggle('claude', {win = { width = WIDTH, height = HEIGHT }})
+	end, "Claude" }
+
 })
 
 require('snacks').setup({
@@ -67,7 +76,7 @@ require('snacks').setup({
 		enabled = true,
 		win = {
 			width = vim.o.columns,
-			height = vim.o.lines,
+			height = HEIGHT,
 		},
 	},
 	picker = {
@@ -88,8 +97,8 @@ require('snacks').setup({
 				layout = {
 					preset = 'dropdown',
 					layout = {
-						width = vim.o.columns,
-						height = vim.o.lines,
+						width = WIDTH,
+						height = HEIGHT,
 					},
 				},
 			},
@@ -99,7 +108,7 @@ require('snacks').setup({
 			preset = 'default',
 			layout = {
 				width = vim.o.columns,
-				height = vim.o.lines,
+				height = HEIGHT,
 			},
 		},
 
