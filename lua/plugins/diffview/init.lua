@@ -24,7 +24,7 @@ end
 
 -- stylua: ignore
 nmap({
-	{ '<leader>ii', '<cmd>DiffviewFileHistory %<cr>', 'Git diff file' },
+	{ '<leader>ie', '<cmd>DiffviewFileHistory %<cr>', 'Git diff file' },
 	{ '<leader>in', diffview_default_branch, 'Git diff main branch' },
 	{ '<leader>it', '<cmd>DiffviewFileHistory<cr>', 'Git diff branch' },
 })

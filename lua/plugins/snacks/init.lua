@@ -17,7 +17,7 @@ end
 -- stylua: ignore
 nmap({
 	{ ',,', open_files, 'Find files' },
-	{ ',a', function() snacks.zen() end, 'Zen mode' },
+	{ ',p', function() snacks.zen() end, 'Zen mode' },
 	{ '<leader>/', open_grep, 'Find text' },
 
 	{ '<leader>tn', snacks.picker.lines, 'Find lines' },
@@ -50,7 +50,7 @@ nmap({
 	{ ',t', function() snacks.explorer.reveal() end, "Explorer"  },
 
 	-- claude
-	{ ',a', function()
+	{ ',r', function()
 		snacks.terminal.toggle('claude', {win = { width = WIDTH, height = HEIGHT }})
 	end, "Claude" }
 
