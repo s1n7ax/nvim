@@ -141,7 +141,7 @@
       "src": "https://github.com/s1n7ax/nvim-snips"
     },
     "nvim-spider": {
-      "rev": "80fdcc5",
+      "rev": "5a71694",
       "src": "https://github.com/chrisgrieser/nvim-spider"
     },
     "nvim-terminal": {
@@ -197,7 +197,7 @@
       "src": "https://github.com/kevinhwang91/promise-async"
     },
     "snacks.nvim": {
-      "rev": "685c433",
+      "rev": "8ca098c",
       "src": "https://github.com/folke/snacks.nvim"
     },
     "supermaven-nvim": {
