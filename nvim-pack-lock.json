@@ -197,7 +197,7 @@
       "src": "https://github.com/kevinhwang91/promise-async"
     },
     "snacks.nvim": {
-      "rev": "8ca098c",
+      "rev": "dec29f5",
       "src": "https://github.com/folke/snacks.nvim"
     },
     "supermaven-nvim": {
