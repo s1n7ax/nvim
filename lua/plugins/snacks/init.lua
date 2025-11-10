@@ -3,7 +3,7 @@ local utils = require('utils.keymaps')
 local nmap = utils.mapper('n')
 
 local WIDTH = 0.7
-local HEIGHT = vim.o.lines
+local HEIGHT = 0
 
 local open_grep = function()
 	snacks.picker.grep({ hidden = true, ignored = false, regex = false })
@@ -75,8 +75,8 @@ require('snacks').setup({
 	lazygit = {
 		enabled = true,
 		win = {
-			width = vim.o.columns,
-			height = HEIGHT,
+			width = 0,
+			height = 0,
 		},
 	},
 	picker = {
@@ -98,7 +98,7 @@ require('snacks').setup({
 					preset = 'dropdown',
 					layout = {
 						width = WIDTH,
-						height = HEIGHT,
+						height = 0,
 					},
 				},
 			},
@@ -107,8 +107,8 @@ require('snacks').setup({
 		layout = {
 			preset = 'default',
 			layout = {
-				width = vim.o.columns,
-				height = HEIGHT,
+				width = 0,
+				height = 0,
 			},
 		},
 
