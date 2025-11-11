@@ -1,5 +1,9 @@
 {
   "plugins": {
+    "FixCursorHold.nvim": {
+      "rev": "1900f89",
+      "src": "https://github.com/antoinemadec/FixCursorHold.nvim"
+    },
     "LuaSnip": {
       "rev": "3732756",
       "src": "https://github.com/L3MON4D3/LuaSnip"
@@ -96,6 +100,18 @@
       "rev": "f957373",
       "src": "https://github.com/karb94/neoscroll.nvim"
     },
+    "neotest": {
+      "rev": "deadfb1",
+      "src": "https://github.com/nvim-neotest/neotest"
+    },
+    "neotest-jest": {
+      "rev": "d6de82f",
+      "src": "https://github.com/nvim-neotest/neotest-jest"
+    },
+    "neotest-vitest": {
+      "rev": "f5560d7",
+      "src": "https://github.com/marilari88/neotest-vitest"
+    },
     "neovim": {
       "rev": "eb3ff49",
       "src": "https://github.com/rose-pine/neovim"
@@ -135,6 +151,10 @@
     "nvim-lspconfig": {
       "rev": "2010fc6",
       "src": "https://github.com/neovim/nvim-lspconfig"
+    },
+    "nvim-nio": {
+      "rev": "21f5324",
+      "src": "https://github.com/nvim-neotest/nvim-nio"
     },
     "nvim-snips": {
       "rev": "d94e64e",

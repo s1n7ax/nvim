@@ -45,6 +45,15 @@ vim.pack.add({
 	-- 'https://github.com/A7Lavinraj/fyler.nvim',
 	'https://github.com/HakonHarnes/img-clip.nvim',
 
+	-- neotest
+	'https://github.com/nvim-neotest/nvim-nio',
+	'https://github.com/nvim-lua/plenary.nvim',
+	'https://github.com/antoinemadec/FixCursorHold.nvim',
+	'https://github.com/nvim-treesitter/nvim-treesitter',
+	'https://github.com/nvim-neotest/neotest',
+	'https://github.com/nvim-neotest/neotest-jest',
+	'https://github.com/marilari88/neotest-vitest',
+
 	-- themes
 	'https://github.com/catppuccin/nvim',
 	'https://github.com/folke/tokyonight.nvim',
@@ -97,4 +106,5 @@ require('plugins.whichkey')
 require('plugins.supermaven')
 require('plugins.grug-far')
 require('plugins.img-clip')
+require('plugins.neotest')
 -- require('plugins.fyler')
