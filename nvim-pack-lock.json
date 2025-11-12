@@ -144,6 +144,14 @@
       "rev": "5719db5",
       "src": "https://github.com/s1n7ax/nvim-comment-frame"
     },
+    "nvim-dap": {
+      "rev": "b38f7d3",
+      "src": "https://github.com/mfussenegger/nvim-dap"
+    },
+    "nvim-dap-ui": {
+      "rev": "cf91d5e",
+      "src": "https://github.com/rcarriga/nvim-dap-ui"
+    },
     "nvim-lint": {
       "rev": "8b349e8",
       "src": "https://github.com/mfussenegger/nvim-lint"

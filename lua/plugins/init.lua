@@ -44,6 +44,8 @@ vim.pack.add({
 	'https://github.com/MagicDuck/grug-far.nvim',
 	-- 'https://github.com/A7Lavinraj/fyler.nvim',
 	'https://github.com/HakonHarnes/img-clip.nvim',
+	'https://github.com/mfussenegger/nvim-dap',
+	'https://github.com/rcarriga/nvim-dap-ui',
 
 	-- neotest
 	'https://github.com/nvim-neotest/nvim-nio',
@@ -107,4 +109,5 @@ require('plugins.supermaven')
 require('plugins.grug-far')
 require('plugins.img-clip')
 require('plugins.neotest')
+require('plugins.dap')
 -- require('plugins.fyler')
