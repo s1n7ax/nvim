@@ -23,7 +23,7 @@ nmap({
 	{ '<leader>tn', snacks.picker.lines, 'Find lines' },
 	{ '<leader>te', snacks.picker.commands, 'Find commands' },
 	{ '<leader>ti', snacks.picker.lsp_symbols, 'Find symbols' },
-	{ '<leader>to', snacks.picker.buffers, 'Find buffers' },
+	-- { '<leader>to', snacks.picker.buffers, 'Find buffers' },
 	{ "<leader>tl", snacks.picker.lsp_type_definitions, "Find type definition" },
 	{ "<leader>tp", snacks.picker.colorschemes, "Find colorschemes" },
 
@@ -50,9 +50,10 @@ nmap({
 	{ ',t', function() snacks.explorer.reveal() end, "Explorer"  },
 
 	-- claude
-	{ ',r', function()
-		snacks.terminal.toggle('claude', {win = { width = WIDTH, height = HEIGHT }})
-	end, "Claude" }
+	{ ',r', function() snacks.terminal.toggle('claude', {win = { width = WIDTH, height = HEIGHT }}) end, "Claude" },
+
+	{ "<leader>us",  function() snacks.scratch() end, desc = "Toggle Scratch Buffer" },
+	{ "<leader>to",  function() snacks.scratch.select() end, desc = "Select Scratch Buffer" },
 
 })
 
@@ -135,7 +136,7 @@ require('snacks').setup({
 			},
 		},
 	},
-
+	scratch = {},
 	---@class snacks.zen.Config
 	zen = {
 		toggles = {
