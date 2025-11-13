@@ -109,6 +109,7 @@ imap({
 -- terminal mode keymaps
 tmap({
 	{ 'yy', '<C-\\><C-n>', 'Exit terminal mode' },
+	{ '<c-q>', '<cmd>quit<cr>', 'Quit terminal window' },
 })
 
 -- visual mode keymaps
