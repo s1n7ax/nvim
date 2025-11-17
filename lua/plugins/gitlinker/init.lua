@@ -8,7 +8,7 @@ normal_map({
 })
 
 visual_map({
-	{ '<leader>ie', '<cmd>GitLink<cr>', 'Copy git link for selection' },
+	{ '<leader>ii', '<cmd>GitLink<cr>', 'Copy git link for selection' },
 })
 
 require('gitlinker').setup()
