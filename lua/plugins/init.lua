@@ -69,6 +69,9 @@ vim.pack.add({
 	'https://github.com/vague-theme/vague.nvim',
 	'https://github.com/rose-pine/neovim',
 	'https://github.com/joshdick/onedark.vim',
+
+	-- json
+	'https://github.com/b0o/SchemaStore.nvim',
 })
 
 require('plugins.auto-session')
