@@ -96,6 +96,7 @@ require('snacks').setup({
 
 				auto_close = true,
 				layout = {
+					cycle = false,
 					preset = 'dropdown',
 					layout = {
 						width = WIDTH,
