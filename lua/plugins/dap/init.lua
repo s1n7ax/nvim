@@ -47,18 +47,18 @@ nmap({
 	-- primary controls (home row priority)
 	{ '<leader>dd', function() dap.continue() end, 'Continue/Start debugging' },
 	{ '<leader>dn', function() dap.step_over() end, 'Step over' },
-	{ '<leader>ds', function() dap.step_into() end, 'Step into' },
-	{ '<leader>dr', function() dap.step_out() end, 'Step out' },
+	{ '<leader>di', function() dap.step_into() end, 'Step into' },
+	{ '<leader>de', function() dap.step_out() end, 'Step out' },
 
 	-- breakpoints
-	{ '<leader>db', function() dap.toggle_breakpoint() end, 'Toggle breakpoint' },
-	{ '<leader>dB', function() dap.set_breakpoint(vim.fn.input('Breakpoint condition: ')) end, 'Conditional breakpoint' },
+	{ '<leader>do', function() dap.toggle_breakpoint() end, 'Toggle breakpoint' },
+	{ '<leader>dO', function() dap.set_breakpoint(vim.fn.input('Breakpoint condition: ')) end, 'Conditional breakpoint' },
 
 	-- ui & info
 	{ '<leader>du', function() dapui.toggle() end, 'Toggle DAP UI' },
-	{ '<leader>di', function() dap.repl.open() end, 'Open REPL' },
+	{ '<leader>dh', function() dap.repl.open() end, 'Open REPL' },
 	{ '<leader>dl', function() dap.run_last() end, 'Run last' },
 
 	-- terminate
-	{ '<leader>dT', function() dap.terminate() end, 'Terminate' },
+	{ '<leader>dt', function() dap.terminate() end, 'Terminate' },
 })
