@@ -12,21 +12,23 @@ nmap({
 
 require('overseer').setup({
 	task_list = {
-		bindings = {
-			['<C-q>'] = false,
+		keymaps = {
+			['<C-q>'] = { '<CMD>close<CR>', desc = 'Close task list' },
 			['<C-e>'] = false,
 		},
 	},
 	task_launcher = {
-		bindings = {
+		keymaps = {
 			i = {
+				['<C-q>'] = { '<CMD>close<CR>', desc = 'Close task list' },
 				['<C-c>'] = false,
 			},
 		},
 	},
 	task_editor = {
-		bindings = {
+		keymaps = {
 			i = {
+				['<C-q>'] = { '<CMD>close<CR>', desc = 'Close task list' },
 				['<C-c>'] = false,
 			},
 		},
