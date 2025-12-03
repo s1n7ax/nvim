@@ -9,7 +9,7 @@
       "src": "https://github.com/L3MON4D3/LuaSnip"
     },
     "SchemaStore.nvim": {
-      "rev": "aa25399c48236b77af71d4b64cdf157d2ba4e990",
+      "rev": "e9c00ea7813006dfa29f35c174f83f0184d45a93",
       "src": "https://github.com/b0o/SchemaStore.nvim"
     },
     "auto-session": {
@@ -17,7 +17,7 @@
       "src": "https://github.com/rmagatti/auto-session"
     },
     "blink.cmp": {
-      "rev": "f13226770b4947eb7e66befbeb53c3db39f13e25",
+      "rev": "7beba91fdc61fdc84ea6d6395d614671e609f895",
       "src": "https://github.com/Saghen/blink.cmp"
     },
     "codesnap.nvim": {
@@ -25,7 +25,7 @@
       "src": "https://github.com/mistricky/codesnap.nvim"
     },
     "conform.nvim": {
-      "rev": "4993e07fac6679d0a5005aa7499e0bad2bd39f19",
+      "rev": "ffe26e8df8115c9665d24231f8a49fadb2d611ce",
       "src": "https://github.com/stevearc/conform.nvim"
     },
     "dial.nvim": {
@@ -45,7 +45,7 @@
       "src": "https://github.com/folke/flash.nvim"
     },
     "fyler.nvim": {
-      "rev": "b54caf9053d046978046b778a4feb01356a8716f",
+      "rev": "16176d6aacd4673f041832fac8ae857c537666c7",
       "src": "https://github.com/A7Lavinraj/fyler.nvim"
     },
     "gitlinker.nvim": {
@@ -53,7 +53,7 @@
       "src": "https://github.com/linrongbin16/gitlinker.nvim"
     },
     "gitsigns.nvim": {
-      "rev": "cdafc320f03f2572c40ab93a4eecb733d4016d07",
+      "rev": "5813e4878748805f1518cee7abb50fd7205a3a48",
       "src": "https://github.com/lewis6991/gitsigns.nvim"
     },
     "grug-far.nvim": {
@@ -81,7 +81,7 @@
       "src": "https://github.com/rebelot/kanagawa.nvim"
     },
     "kulala.nvim": {
-      "rev": "8676a4f",
+      "rev": "5d3916195a97928b8f9b79d96029f37d19ba866d",
       "src": "https://github.com/mistweaverco/kulala.nvim"
     },
     "lazydev.nvim": {
@@ -109,7 +109,7 @@
       "src": "https://github.com/nvim-neotest/neotest-jest"
     },
     "neotest-vitest": {
-      "rev": "1c94efb60019362f2fa23b6e8f1b6abc5ccb023f",
+      "rev": "2ffa766fb6959c217ef803d16aad118caddbc008",
       "src": "https://github.com/marilari88/neotest-vitest"
     },
     "neovim": {
@@ -157,7 +157,7 @@
       "src": "https://github.com/mfussenegger/nvim-lint"
     },
     "nvim-lspconfig": {
-      "rev": "f1237a8b3c243608a7116fa1ad216c441d7c2264",
+      "rev": "effe4bf2e1afb881ea67291c648b68dd3dfc927a",
       "src": "https://github.com/neovim/nvim-lspconfig"
     },
     "nvim-nio": {
@@ -201,7 +201,7 @@
       "src": "https://github.com/nvim-tree/nvim-web-devicons"
     },
     "oil.nvim": {
-      "rev": "01cb3a8ad7d5e8707041edc775af83dbf33838f4",
+      "rev": "cbcb3f997f6f261c577b943ec94e4ef55108dd95",
       "src": "https://github.com/stevearc/oil.nvim"
     },
     "onedark.vim": {
@@ -209,7 +209,7 @@
       "src": "https://github.com/joshdick/onedark.vim"
     },
     "overseer.nvim": {
-      "rev": "36298eab791cca87ac3a228933413d094423400e",
+      "rev": "6a7f22dcafd9e938f70eb52b7f64f272d2b23b41",
       "src": "https://github.com/stevearc/overseer.nvim"
     },
     "oxocarbon.nvim": {
@@ -239,6 +239,10 @@
     "timber.nvim": {
       "rev": "b72d262",
       "src": "https://github.com/Goose97/timber.nvim"
+    },
+    "todo-comments.nvim": {
+      "rev": "31e3c38ce9b29781e4422fc0322eb0a21f4e8668",
+      "src": "https://github.com/folke/todo-comments.nvim.git"
     },
     "tokyonight.nvim": {
       "rev": "5da1b76",

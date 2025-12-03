@@ -72,6 +72,8 @@ vim.pack.add({
 
 	-- json
 	'https://github.com/b0o/SchemaStore.nvim',
+
+	'https://github.com/folke/todo-comments.nvim.git',
 })
 
 require('plugins.auto-session')
@@ -113,4 +115,5 @@ require('plugins.grug-far')
 require('plugins.img-clip')
 require('plugins.neotest')
 require('plugins.dap')
+require('plugins.todo-comments')
 -- require('plugins.fyler')
