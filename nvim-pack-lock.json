@@ -129,7 +129,7 @@
       "src": "https://github.com/MunifTanjim/nui.nvim"
     },
     "nvim": {
-      "rev": "180e0435707cf1fed09a98a9739e5807d92b69be",
+      "rev": "ce4a8e0d5267e67056f9f4dcf6cb1d0933c8ca00",
       "src": "https://github.com/catppuccin/nvim"
     },
     "nvim-autopairs": {
@@ -157,7 +157,7 @@
       "src": "https://github.com/mfussenegger/nvim-lint"
     },
     "nvim-lspconfig": {
-      "rev": "30a2b191bccf541ce1797946324c9329e90ec448",
+      "rev": "f1237a8b3c243608a7116fa1ad216c441d7c2264",
       "src": "https://github.com/neovim/nvim-lspconfig"
     },
     "nvim-nio": {
@@ -169,7 +169,7 @@
       "src": "https://github.com/s1n7ax/nvim-snips"
     },
     "nvim-spider": {
-      "rev": "52a0285882def5a3d09c9407f30a0b0ce6a67f8d",
+      "rev": "f56f16a686cccb957db2be61a1dba4a85b32a934",
       "src": "https://github.com/chrisgrieser/nvim-spider"
     },
     "nvim-terminal": {
