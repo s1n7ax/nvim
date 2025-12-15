@@ -1,114 +1,106 @@
-require('nvim-treesitter').install({
-	'bash',
-	'c',
-	'cmake',
-	'comment',
-	'cpp',
-	'css',
-	'csv',
-	'diff',
-	'dockerfile',
-	'gitcommit',
-	'gitignore',
-	'html',
-	'java',
-	'javascript',
-	'json5',
-	'lua',
-	'markdown',
-	'markdown_inline',
-	'nix',
-	'python',
-	'query',
-	'regex',
-	'requirements',
-	'rust',
-	'scss',
-	'sql',
-	'todotxt',
-	'tsx',
-	'typescript',
-	'vimdoc',
-	'vue',
-	'xml',
-	'yaml',
-	'svelte',
-	'groovy',
+require('nvim-treesitter.configs').setup({
+	modules = {},
+	sync_install = false,
+	auto_install = true,
+	ignore_install = {},
+	ensure_installed = {
+		'bash',
+		'c',
+		'cmake',
+		'comment',
+		'cpp',
+		'css',
+		'csv',
+		'diff',
+		'dockerfile',
+		'gitcommit',
+		'gitignore',
+		'html',
+		'java',
+		'javascript',
+		'json5',
+		'lua',
+		'markdown',
+		'markdown_inline',
+		'nix',
+		'python',
+		'query',
+		'regex',
+		'requirements',
+		'rust',
+		'scss',
+		'sql',
+		'todotxt',
+		'tsx',
+		'typescript',
+		'vimdoc',
+		'vue',
+		'xml',
+		'yaml',
+		'svelte',
+		'groovy',
+	},
+	highlight = {
+		enable = true,
+		additional_vim_regex_highlighting = false,
+	},
+	incremental_selection = {
+		enable = true,
+		keymaps = {
+			init_selection = ',n',
+			node_incremental = ',n',
+			scope_incremental = ',s',
+			node_decremental = ',e',
+		},
+	},
+	indent = { enable = false },
+	textobjects = {
+		select = {
+			enable = true,
+			lookahead = true,
+			-- stylua: ignore
+			keymaps = {
+				['ak'] = { query = '@block.outer', desc = 'around block' },
+				['hk'] = { query = '@block.inner', desc = 'inside block' },
+				['ac'] = { query = '@class.outer', desc = 'around class' },
+				['hc'] = { query = '@class.inner', desc = 'inside class' },
+				['a?'] = { query = '@conditional.outer', desc = 'around conditional' },
+				['h?'] = { query = '@conditional.inner', desc = 'inside conditional' },
+				['af'] = { query = '@function.outer', desc = 'around function ' },
+				['hf'] = { query = '@function.inner', desc = 'inside function ' },
+				['al'] = { query = '@loop.outer', desc = 'around loop' },
+				['hl'] = { query = '@loop.inner', desc = 'inside loop' },
+				['aa'] = { query = '@parameter.outer', desc = 'around argument' },
+				['ha'] = { query = '@parameter.inner', desc = 'inside argument' },
+			},
+		},
+		move = {
+			enable = true,
+			set_jumps = true,
+			-- stylua: ignore
+			goto_next_start = {
+				[']f'] = { query = '@function.outer', desc = 'Goto next function' },
+				[']a'] = { query = '@parameter.inner', desc = 'Goto next param' },
+				[']r'] = { query = '@return.inner', desc = 'Goto next return' },
+				[']c'] = { query = '@call.inner', desc = 'Goto next function call' },
+				[']v'] = { query = '@assignment.inner', desc = 'Goto next assignment' },
+			},
+			-- stylua: ignore
+			goto_previous_start = {
+				['[f'] = { query = '@function.outer', desc = 'Goto prev function' },
+				['[a'] = { query = '@parameter.inner', desc = 'Goto prev param' },
+				['[r'] = { query = '@return.inner', desc = 'Goto prev return' },
+				['[c'] = { query = '@call.inner', desc = 'Goto prev function call' },
+				['[v'] = { query = '@assignment.inner', desc = 'Goto prev assignment' },
+			},
+			-- stylua: ignore
+			goto_next_end = {
+				[']F'] = { query = '@function.outer', desc = 'Goto next function end' },
+			},
+			-- stylua: ignore
+			goto_previous_end = {
+				['[F'] = { query = '@function.outer', desc = 'Goto prev function end' },
+			},
+		},
+	},
 })
-
-vim.api.nvim_create_autocmd('FileType', {
-	pattern = { '*' },
-	callback = function()
-		vim.treesitter.start()
-	end,
-})
-
--- require('nvim-treesitter.configs').setup({
--- 	modules = {},
--- 	sync_install = false,
--- 	auto_install = true,
--- 	ignore_install = {},
--- 	highlight = {
--- 		enable = true,
--- 		additional_vim_regex_highlighting = false,
--- 	},
--- 	incremental_selection = {
--- 		enable = true,
--- 		keymaps = {
--- 			init_selection = ',n',
--- 			node_incremental = ',n',
--- 			scope_incremental = ',s',
--- 			node_decremental = ',e',
--- 		},
--- 	},
--- 	indent = { enable = false },
--- 	textobjects = {
--- 		select = {
--- 			enable = true,
--- 			lookahead = true,
--- 			-- stylua: ignore
--- 			keymaps = {
--- 				['ak'] = { query = '@block.outer', desc = 'around block' },
--- 				['hk'] = { query = '@block.inner', desc = 'inside block' },
--- 				['ac'] = { query = '@class.outer', desc = 'around class' },
--- 				['hc'] = { query = '@class.inner', desc = 'inside class' },
--- 				['a?'] = { query = '@conditional.outer', desc = 'around conditional' },
--- 				['h?'] = { query = '@conditional.inner', desc = 'inside conditional' },
--- 				['af'] = { query = '@function.outer', desc = 'around function ' },
--- 				['hf'] = { query = '@function.inner', desc = 'inside function ' },
--- 				['al'] = { query = '@loop.outer', desc = 'around loop' },
--- 				['hl'] = { query = '@loop.inner', desc = 'inside loop' },
--- 				['aa'] = { query = '@parameter.outer', desc = 'around argument' },
--- 				['ha'] = { query = '@parameter.inner', desc = 'inside argument' },
--- 			},
--- 		},
--- 		move = {
--- 			enable = true,
--- 			set_jumps = true,
--- 			-- stylua: ignore
--- 			goto_next_start = {
--- 				[']f'] = { query = '@function.outer', desc = 'Goto next function' },
--- 				[']a'] = { query = '@parameter.inner', desc = 'Goto next param' },
--- 				[']r'] = { query = '@return.inner', desc = 'Goto next return' },
--- 				[']c'] = { query = '@call.inner', desc = 'Goto next function call' },
--- 				[']v'] = { query = '@assignment.inner', desc = 'Goto next assignment' },
--- 			},
--- 			-- stylua: ignore
--- 			goto_previous_start = {
--- 				['[f'] = { query = '@function.outer', desc = 'Goto prev function' },
--- 				['[a'] = { query = '@parameter.inner', desc = 'Goto prev param' },
--- 				['[r'] = { query = '@return.inner', desc = 'Goto prev return' },
--- 				['[c'] = { query = '@call.inner', desc = 'Goto prev function call' },
--- 				['[v'] = { query = '@assignment.inner', desc = 'Goto prev assignment' },
--- 			},
--- 			-- stylua: ignore
--- 			goto_next_end = {
--- 				[']F'] = { query = '@function.outer', desc = 'Goto next function end' },
--- 			},
--- 			-- stylua: ignore
--- 			goto_previous_end = {
--- 				['[F'] = { query = '@function.outer', desc = 'Goto prev function end' },
--- 			},
--- 		},
--- 	},
--- })

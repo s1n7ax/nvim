@@ -15,7 +15,7 @@ vim.pack.add({
 	'https://github.com/lewis6991/gitsigns.nvim',
 	'https://github.com/linrongbin16/gitlinker.nvim',
 	'https://github.com/mfussenegger/nvim-lint',
-	-- 'https://github.com/mistricky/codesnap.nvim',
+	'https://github.com/mistricky/codesnap.nvim',
 	'https://github.com/mistweaverco/kulala.nvim',
 	'https://github.com/monaqa/dial.nvim',
 	'https://github.com/MunifTanjim/nui.nvim',
@@ -25,7 +25,7 @@ vim.pack.add({
 	'https://github.com/nvim-tree/nvim-web-devicons',
 	'https://github.com/nvim-treesitter/nvim-treesitter',
 	'https://github.com/nvim-treesitter/nvim-treesitter-context',
-	-- 'https://github.com/nvim-treesitter/nvim-treesitter-textobjects',
+	'https://github.com/nvim-treesitter/nvim-treesitter-textobjects',
 	'https://github.com/rmagatti/auto-session',
 	'https://github.com/s1n7ax/nvim-comment-frame',
 	'https://github.com/s1n7ax/nvim-snips',
@@ -79,7 +79,7 @@ vim.pack.add({
 require('plugins.auto-session')
 require('plugins.autopair')
 require('plugins.blink')
--- require('plugins.codesnap')
+require('plugins.codesnap')
 require('plugins.colorizer')
 require('plugins.comment-frame')
 require('plugins.conform')
@@ -94,7 +94,7 @@ require('plugins.kulala')
 require('plugins.lazydev')
 require('plugins.lint')
 require('plugins.lspconfig')
--- require('plugins.luasnip')
+require('plugins.luasnip')
 require('plugins.mini-move')
 require('plugins.neoscroll')
 require('plugins.noice')
@@ -105,7 +105,7 @@ require('plugins.spider')
 require('plugins.terminal')
 require('plugins.themes')
 require('plugins.timber')
--- require('plugins.treesitter')
+require('plugins.treesitter')
 require('plugins.treesitter-context')
 require('plugins.ufo')
 require('plugins.winshift')
