@@ -16,6 +16,7 @@ M.servers = {
 	'tailwindcss',
 	'gh_actions_ls',
 	'groovyls',
+	'pylsp',
 }
 
 vim.lsp.config('jsonls', {

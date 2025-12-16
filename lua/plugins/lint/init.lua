@@ -1,5 +1,6 @@
 require('lint').linters_by_ft = {
 	lua = { 'luacheck' },
+	shellcheck = { 'sh', 'bash' },
 }
 
 -- Auto-run linting on save and text changes

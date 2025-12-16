@@ -28,6 +28,8 @@ local formatters = {
 	},
 	stylua = { 'lua' },
 	nixfmt = { 'nix' },
+	black = { 'python' },
+	shfmt = { 'bash', 'sh' },
 }
 
 local formatters_by_ft = {}
