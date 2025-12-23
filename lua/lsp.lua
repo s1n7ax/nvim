@@ -3,7 +3,7 @@ local M = {}
 M.servers = {
 	'bashls',
 	'cssls',
-	'tsgo',
+	'vtsls',
 	'docker_compose_language_service',
 	'emmet_language_server',
 	'eslint',
@@ -39,15 +39,6 @@ vim.lsp.config('yamlls', {
 				url = '',
 			},
 			schemas = require('schemastore').yaml.schemas(),
-		},
-	},
-})
-
-vim.lsp.config('jsonls', {
-	settings = {
-		json = {
-			schemas = require('schemastore').json.schemas(),
-			validate = { enable = true },
 		},
 	},
 })
