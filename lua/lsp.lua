@@ -19,6 +19,18 @@ M.servers = {
 	'pylsp',
 }
 
+vim.lsp.config('nil_ls', {
+	settings = {
+		['nil'] = {
+			nix = {
+				flake = {
+					autoArchive = true,
+				},
+			},
+		},
+	},
+})
+
 vim.lsp.config('jsonls', {
 	settings = {
 		json = {
