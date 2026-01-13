@@ -45,7 +45,10 @@ vim.pack.add({
 	'https://github.com/b0o/SchemaStore.nvim',
 	'https://github.com/supermaven-inc/supermaven-nvim',
 	'https://github.com/MagicDuck/grug-far.nvim',
-	-- 'https://github.com/A7Lavinraj/fyler.nvim',
+
+	'https://github.com/nvim-mini/mini.icons.git',
+	'https://github.com/A7Lavinraj/fyler.nvim',
+
 	'https://github.com/HakonHarnes/img-clip.nvim',
 	'https://github.com/mfussenegger/nvim-dap',
 	'https://github.com/rcarriga/nvim-dap-ui',
@@ -120,4 +123,4 @@ require('plugins.neotest')
 require('plugins.dap')
 require('plugins.todo-comments')
 require('plugins.lint')
--- require('plugins.fyler')
+require('plugins.fyler')
