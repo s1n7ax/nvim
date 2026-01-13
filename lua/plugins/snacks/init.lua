@@ -3,10 +3,10 @@ local utils = require('utils.keymaps')
 local nmap = utils.mapper('n')
 
 local WIDTH = 0.7
-local HEIGHT = 0
+local HEIGHT = 0.9
 
 local open_grep = function()
-	snacks.picker.grep({ hidden = true, ignored = false, regex = false })
+	snacks.picker.grep()
 end
 
 -- stylua: ignore
@@ -47,7 +47,7 @@ nmap({
 	{ '<leader>ir', function () snacks.picker.gh_pr() end, "GitHub Pull Requests (open)" },
 
 	-- file
-	{ ',t', function() snacks.explorer.reveal() end, "Explorer"  },
+	-- { ',t', function() snacks.explorer.reveal() end, "Explorer"  },
 
 	-- claude
 	{ ',r', function() snacks.terminal.toggle('claude', {win = { width = WIDTH, height = HEIGHT }}) end, "Claude" },
@@ -61,7 +61,7 @@ require('snacks').setup({
 	bigfile = { enabled = true },
 	dashboard = { enabled = false },
 	explorer = {
-		enabled = true,
+		enabled = false,
 		replace_netrw = true,
 		trash = true,
 	},
@@ -77,7 +77,7 @@ require('snacks').setup({
 		enabled = true,
 		win = {
 			width = 0,
-			height = 0,
+			height = HEIGHT,
 		},
 	},
 	picker = {
@@ -100,7 +100,7 @@ require('snacks').setup({
 					preset = 'dropdown',
 					layout = {
 						width = WIDTH,
-						height = 0,
+						height = HEIGHT,
 					},
 				},
 			},
@@ -110,7 +110,7 @@ require('snacks').setup({
 			preset = 'default',
 			layout = {
 				width = 0,
-				height = 0,
+				height = HEIGHT,
 			},
 		},
 
