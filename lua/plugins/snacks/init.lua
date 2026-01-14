@@ -50,7 +50,7 @@ nmap({
 	-- { ',t', function() snacks.explorer.reveal() end, "Explorer"  },
 
 	-- claude
-	{ ',r', function() snacks.terminal.toggle('claude', {win = { width = WIDTH, height = HEIGHT }}) end, "Claude" },
+	{ ',r', function() snacks.terminal.toggle('opencode', {win = { width = WIDTH, height = HEIGHT }}) end, "Opencode" },
 
 	{ "<leader>us",  function() snacks.scratch() end, desc = "Toggle Scratch Buffer" },
 	{ "<leader>to",  function() snacks.scratch.select() end, desc = "Select Scratch Buffer" },

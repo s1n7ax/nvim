@@ -185,7 +185,7 @@
       "src": "https://github.com/nvim-treesitter/nvim-treesitter-context"
     },
     "nvim-treesitter-textobjects": {
-      "rev": "d0d12338230c1ce4ce27373f5b8d50a8c691794b",
+      "rev": "baa6b4ec28c8be5e4a96f9b1b6ae9db85ec422f8",
       "src": "https://github.com/nvim-treesitter/nvim-treesitter-textobjects",
       "version": "'main'"
     },
@@ -204,6 +204,10 @@
     "onedark.vim": {
       "rev": "68dca198f23ef979dc6a123ad50c598902117232",
       "src": "https://github.com/joshdick/onedark.vim"
+    },
+    "opencode.nvim": {
+      "rev": "d849ba989a7c0ab78a63fb22b88caaced299618c",
+      "src": "https://github.com/NickvanDyke/opencode.nvim"
     },
     "overseer.nvim": {
       "rev": "95b1099c043e4231a1204abd9a394d379e69f029",
