@@ -44,6 +44,7 @@ nmap({
 
 	-- git
 	{ ',s', function () snacks.lazygit() end, "Open lazygit" },
+	{ ',a', function () snacks.terminal.toggle('opencode') end, "Open opencode" },
 
 	-- gh
 	{ '<leader>ir', function () snacks.picker.gh_pr() end, "GitHub Pull Requests (open)" },
@@ -69,14 +70,12 @@ nxmap({
 						if v.cmd[1] == 'opencode' then
 							local job = vim.b[v.buf].terminal_job_id
 							vim.fn.chansend(job, formatted_input)
-							vim.fn.chansend(job, vim.api.nvim_replace_termcodes('<CR>', true, false, true))
 							v:show()
 							return
 						end
 					elseif string.find(v.cmd, '^opencode') then
 						local job = vim.b[v.buf].terminal_job_id
 						vim.fn.chansend(job, formatted_input)
-						vim.fn.chansend(job, vim.api.nvim_replace_termcodes('<CR>', true, false, true))
 						v:show()
 						return
 					end
