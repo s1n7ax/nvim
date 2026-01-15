@@ -1,6 +1,8 @@
+local formatter = require('utils.formatter')
 local snacks = require('snacks')
 local utils = require('utils.keymaps')
 local nmap = utils.mapper('n')
+local nxmap = utils.mapper({ 'n', 'x' })
 
 local WIDTH = 0.7
 local HEIGHT = 0.9
@@ -49,12 +51,42 @@ nmap({
 	-- file
 	-- { ',t', function() snacks.explorer.reveal() end, "Explorer"  },
 
-	-- claude
-	{ ',r', function() snacks.terminal.toggle('opencode', {win = { width = WIDTH, height = HEIGHT }}) end, "Opencode" },
-
 	{ "<leader>us",  function() snacks.scratch() end, desc = "Toggle Scratch Buffer" },
 	{ "<leader>to",  function() snacks.scratch.select() end, desc = "Select Scratch Buffer" },
 
+})
+
+nxmap({
+	{
+		',r',
+		function()
+			vim.ui.input({ prompt = 'Send to OpenCode' }, function(input)
+				local formatted_input = formatter.format_opencode_prompt(input)
+				local term_list = snacks.terminal.list()
+
+				for _, v in ipairs(term_list) do
+					if vim.islist(v.cmd) then
+						if v.cmd[1] == 'opencode' then
+							local job = vim.b[v.buf].terminal_job_id
+							vim.fn.chansend(job, formatted_input)
+							vim.fn.chansend(job, vim.api.nvim_replace_termcodes('<CR>', true, false, true))
+							v:show()
+							return
+						end
+					elseif string.find(v.cmd, '^opencode') then
+						local job = vim.b[v.buf].terminal_job_id
+						vim.fn.chansend(job, formatted_input)
+						vim.fn.chansend(job, vim.api.nvim_replace_termcodes('<CR>', true, false, true))
+						v:show()
+						return
+					end
+				end
+
+				snacks.terminal.open({ 'opencode', '--prompt', formatted_input })
+			end)
+		end,
+		'Opencode',
+	},
 })
 
 require('snacks').setup({
