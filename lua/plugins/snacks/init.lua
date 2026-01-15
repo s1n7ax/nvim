@@ -62,6 +62,10 @@ nxmap({
 		',r',
 		function()
 			vim.ui.input({ prompt = 'Send to OpenCode' }, function(input)
+				if input == nil then
+					return
+				end
+
 				local formatted_input = formatter.format_opencode_prompt(input)
 				local term_list = snacks.terminal.list()
 
