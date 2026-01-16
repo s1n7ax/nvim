@@ -8,14 +8,17 @@ function M.format_opencode_prompt(input)
 		start_pos[2] == end_pos[2] and start_pos[3] == end_pos[3]
 	)
 
-	if new_input:match('@this') then
+	if new_input:match('@this') or new_input:match('@here') then
 		local curr_file = vim.fn.fnamemodify(vim.fn.expand('%:p'), ':.')
-		local replacement = curr_file
+		local cursor = vim.api.nvim_win_get_cursor(0)
+		local line, col = cursor[1], cursor[2] + 1
+		local replacement = table.concat({ curr_file, line, col }, ':')
 		if has_selection then
 			local start_line, end_line = vim.fn.line("'<"), vim.fn.line("'>")
 			replacement = table.concat({ curr_file, start_line, end_line }, ':')
 		end
 		new_input = new_input:gsub('@this', replacement)
+		new_input = new_input:gsub('@here', replacement)
 	end
 
 	if new_input:match('@buf') then
