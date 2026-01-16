@@ -44,7 +44,7 @@ nmap({
 
 	-- git
 	{ ',s', function () snacks.lazygit() end, "Open lazygit" },
-	{ ',a', function () snacks.terminal.toggle('opencode') end, "Open opencode" },
+	{ ',a', function () snacks.terminal.toggle({ 'opencode' , '--prompt' }) end, "Open opencode" },
 
 	-- gh
 	{ '<leader>ir', function () snacks.picker.gh_pr() end, "GitHub Pull Requests (open)" },
