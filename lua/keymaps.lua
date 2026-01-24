@@ -118,6 +118,28 @@ vmap({
 	{ '$', 'g_', 'Select until end of line' },
 })
 
+-- opencode
+local nxmap = mapper({ 'n', 'x' })
+local opencode = require('utils.opencode')
+
+nmap({
+	{ ',a', opencode.toggle, 'Toggle opencode' },
+})
+
+nxmap({
+	{
+		',r',
+		function()
+			vim.ui.input({ prompt = 'Send to OpenCode' }, function(input)
+				if input then
+					opencode.send_prompt(input)
+				end
+			end)
+		end,
+		'Send to opencode',
+	},
+})
+
 -- neovim has x mode in keymap for vim.lsp.buf.selection_range
 -- I don't really need that and keymap and this collides with coleman move right
 -- in visual mode keymap

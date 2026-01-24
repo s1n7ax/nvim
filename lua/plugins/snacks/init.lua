@@ -1,8 +1,6 @@
-local formatter = require('utils.formatter')
 local snacks = require('snacks')
 local utils = require('utils.keymaps')
 local nmap = utils.mapper('n')
-local nxmap = utils.mapper({ 'n', 'x' })
 
 local WIDTH = 0.7
 local HEIGHT = 0.9
@@ -44,7 +42,6 @@ nmap({
 
 	-- git
 	{ ',s', function () snacks.lazygit() end, "Open lazygit" },
-	{ ',a', function () snacks.terminal.toggle({ 'opencode' , '--prompt' }) end, "Open opencode" },
 
 	-- gh
 	{ '<leader>ir', function () snacks.picker.gh_pr() end, "GitHub Pull Requests (open)" },
@@ -55,41 +52,6 @@ nmap({
 	{ "<leader>us",  function() snacks.scratch() end, desc = "Toggle Scratch Buffer" },
 	{ "<leader>to",  function() snacks.scratch.select() end, desc = "Select Scratch Buffer" },
 
-})
-
-nxmap({
-	{
-		',r',
-		function()
-			vim.ui.input({ prompt = 'Send to OpenCode' }, function(input)
-				if input == nil then
-					return
-				end
-
-				local formatted_input = formatter.format_opencode_prompt(input)
-				local term_list = snacks.terminal.list()
-
-				for _, v in ipairs(term_list) do
-					if vim.islist(v.cmd) then
-						if v.cmd[1] == 'opencode' then
-							local job = vim.b[v.buf].terminal_job_id
-							vim.fn.chansend(job, formatted_input)
-							v:show()
-							return
-						end
-					elseif string.find(v.cmd, '^opencode') then
-						local job = vim.b[v.buf].terminal_job_id
-						vim.fn.chansend(job, formatted_input)
-						v:show()
-						return
-					end
-				end
-
-				snacks.terminal.open({ 'opencode', '--prompt', formatted_input })
-			end)
-		end,
-		'Opencode',
-	},
 })
 
 require('snacks').setup({
