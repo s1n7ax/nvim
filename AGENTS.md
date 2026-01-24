@@ -1,126 +1,209 @@
 # AGENTS.md
 
-This file provides guidance when working with code in this repository.
+Guidance for AI coding agents working in this Neovim configuration repository.
 
-## Development Commands
+## Build/Lint/Test Commands
 
 ### Formatting
-- `stylua .` - Format all Lua files using StyLua according to .stylua.toml configuration
-- Format on save is enabled via conform.nvim for Lua files
+```bash
+stylua .                    # Format all Lua files
+stylua lua/path/to/file.lua # Format single file
+```
 
-### LSP Servers
-- `lua-language-server` - Lua LSP (configured in lsp/lua_ls.lua)
-- `deno lsp` - TypeScript/JavaScript LSP (configured in lsp/denols.lua)
+### Validation
+```bash
+nvim --headless -c "lua require('init')" -c "qa"  # Test config loads
+nvim -u init.lua +checkhealth +qa                 # Run health checks
+```
+
+### LSP Check
+```bash
+lua-language-server --check lua/  # Static analysis
+```
 
 ## Architecture Overview
 
-This is a personal Neovim configuration using a modular structure with the native Vim 9.0+ package system (vim.pack.add) instead of a traditional plugin manager.
+Native Neovim package system using `vim.pack.add()` - NOT LazyVim or any plugin manager.
 
-### Core Structure
-- `init.lua` - Entry point that enables LSP servers and loads main configuration
-- `lua/s1n7ax/init.lua` - Sets leader keys and loads all modules
-- `lua/s1n7ax/` - Main configuration namespace
-
-### Key Components
-- **Options** (`options.lua`) - Basic Neovim settings and window resize percentages
-- **Keymaps** (`keymaps.lua`) - Custom Colemak keyboard layout remapping and shortcuts
-- **Utils** (`utils/`) - Organized utility modules:
-  - `utils/keymaps.lua` - Keymap utilities (mapper function)
-  - `utils/windows.lua` - Window management and auto-resize functionality
-- **Autocmd** (`autocmd.lua`) - Auto commands for yank highlighting and window events
-- **Plugins** (`plugins/`) - Plugin configurations loaded via vim.pack.add
-
-### Plugin Architecture
-**IMPORTANT**: This configuration uses Neovim's native package system (vim.pack.add) NOT LazyVim or any other plugin manager. Plugin configurations should NOT return LazyVim specs but instead should directly configure the plugin using vim.pack.add() and native Neovim APIs.
-
-**vim.pack.add() Usage**: vim.pack.add() takes a table with the full plugin URL:
-```lua
-vim.pack.add({ 'https://github.com/username/plugin-name' })
+### Directory Structure
+```
+init.lua                    # Entry point: leader keys, requires modules
+lua/
+├── options.lua             # Neovim settings
+├── keymaps.lua             # Colemak-optimized keymaps
+├── autocmd.lua             # Auto commands
+├── diagnostics.lua         # Diagnostic configuration
+├── lsp.lua                 # LSP server list and configs
+├── constants.lua           # Icons and shared constants
+├── utils/
+│   ├── init.lua            # Utils module aggregator
+│   ├── keymaps.lua         # Keymap helper (mapper function)
+│   ├── windows.lua         # Window management/auto-resize
+│   ├── editing.lua         # Text editing utilities
+│   ├── lsp.lua             # LSP utilities
+│   └── clipboard.lua       # Clipboard utilities
+└── plugins/
+    └── {plugin}/init.lua   # Each plugin in own directory
 ```
 
-Each plugin is configured in its own subdirectory under `plugins/`:
-- **blink** - Completion engine with custom Colemak keybindings
-- **conform** - Code formatting with StyLua integration
-- **lazydev** - Lua development support
-- **oil** - File explorer
-- **snacks** - Multi-purpose plugin (picker, dashboard, notifications)
-- **themes** - Color scheme (Tokyo Night Moon)
-- **treesitter** - Syntax highlighting and text objects
+## Code Style Guidelines
 
-### Keyboard Layout
-This configuration is heavily customized for the Colemak keyboard layout:
-- Navigation uses `m/n/e/i` instead of `h/j/k/l`
-- Text manipulation keys are remapped accordingly
-- Completion uses `<c-n>/<c-e>` for navigation
+### Formatting (StyLua)
+- **Indentation**: Tabs, width 2
+- **Line length**: 80 characters max
+- **Quotes**: Single quotes preferred (`'string'`)
+- **Parentheses**: Always use call parentheses
 
-### Keymap Philosophy
-This config uses a frequency-based keymap organization system optimized for Colemak:
+### Module Structure
+```lua
+-- Standard module pattern
+local M = {}
 
-#### Key Group Priority System
-- **Comma-based (most frequent)**: Reserved for most used actions
-  - `,,` - fuzzy finder (snacks.picker.files)
-  - `,a` - zen mode toggle
-  - `,d` - timber insert_log_below
-- **Leader groups**: Assigned by plugin frequency, prioritizing home row keys
-  - `<leader>t` - Snacks (high frequency, home row position)
-  - `<leader>s` - Secondary frequent plugins
-  - `<leader>q` - Less frequent plugins (upper row acceptable like codesnap)
-- **Native replacements**: Enhance existing Neovim keymaps instead of creating new groups
-  - Example: neoscroll enhances native scrolling - no dedicated key group needed
-  - Example: ufo improves native folding - replaces default fold keymaps
+function M.public_function()
+    -- implementation
+end
 
-#### Within-Group Key Assignment
-- **Home row priority**: Most used actions get home row keys within each group
-  - `<leader>tt` - snacks.picker.lines (frequent)
-  - `<leader>tl` - snacks.picker.help (less frequent)
-- **Position over semantics**: Key position based on frequency, not function name
-  - Don't use `<leader>th` for help just because it starts with 'h'
-  - Use ergonomic key positions based on actual usage patterns
-- **Colemak home row optimization**: `t`, `n`, `s`, `r` are prioritized for frequent actions
+local function private_function()
+    -- implementation
+end
 
-### Window Management
-Advanced window management with auto-resizing functionality:
-- **Navigation**: `<C-m/n/e/i>` for left/down/up/right window navigation
-- **Splitting**: `<Alt-m/n/e/i>` for left/down/up/right window splits
-- **Auto-resize**: Focused window takes configurable percentage of space
-- **Configuration**: 
-  - `vim.g.s1n7ax_window_horizontal_percentage` (default: 0.7)
-  - `vim.g.s1n7ax_window_vertical_percentage` (default: 0.7)
-  - `vim.g.s1n7ax_window_ignore_filetypes` (default: oil, help, qf, etc.)
-- **Smart filtering**: Ignores floating windows and specified filetypes
+return M
+```
+
+### Imports
+```lua
+-- External requires at top
+local snacks = require('snacks')
+local utils = require('utils')
+
+-- Destructure commonly used functions
+local mapper = utils.mapper
+local split_left = utils.windows.split_left
+```
+
+### Keymaps
+Use the `mapper` utility for consistent keymap creation:
+```lua
+local utils = require('utils')
+local nmap = utils.mapper('n')
+local amap = utils.mapper({ 'n', 'o', 'x' })
+
+nmap({
+    { '<leader>key', action, 'Description' },
+    { '<leader>key2', action2, { desc = 'Description', silent = true } },
+})
+```
+
+### Plugin Configuration
+```lua
+-- plugins/{name}/init.lua
+vim.pack.add({ 'https://github.com/author/plugin-name' })
+
+local plugin = require('plugin-name')
+local utils = require('utils')
+local nmap = utils.mapper('n')
+
+-- Keymaps first (if any)
+nmap({
+    { '<leader>xx', plugin.action, 'Plugin action' },
+})
+
+-- Setup call
+plugin.setup({
+    option = value,
+})
+```
+
+### Naming Conventions
+- **Variables**: `snake_case` for locals and module fields
+- **Functions**: `snake_case`
+- **Constants**: `SCREAMING_SNAKE_CASE` for true constants
+- **Modules**: Return table named `M`
+
+### Colemak Keyboard Layout
+Navigation remapped from `hjkl` to `mnei`:
+- `m` = left, `n` = down, `e` = up, `i` = right
+- `h` = insert mode (replaces `i`)
+- Window nav: `<C-m/n/e/i>`
+- Window split: `<A-m/n/e/i>`
+
+### Keymap Organization (Frequency-Based)
+1. **Comma-based** (most frequent): `,,`, `,a`, `,d`, `,s`
+2. **Leader groups** (by frequency): `<leader>t` (snacks), `<leader>n` (LSP)
+3. **Native replacements**: Enhance existing keymaps, don't create new groups
+
+### Error Handling
+```lua
+-- Use pcall for potentially failing operations
+local ok, result = pcall(require, 'optional-module')
+if ok then
+    result.setup({})
+end
+
+-- Use pcall for API calls that might fail
+pcall(vim.api.nvim_win_set_width, win, width)
+```
+
+### Auto Commands
+```lua
+vim.api.nvim_create_autocmd('EventName', {
+    group = vim.api.nvim_create_augroup('GroupName', { clear = true }),
+    pattern = '*',
+    callback = function()
+        -- implementation
+    end,
+})
+```
 
 ### LSP Configuration
-LSP servers are configured in the `lsp/` directory:
-- Each server has its own configuration file
-- Enabled globally in init.lua with `vim.lsp.enable()`
-- Supports Lua development and Deno-based TypeScript/JavaScript
+Add servers to `lua/lsp.lua`:
+```lua
+M.servers = {
+    'server_name',
+    -- ...
+}
 
-### Code Style
-- Uses tabs for indentation (width: 2)
-- Line length: 80 characters
-- Single quotes preferred for strings
-- Configured via .editorconfig and .stylua.toml
+vim.lsp.config('server_name', {
+    settings = { ... },
+})
 
-## Working with this Configuration
+vim.lsp.enable(M.servers)
+```
 
-When modifying this configuration:
-1. Follow the modular structure - each plugin gets its own directory
-2. Use utilities from `utils/` directory:
-   - `utils.keymaps.mapper()` for consistent keymap creation
-   - `utils.windows.*` for window management functions
-3. Respect the Colemak layout customizations
-4. Format code with StyLua before committing
-5. LSP configuration changes go in the `lsp/` directory
-6. Plugin configurations use vim.pack.add() for package management
-7. Window management settings can be customized via global variables in `options.lua`
+## Important Patterns
 
-## Features
+### Window Management
+Auto-resize on focus is enabled. Configure via globals in `options.lua`:
+- `vim.g.s1n7ax_window_horizontal_percentage`
+- `vim.g.s1n7ax_window_vertical_percentage`
+- `vim.g.s1n7ax_window_ignore_filetypes`
 
-### Yank Highlighting
-- Visual feedback when yanking text (timeout: 100ms)
-- Custom highlight group: `YankHighlight`
+### stylua: ignore
+Use `-- stylua: ignore` comment to prevent formatting specific blocks:
+```lua
+-- stylua: ignore
+nmap({
+    { 'key1', action1, 'desc' },
+    { 'key2', action2, 'desc' },
+})
+```
 
-### Window Auto-Resize
-- Automatically resizes windows when navigating between them
-- Respects floating windows and ignored filetypes
-- Configurable resize percentages for horizontal and vertical splits
+### Adding New Plugins
+1. Add URL to `lua/plugins/init.lua` vim.pack.add list
+2. Create `lua/plugins/{name}/init.lua`
+3. Configure plugin with setup call
+4. Add keymaps using mapper utility
+
+### Constants and Icons
+Use shared icons from `lua/constants.lua`:
+```lua
+local constants = require('constants')
+local icons = constants.icons.diagnostics
+```
+
+## What NOT to Do
+- Don't use LazyVim specs or return plugin specs
+- Don't use `h/j/k/l` for navigation (use `m/n/e/i`)
+- Don't create semantic keymaps (use frequency-based positions)
+- Don't add single-line comments for implementation code
+- Only add doc comments for high-level public APIs
