@@ -3,7 +3,7 @@ local utils = require('utils.keymaps')
 local nmap = utils.mapper('n')
 
 local WIDTH = 0.7
-local HEIGHT = 0.9
+local HEIGHT = 0.95
 
 local open_grep = function()
 	snacks.picker.grep()
@@ -63,7 +63,12 @@ require('snacks').setup({
 		trash = true,
 	},
 	indent = { enabled = false },
-	input = { enabled = true },
+	input = {
+		enabled = true,
+		keys = {
+			['<c-c>'] = 'cancel',
+		},
+	},
 	notifier = { enabled = false },
 	quickfile = { enabled = true },
 	scope = { enabled = false },
