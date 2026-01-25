@@ -47,7 +47,6 @@ end
 local function set_buf_keymaps(buf)
 	local opts = { buffer = buf, noremap = true, silent = true }
 	vim.keymap.set('t', '<c-c>', close_win, opts)
-	vim.keymap.set('t', 'q', close_win, opts)
 end
 
 local function create_terminal(cmd)
