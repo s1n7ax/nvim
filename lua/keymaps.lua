@@ -129,16 +129,12 @@ nmap({
 nxmap({
 	{
 		',r',
-		function()
-			vim.ui.input({ prompt = 'Send to OpenCode' }, function(input)
-				if input then
-					opencode.send_prompt(input)
-				end
-			end)
-		end,
+		'<cmd>OpenCodePrompt<cr>',
 		'Send to opencode',
 	},
 })
+
+vim.keymap.set({ 'n', 'x' }, '<leader>w', '<cmd>OpenCodePrompt<cr>')
 
 -- neovim has x mode in keymap for vim.lsp.buf.selection_range
 -- I don't really need that and keymap and this collides with coleman move right
