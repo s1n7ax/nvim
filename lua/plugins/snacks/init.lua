@@ -65,22 +65,21 @@ require('snacks').setup({
 	indent = { enabled = false },
 	input = {
 		enabled = true,
-		keys = {
-			-- @FIX: following is not working
-			-- @see https://github.com/folke/snacks.nvim/issues/2692
-
-			-- cc_cancel = {
-			-- 	'<c-c>',
-			-- 	{ 'cmp_close', 'cancel' },
-			-- 	mode = 'n',
-			-- 	expr = true,
-			-- },
-			-- cc_cancel_i = {
-			-- 	'<c-c>',
-			-- 	{ 'cmp_close', 'stopinsert', 'cancel' },
-			-- 	mode = 'i',
-			-- 	expr = true,
-			-- },
+		win = {
+			keys = {
+				cc_cancel = {
+					'<c-c>',
+					{ 'cmp_close', 'cancel' },
+					mode = 'n',
+					expr = true,
+				},
+				cc_cancel_i = {
+					'<c-c>',
+					{ 'cmp_close', 'stopinsert', 'cancel' },
+					mode = 'i',
+					expr = true,
+				},
+			},
 		},
 	},
 	notifier = { enabled = false },
