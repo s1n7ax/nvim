@@ -86,15 +86,13 @@ function M.toggle()
 end
 
 function M.send_prompt(input)
-	local formatted = formatter.format_opencode_prompt(input)
-
 	if is_valid() and state.chan then
-		vim.fn.chansend(state.chan, formatted)
+		vim.fn.chansend(state.chan, input)
 		M.toggle()
 		return
 	end
 
-	create_terminal({ 'opencode', '--prompt', formatted })
+	create_terminal({ 'opencode', '--prompt', input })
 end
 
 function M.get_this_template(opts)
