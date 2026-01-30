@@ -102,6 +102,12 @@ function M.get_this_template(opts)
 
 	if m == 'n' then
 		local file = vim.fn.fnamemodify(vim.fn.expand('%:p'), ':.')
+
+		if opts.range and opts.range == 0 then
+			-- no lines selected
+			return file
+		end
+
 		local line_diff = opts.line1 == opts.line2 and (opts.line1 .. 'L')
 			or (opts.line1 .. 'L-' .. opts.line2 .. 'L')
 		template = string.format('tt %s:%s', file, line_diff)
@@ -123,7 +129,6 @@ function M.get_this_template(opts)
 		)
 
 		local text = table.concat(lines, '\n')
-		print('text', text)
 		local file = vim.fn.fnamemodify(vim.fn.expand('%:p'), ':.')
 		local line_diff = start_line == end_line and (start_line .. 'L')
 			or (start_line .. 'L-' .. end_line .. 'L')
