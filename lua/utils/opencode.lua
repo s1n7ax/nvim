@@ -110,7 +110,7 @@ function M.get_this_template(opts)
 
 		local line_diff = opts.line1 == opts.line2 and (opts.line1 .. 'L')
 			or (opts.line1 .. 'L-' .. opts.line2 .. 'L')
-		template = string.format('tt %s:%s', file, line_diff)
+		template = string.format('at %s:%s', file, line_diff)
 	elseif m == 'v' then
 		vim.cmd([[execute "normal! \<ESC>"]])
 		local start_pos = vim.fn.getpos("'<")
