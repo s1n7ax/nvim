@@ -34,6 +34,7 @@ vim.o.wildmode = 'longest:full,full'
 vim.o.winminwidth = 5
 vim.o.wrap = false
 vim.o.winborder = 'rounded'
+vim.o.autoread = true
 vim.opt.shortmess:append({ W = true, I = true, c = true, C = true })
 vim.opt.fillchars = {
 	foldopen = '',
@@ -43,21 +44,3 @@ vim.opt.fillchars = {
 	diff = '╱',
 	eob = ' ',
 }
-
-vim.g.s1n7ax_window_horizontal_percentage = 0.8 -- Focused window width percentage
-vim.g.s1n7ax_window_vertical_percentage = 0.7 -- Focused window height percentage
-vim.g.s1n7ax_window_ignore_filetypes = {
-	'help',
-	'qf',
-	'quickfix',
-	'NvimTree',
-	'neo-tree',
-	'checkhealth',
-	'nvim-pack',
-	'DiffviewFiles',
-} -- Skip resizing for these filetypes
-vim.g.s1n7ax_window_vertical_only_filetypes = {
-	'OverseerList',
-	'OverseerForm',
-	'overseer',
-} -- Resize vertically only for these filetypes
