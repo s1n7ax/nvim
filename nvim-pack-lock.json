@@ -40,6 +40,10 @@
       "rev": "fcea7ff883235d9024dc41e638f164a450c14ca2",
       "src": "https://github.com/folke/flash.nvim"
     },
+    "focus.nvim": {
+      "rev": "8732b45ceef77b576e60442e768437bce7915107",
+      "src": "https://github.com/nvim-focus/focus.nvim"
+    },
     "fyler.nvim": {
       "rev": "5ef9d97b9292cee169ef0cfb865996f15ee9577a",
       "src": "https://github.com/A7Lavinraj/fyler.nvim"

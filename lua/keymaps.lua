@@ -2,11 +2,6 @@ local utils = require('utils')
 local clipboard = require('utils.clipboard')
 
 local mapper = utils.mapper
--- local navigate_window = utils.windows.navigate_window
-local split_left = utils.windows.split_left
-local split_right = utils.windows.split_right
-local split_top = utils.windows.split_top
-local split_bottom = utils.windows.split_bottom
 local add_line_above = utils.editing.add_line_above
 local add_line_below = utils.editing.add_line_below
 local duplicate_line = utils.editing.duplicate_line
@@ -63,15 +58,6 @@ nmap({
 	{ '<c-e>', '<c-w>k', 'Window up' },
 	{ '<c-m>', '<c-w>h', 'Window left' },
 	{ '<c-i>', '<c-w>l', 'Window right' },
-	-- { '<c-n>', navigate_window('j'), 'Window down' },
-	-- { '<c-e>', navigate_window('k'), 'Window up' },
-	-- { '<c-m>', navigate_window('h'), 'Window left' },
-	-- { '<c-i>', navigate_window('l'), 'Window right' },
-	-- Window splitting
-	{ '<a-m>', split_left, 'Split left' },
-	{ '<a-n>', split_bottom, 'Split down' },
-	{ '<a-e>', split_top, 'Split up' },
-	{ '<a-i>', split_right, 'Split right' },
 
 	-- LSP
 	{ '<leader>ne', vim.lsp.buf.rename, 'Rename' },

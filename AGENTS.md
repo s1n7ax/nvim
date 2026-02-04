@@ -38,7 +38,6 @@ lua/
 ├── utils/
 │   ├── init.lua            # Utils module aggregator
 │   ├── keymaps.lua         # Keymap helper (mapper function)
-│   ├── windows.lua         # Window management/auto-resize
 │   ├── editing.lua         # Text editing utilities
 │   ├── lsp.lua             # LSP utilities
 │   └── clipboard.lua       # Clipboard utilities
@@ -78,7 +77,6 @@ local utils = require('utils')
 
 -- Destructure commonly used functions
 local mapper = utils.mapper
-local split_left = utils.windows.split_left
 ```
 
 ### Keymaps
@@ -95,10 +93,21 @@ nmap({
 ```
 
 ### Plugin Configuration
-```lua
--- plugins/{name}/init.lua
-vim.pack.add({ 'https://github.com/author/plugin-name' })
+Plugins are added in two places:
 
+1. **`lua/plugins/init.lua`** - Register plugin URL and import config:
+```lua
+vim.pack.add({
+    -- ... other plugins
+    'https://github.com/author/plugin-name',
+})
+
+-- ... other requires
+require('plugins.plugin-name')
+```
+
+2. **`lua/plugins/{name}/init.lua`** - Plugin configuration only:
+```lua
 local plugin = require('plugin-name')
 local utils = require('utils')
 local nmap = utils.mapper('n')
@@ -171,12 +180,6 @@ vim.lsp.enable(M.servers)
 ```
 
 ## Important Patterns
-
-### Window Management
-Auto-resize on focus is enabled. Configure via globals in `options.lua`:
-- `vim.g.s1n7ax_window_horizontal_percentage`
-- `vim.g.s1n7ax_window_vertical_percentage`
-- `vim.g.s1n7ax_window_ignore_filetypes`
 
 ### stylua: ignore
 Use `-- stylua: ignore` comment to prevent formatting specific blocks:

@@ -6,6 +6,7 @@ vim.pack.add({
 	'https://github.com/chrisgrieser/nvim-spider',
 	'https://github.com/echasnovski/mini.move',
 	'https://github.com/folke/flash.nvim',
+	'https://github.com/nvim-focus/focus.nvim',
 	'https://github.com/folke/lazydev.nvim',
 	'https://github.com/folke/noice.nvim',
 	'https://github.com/folke/snacks.nvim',
@@ -92,6 +93,7 @@ require('plugins.conform')
 require('plugins.dial')
 require('plugins.diffview')
 require('plugins.flash')
+require('plugins.focus')
 require('plugins.gitlinker')
 require('plugins.gitsigns')
 require('plugins.harpoon')

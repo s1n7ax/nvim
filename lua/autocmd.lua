@@ -11,16 +11,6 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 	end,
 })
 
--- Auto-resize on window enter
-vim.api.nvim_create_autocmd('WinEnter', {
-	group = vim.api.nvim_create_augroup('AutoResize', { clear = true }),
-	callback = function()
-		vim.schedule(function()
-			require('utils.windows').auto_resize_windows()
-		end)
-	end,
-})
-
 vim.api.nvim_create_autocmd('BufWinEnter', {
 	group = vim.api.nvim_create_augroup('WinBar', { clear = true }),
 	pattern = '*',
