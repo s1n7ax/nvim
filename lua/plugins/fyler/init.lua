@@ -2,16 +2,26 @@ require('fyler').setup({
 	default_explorer = true,
 	icon_provider = 'nvim_web_devicons',
 	delete_to_trash = true,
-	mappings = {
-		[',t'] = 'CloseView',
-		['<CR>'] = 'Select',
-		['<C-v>'] = 'SelectVSplit',
-		['<C-x>'] = 'SelectSplit',
-		['^'] = 'GotoParent',
-		['='] = 'GotoCwd',
-		['.'] = 'GotoNode',
-		['#'] = 'CollapseAll',
-		['<BS>'] = 'CollapseNode',
+	views = {
+		finder = {
+			delete_to_trash = true,
+
+			mappings = {
+				[',t'] = 'CloseView',
+				['<CR>'] = 'Select',
+				['<C-v>'] = 'SelectVSplit',
+				['<C-x>'] = 'SelectSplit',
+				['^'] = 'GotoParent',
+				['='] = 'GotoCwd',
+				['.'] = 'GotoNode',
+				['#'] = 'CollapseAll',
+				['<BS>'] = 'CollapseNode',
+			},
+
+			watcher = {
+				enabled = true,
+			},
+		},
 	},
 	buf_opts = {},
 	win_opts = {
