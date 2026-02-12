@@ -209,10 +209,6 @@
       "rev": "47bec7a6196a843dad195d2666c3ac84c6e80c78",
       "src": "https://github.com/joshdick/onedark.vim"
     },
-    "opencode.nvim": {
-      "rev": "e876696dc93c1962eaeff8ca5114c23c20485d09",
-      "src": "https://github.com/NickvanDyke/opencode.nvim"
-    },
     "overseer.nvim": {
       "rev": "392093e610333c0aea89bf43de7362e25783eada",
       "src": "https://github.com/stevearc/overseer.nvim"
@@ -267,3 +263,4 @@
     }
   }
 }
+
