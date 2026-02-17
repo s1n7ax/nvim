@@ -9,7 +9,7 @@
       "src": "https://github.com/L3MON4D3/LuaSnip"
     },
     "SchemaStore.nvim": {
-      "rev": "f59ce07433e466b6c7dca829e100a011fc23192f",
+      "rev": "55ca969ceed5209d62cbf4c20cef023ff188b6c5",
       "src": "https://github.com/b0o/SchemaStore.nvim"
     },
     "auto-session": {
@@ -210,7 +210,7 @@
       "src": "https://github.com/joshdick/onedark.vim"
     },
     "opencode.nvim": {
-      "rev": "72e85ae13a37213195d35b334739de6f3bc8f4b4",
+      "rev": "14e8610a5fc7c246b37f3eaa7b493bde57de4077",
       "src": "https://github.com/NickvanDyke/opencode.nvim"
     },
     "overseer.nvim": {
@@ -254,7 +254,7 @@
       "src": "https://github.com/folke/tokyonight.nvim"
     },
     "vague.nvim": {
-      "rev": "c1ab4d4891ff3a27deba6a80222d895ac8ffb2e5",
+      "rev": "e99a0380acc48665e77766d786155e7b126eb34a",
       "src": "https://github.com/vague-theme/vague.nvim"
     },
     "which-key.nvim": {
