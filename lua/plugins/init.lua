@@ -48,7 +48,7 @@ vim.pack.add({
 	'https://github.com/MagicDuck/grug-far.nvim',
 
 	'https://github.com/nvim-mini/mini.icons.git',
-	'https://github.com/A7Lavinraj/fyler.nvim',
+	-- 'https://github.com/A7Lavinraj/fyler.nvim',
 
 	'https://github.com/HakonHarnes/img-clip.nvim',
 	'https://github.com/mfussenegger/nvim-dap',
@@ -125,4 +125,4 @@ require('plugins.neotest')
 require('plugins.dap')
 require('plugins.todo-comments')
 require('plugins.lint')
-require('plugins.fyler')
+-- require('plugins.fyler')

@@ -11,7 +11,7 @@ end
 
 -- stylua: ignore
 local open_files = function()
-	snacks.picker.smart({ hidden = true, ignored = false, filter = { cwd = true } })
+	snacks.picker.smart({ hidden = false, ignored = true, filter = { cwd = true } })
 end
 
 -- stylua: ignore
@@ -47,7 +47,7 @@ nmap({
 	{ '<leader>ir', function () snacks.picker.gh_pr() end, "GitHub Pull Requests (open)" },
 
 	-- file
-	-- { ',t', function() snacks.explorer.reveal() end, "Explorer"  },
+	{ ',t', function() snacks.explorer.reveal() end, "Explorer"  },
 
 	{ "<leader>us",  function() snacks.scratch() end, desc = "Toggle Scratch Buffer" },
 	{ "<leader>to",  function() snacks.scratch.select() end, desc = "Select Scratch Buffer" },
@@ -98,13 +98,15 @@ require('snacks').setup({
 	picker = {
 		sources = {
 			explorer = {
-				hidden = true,
-				ignored = true,
+				hidden = false,
+				ignored = false,
 				win = {
 					list = {
 						keys = {
 							['h'] = 'focus_input',
 							['<c-c>'] = 'cancel',
+							['<c-h>'] = 'toggle_hidden',
+							['<c-i>'] = 'toggle_ignored',
 						},
 					},
 				},
@@ -134,6 +136,8 @@ require('snacks').setup({
 				keys = {
 					['<c-n>'] = { 'list_down', mode = { 'i', 'n' } },
 					['<c-e>'] = { 'list_up', mode = { 'i', 'n' } },
+					['<c-h>'] = { 'toggle_hidden', mode = { 'i', 'n' } },
+					['<c-i>'] = { 'toggle_ignored', mode = { 'i', 'n' } },
 				},
 			},
 			list = {
@@ -143,6 +147,8 @@ require('snacks').setup({
 					['<c-c>'] = 'cancel',
 					['<c-q>'] = 'close',
 					['h'] = 'focus_input',
+					['<c-h>'] = 'toggle_hidden',
+					['<c-i>'] = 'toggle_ignored',
 				},
 			},
 			preview = {
