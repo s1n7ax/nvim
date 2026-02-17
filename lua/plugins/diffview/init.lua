@@ -4,12 +4,11 @@ local nmap = mapper('n')
 local vmap = mapper('x')
 
 local function diffview_default_branch()
-	local handle = io.popen(
-		'git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed "s@^refs/remotes/origin/@@"'
-	)
+	local handle = utils.git.get_default_branch()
 
 	if not handle then
-		return vim.cmd.DiffviewFileHistory()
+		vim.notify('No default branch found', vim.log.levels.ERROR)
+		return
 	end
 
 	local default_branch = handle:read('*a'):gsub('%s+', '')
@@ -19,6 +18,7 @@ local function diffview_default_branch()
 		default_branch = 'main'
 	end
 
+	vim.notify('Opening diff against "' .. default_branch .. '" branch')
 	vim.cmd.DiffviewOpen(default_branch)
 end
 

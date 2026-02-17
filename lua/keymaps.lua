@@ -122,6 +122,17 @@ nxmap({
 
 vim.keymap.set({ 'n', 'x' }, '<leader>w', '<cmd>OpenCodePrompt<cr>')
 
+-- git
+nmap({
+	{
+		'<leader>is',
+		function()
+			require('utils.git').checkout_file_to_origin_default_state()
+		end,
+		'Reset file to default state',
+	},
+})
+
 -- neovim has x mode in keymap for vim.lsp.buf.selection_range
 -- I don't really need that and keymap and this collides with coleman move right
 -- in visual mode keymap
