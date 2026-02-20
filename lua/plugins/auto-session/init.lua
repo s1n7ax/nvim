@@ -7,6 +7,7 @@ vim.opt.sessionoptions:remove({
 	'tabpages',
 	'winsize',
 	'terminal',
+	'options',
 })
 
 ---@type AutoSession.Config

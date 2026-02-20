@@ -44,5 +44,3 @@ vim.opt.fillchars = {
 	diff = '╱',
 	eob = ' ',
 }
-vim.opt.winheight = 10
-vim.opt.winminheight = 5
