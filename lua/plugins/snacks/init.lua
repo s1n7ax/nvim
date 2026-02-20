@@ -3,7 +3,7 @@ local utils = require('utils.keymaps')
 local nmap = utils.mapper('n')
 
 local WIDTH = 0.7
-local HEIGHT = 0.95
+local HEIGHT = 0
 
 local open_grep = function()
 	snacks.picker.grep()

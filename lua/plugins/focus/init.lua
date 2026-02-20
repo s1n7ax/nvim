@@ -38,10 +38,6 @@ vim.api.nvim_create_autocmd('FileType', {
 })
 
 focus.setup({
-	autoresize = {
-		minwidth = 10,
-		minheight = 5,
-	},
 	split = {
 		bufnew = false,
 	},
