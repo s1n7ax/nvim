@@ -18,8 +18,6 @@ end
 
 ---@param input string
 function M:toggle(input)
-	input = input or {}
-
 	if not self.buf then
 		return self:create_term(input)
 	end
