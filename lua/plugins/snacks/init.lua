@@ -49,8 +49,8 @@ nmap({
 	-- file
 	{ ',t', function() snacks.explorer.reveal() end, "Explorer"  },
 
-	{ "<leader>us",  function() snacks.scratch() end, desc = "Toggle Scratch Buffer" },
-	{ "<leader>to",  function() snacks.scratch.select() end, desc = "Select Scratch Buffer" },
+	{ "<leader>us",  function() snacks.scratch() end, { desc = "Toggle Scratch Buffer" }},
+	{ "<leader>to",  function() snacks.scratch.select() end, { desc = "Select Scratch Buffer" } },
 
 })
 
