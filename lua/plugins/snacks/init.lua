@@ -11,7 +11,7 @@ end
 
 -- stylua: ignore
 local open_files = function()
-	snacks.picker.smart({ hidden = false, ignored = true, filter = { cwd = true } })
+	snacks.picker.smart({ filter = { cwd = true } })
 end
 
 -- stylua: ignore
