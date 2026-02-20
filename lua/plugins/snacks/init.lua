@@ -54,6 +54,7 @@ nmap({
 
 })
 
+---@type snacks.Config
 require('snacks').setup({
 	bigfile = { enabled = true },
 	dashboard = { enabled = false },
@@ -96,6 +97,15 @@ require('snacks').setup({
 		},
 	},
 	picker = {
+		matcher = {
+			frecency = true,
+			history_bonus = true,
+		},
+		formatters = {
+			file = {
+				filename_first = true,
+			},
+		},
 		sources = {
 			explorer = {
 				hidden = false,
