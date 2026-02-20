@@ -106,21 +106,16 @@ vmap({
 
 -- opencode
 local nxmap = mapper({ 'n', 'x' })
-local opencode = require('utils.opencode')
 
+-- stylua: ignore
 nmap({
-	{ ',a', opencode.toggle, 'Toggle opencode' },
+	{ ',a', function() require('utils.ai').toggle() end, 'Toggle AI' },
 })
 
+-- stylua: ignore
 nxmap({
-	{
-		',r',
-		'<cmd>OpenCodePrompt<cr>',
-		'Send to opencode',
-	},
+	{ ',r', '<cmd>PromptAI<cr>', 'Ask AI' },
 })
-
-vim.keymap.set({ 'n', 'x' }, '<leader>w', '<cmd>OpenCodePrompt<cr>')
 
 -- git
 nmap({
