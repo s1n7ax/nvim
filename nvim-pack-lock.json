@@ -9,7 +9,7 @@
       "src": "https://github.com/L3MON4D3/LuaSnip"
     },
     "SchemaStore.nvim": {
-      "rev": "55ca969ceed5209d62cbf4c20cef023ff188b6c5",
+      "rev": "187cd24e8714221679ab8ea3ea02da80e05e8513",
       "src": "https://github.com/b0o/SchemaStore.nvim"
     },
     "auto-session": {
@@ -17,7 +17,7 @@
       "src": "https://github.com/rmagatti/auto-session"
     },
     "blink.cmp": {
-      "rev": "cd79f572971c58784ca72551af29af3a63da9168",
+      "rev": "b4d379393882561f9055abe780342ee00f02c573",
       "src": "https://github.com/Saghen/blink.cmp"
     },
     "conform.nvim": {
@@ -43,10 +43,6 @@
     "focus.nvim": {
       "rev": "36ebedeebe82ebea250c9d671769194caa033902",
       "src": "https://github.com/nvim-focus/focus.nvim"
-    },
-    "fyler.nvim": {
-      "rev": "452b0938fdd43a4c29ef7a75e77fcf2d288cc291",
-      "src": "https://github.com/A7Lavinraj/fyler.nvim"
     },
     "gitlinker.nvim": {
       "rev": "bbe2a1254fc8fce21f3bbf9a020266a1c49799f7",
@@ -181,7 +177,7 @@
       "src": "https://github.com/s1n7ax/nvim-terminal"
     },
     "nvim-treesitter": {
-      "rev": "3edb01f912867603c2aef9079f208f0244c0885b",
+      "rev": "fcd51bbe9245aa9b79a3930ed9ac42e16e1cf33f",
       "src": "https://github.com/nvim-treesitter/nvim-treesitter"
     },
     "nvim-treesitter-context": {
@@ -208,10 +204,6 @@
     "onedark.vim": {
       "rev": "47bec7a6196a843dad195d2666c3ac84c6e80c78",
       "src": "https://github.com/joshdick/onedark.vim"
-    },
-    "opencode.nvim": {
-      "rev": "8d9523081e89dc1775a2ac91ae1c2922d8293bd8",
-      "src": "https://github.com/NickvanDyke/opencode.nvim"
     },
     "overseer.nvim": {
       "rev": "392093e610333c0aea89bf43de7362e25783eada",
