@@ -18,6 +18,10 @@ end
 
 ---@param input string
 function M:toggle(input)
+	if type(input) == 'string' then
+		input = input:gsub('^%s*(.-)%s*$', '%1')
+	end
+
 	if not self.buf then
 		return self:create_term(input)
 	end
@@ -28,7 +32,10 @@ function M:toggle(input)
 		return self:close_term()
 	else
 		self:open_term_buf_in_win()
-		self:send_prompt(input)
+
+		if type(input) == 'string' and input ~= '' then
+			self:send_prompt(input)
+		end
 	end
 end
 
