@@ -45,3 +45,15 @@ vim.opt.fillchars = {
 	eob = ' ',
 }
 vim.o.equalalways = false
+
+vim.opt.sessionoptions:remove({
+	'blank',
+	'buffers',
+	'curdir',
+	'folds',
+	'help',
+	'tabpages',
+	'winsize',
+	'terminal',
+	'options',
+})
