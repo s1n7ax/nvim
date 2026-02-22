@@ -1,4 +1,4 @@
--- Auto commands for various features
+require('utils.window.focus').setup()
 
 -- Yank highlight functionality
 -- stylua: ignore

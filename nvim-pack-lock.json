@@ -9,12 +9,8 @@
       "src": "https://github.com/L3MON4D3/LuaSnip"
     },
     "SchemaStore.nvim": {
-      "rev": "187cd24e8714221679ab8ea3ea02da80e05e8513",
+      "rev": "84d86aa49021aa8b48c0a6ff89cd92c39ddf7d5c",
       "src": "https://github.com/b0o/SchemaStore.nvim"
-    },
-    "auto-session": {
-      "rev": "62437532b38495551410b3f377bcf4aaac574ebe",
-      "src": "https://github.com/rmagatti/auto-session"
     },
     "blink.cmp": {
       "rev": "b4d379393882561f9055abe780342ee00f02c573",
@@ -39,10 +35,6 @@
     "flash.nvim": {
       "rev": "fcea7ff883235d9024dc41e638f164a450c14ca2",
       "src": "https://github.com/folke/flash.nvim"
-    },
-    "focus.nvim": {
-      "rev": "36ebedeebe82ebea250c9d671769194caa033902",
-      "src": "https://github.com/nvim-focus/focus.nvim"
     },
     "gitlinker.nvim": {
       "rev": "bbe2a1254fc8fce21f3bbf9a020266a1c49799f7",
@@ -89,11 +81,11 @@
       "src": "https://github.com/savq/melange-nvim"
     },
     "mini.icons": {
-      "rev": "68c178e0958d95b3977a771f3445429b1bded985",
+      "rev": "5b9076dae1bfbe47ba4a14bc8b967cde0ab5d77e",
       "src": "https://github.com/nvim-mini/mini.icons.git"
     },
     "mini.move": {
-      "rev": "4d214202d71e0a4066b6288176bbe88f268f9777",
+      "rev": "b8ba0b77e91b5f0fe8e014e03f7f59799dec1d96",
       "src": "https://github.com/echasnovski/mini.move"
     },
     "neoscroll.nvim": {
@@ -157,7 +149,7 @@
       "src": "https://github.com/mfussenegger/nvim-lint"
     },
     "nvim-lspconfig": {
-      "rev": "44acfe887d4056f704ccc4f17513ed41c9e2b2e6",
+      "rev": "5a855bcfec7973767a1a472335684bbd71d2fa2b",
       "src": "https://github.com/neovim/nvim-lspconfig"
     },
     "nvim-nio": {
@@ -177,7 +169,7 @@
       "src": "https://github.com/s1n7ax/nvim-terminal"
     },
     "nvim-treesitter": {
-      "rev": "fcd51bbe9245aa9b79a3930ed9ac42e16e1cf33f",
+      "rev": "dc42c209f3820bdfaae0956f15de29689aa6b451",
       "src": "https://github.com/nvim-treesitter/nvim-treesitter"
     },
     "nvim-treesitter-context": {
@@ -213,6 +205,10 @@
       "rev": "9f85f6090322f39b11ae04a343d4eb9d12a86897",
       "src": "https://github.com/nyoom-engineering/oxocarbon.nvim"
     },
+    "persistence.nvim": {
+      "rev": "b20b2a7887bd39c1a356980b45e03250f3dce49c",
+      "src": "https://github.com/folke/persistence.nvim"
+    },
     "plenary.nvim": {
       "rev": "b9fd5226c2f76c951fc8ed5923d85e4de065e509",
       "src": "https://github.com/nvim-lua/plenary.nvim"
@@ -246,7 +242,7 @@
       "src": "https://github.com/folke/tokyonight.nvim"
     },
     "vague.nvim": {
-      "rev": "24cd29d277bf5259ab347c49d223d8cfb9057565",
+      "rev": "4abd79d6fbaca57bf437763d0b5bed364e4512bd",
       "src": "https://github.com/vague-theme/vague.nvim"
     },
     "which-key.nvim": {

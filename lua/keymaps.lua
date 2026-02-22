@@ -59,6 +59,12 @@ nmap({
 	{ '<c-m>', '<c-w>h', 'Window left' },
 	{ '<c-i>', '<c-w>l', 'Window right' },
 
+	-- window split
+	{ '<m-m>', require('utils.window.split').split('left'), 'Split window left' },
+	{ '<m-i>', require('utils.window.split').split('right'), 'Split window right' },
+	{ '<m-e>', require('utils.window.split').split('above'), 'Split window above' },
+	{ '<m-n>', require('utils.window.split').split('below'), 'Split window below' },
+
 	-- LSP
 	{ '<leader>ne', vim.lsp.buf.rename, 'Rename' },
 	{ '<leader>no', utils.lsp.action["source.organizeImports"], 'Organize imports' },
