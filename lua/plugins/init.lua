@@ -6,7 +6,7 @@ vim.pack.add({
 	'https://github.com/chrisgrieser/nvim-spider',
 	'https://github.com/echasnovski/mini.move',
 	'https://github.com/folke/flash.nvim',
-	'https://github.com/nvim-focus/focus.nvim',
+	-- 'https://github.com/nvim-focus/focus.nvim',
 	'https://github.com/folke/lazydev.nvim',
 	'https://github.com/folke/noice.nvim',
 	'https://github.com/folke/snacks.nvim',
@@ -30,7 +30,8 @@ vim.pack.add({
 		src = 'https://github.com/nvim-treesitter/nvim-treesitter-textobjects',
 		version = 'main',
 	},
-	'https://github.com/rmagatti/auto-session',
+	-- 'https://github.com/rmagatti/auto-session',
+	'https://github.com/folke/persistence.nvim',
 	'https://github.com/s1n7ax/nvim-comment-frame',
 	'https://github.com/s1n7ax/nvim-snips',
 	'https://github.com/s1n7ax/nvim-terminal',
@@ -83,8 +84,9 @@ vim.pack.add({
 	'https://github.com/folke/todo-comments.nvim',
 })
 
-require('plugins.auto-session')
+-- require('plugins.auto-session')
 require('plugins.autopair')
+require('plugins.persistence')
 require('plugins.blink')
 -- require('plugins.codesnap')
 require('plugins.colorizer')
