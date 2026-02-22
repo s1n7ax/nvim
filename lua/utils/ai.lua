@@ -1,12 +1,13 @@
 local context = require('utils.context')
 local TUI = require('utils').tui
 
-local claude = TUI:new({ cmd = { 'claude' } })
+local ai = TUI:new({ cmd = { 'claude' } })
+-- local ai = TUI:new({ cmd = { 'opencode', '--prompt' } })
 
 local M = {}
 
 function M.toggle()
-	claude:toggle()
+	ai:toggle()
 end
 
 function M.setup_cmd()
@@ -18,7 +19,7 @@ function M.setup_cmd()
 			if input then
 				input = input:gsub('@this', ctx)
 				input = input:gsub('@here', ctx)
-				claude:toggle(input)
+				ai:toggle(input)
 			end
 		end)
 	end, { range = true })
