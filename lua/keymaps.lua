@@ -96,7 +96,7 @@ nmap({
 			return
 		end
 
-		vim.pack.remove(pkgs)
+		vim.pack.del(pkgs)
 	end, "Remove unused packages" },
 	-- { '<leader>on', function () require('utils.pack').pick_pkg_to_update() end, "Update packages" }
 })
