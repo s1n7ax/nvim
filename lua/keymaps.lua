@@ -82,8 +82,23 @@ nmap({
 	{ '<leader>yy', clipboard.copy_file_path, 'Copy file path to clipboard' },
 	{ '<leader>yn', clipboard.copy_file_name, 'Copy file name to clipboard' },
 
+	-- package manager
 	{ '<leader>oo', function () vim.pack.update() end, "Update packages" },
-	{ '<leader>on', function () require('utils.pack').pick_pkg_to_update() end, "Update packages" }
+	{ '<leader>on', function () vim.pack.update(nil, { target = 'lockfile' }) end, "Restore packages to lockfile" },
+	{ '<leader>ot', function ()
+    local pkgs = vim.iter(vim.pack.get())
+     :filter(function(x) return not x.active end)
+     :map(function(x) return x.spec.name end)
+     :totable()
+
+		if(#pkgs == 0) then
+			vim.notify('No unused packages', vim.log.levels.WARN)
+			return
+		end
+
+		vim.pack.remove(pkgs)
+	end, "Remove unused packages" },
+	-- { '<leader>on', function () require('utils.pack').pick_pkg_to_update() end, "Update packages" }
 })
 
 -- insert mode keymaps
