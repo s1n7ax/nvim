@@ -31,7 +31,7 @@ vim.pack.add({
 		version = 'main',
 	},
 	-- 'https://github.com/rmagatti/auto-session',
-	'https://github.com/folke/persistence.nvim',
+	-- 'https://github.com/folke/persistence.nvim',
 	'https://github.com/s1n7ax/nvim-comment-frame',
 	'https://github.com/s1n7ax/nvim-snips',
 	'https://github.com/s1n7ax/nvim-terminal',
@@ -86,7 +86,7 @@ vim.pack.add({
 
 -- require('plugins.auto-session')
 require('plugins.autopair')
-require('plugins.persistence')
+-- require('plugins.persistence')
 require('plugins.blink')
 -- require('plugins.codesnap')
 require('plugins.colorizer')
