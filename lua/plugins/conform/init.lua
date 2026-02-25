@@ -1,51 +1,43 @@
-local formatters = {
-	prettierd = {
-		'javascript',
-		'javascriptreact',
-		'typescript',
-		'typescriptreact',
-		'css',
-		'scss',
-		'less',
-		'html',
-		'vue',
-		'json',
-		'jsonc',
-		'graphql',
-		'markdown',
-		'mdx',
-		'yaml',
-		'handlebars',
-		'hbs',
-		'svelte',
-		'astro',
-		'toml',
-		'solidity',
-		'php',
-		'xml',
-		'html.twig',
-		'django',
-	},
-	stylua = { 'lua' },
-	nixfmt = { 'nix' },
-	black = { 'python' },
-	shfmt = { 'bash', 'sh' },
+local prettier_val = { 'prettierd', 'prettier', stop_after_first = true }
+
+local prettier_rules = {
+	javascript = prettier_val,
+	javascriptreact = prettier_val,
+	typescript = prettier_val,
+	typescriptreact = prettier_val,
+	css = prettier_val,
+	scss = prettier_val,
+	less = prettier_val,
+	html = prettier_val,
+	vue = prettier_val,
+	json = prettier_val,
+	jsonc = prettier_val,
+	graphql = prettier_val,
+	markdown = prettier_val,
+	mdx = prettier_val,
+	yaml = prettier_val,
+	handlebars = prettier_val,
+	hbs = prettier_val,
+	svelte = prettier_val,
+	astro = prettier_val,
+	toml = prettier_val,
+	solidity = prettier_val,
+	php = prettier_val,
+	xml = prettier_val,
+	['html.twig'] = prettier_val,
+	django = prettier_val,
 }
 
-local formatters_by_ft = {}
-
-for formatter_name, langs in pairs(formatters) do
-	for _, lang in ipairs(langs) do
-		if not formatters_by_ft[lang] then
-			formatters_by_ft[lang] = {}
-		end
-
-		table.insert(formatters_by_ft[lang], formatter_name)
-	end
-end
+local other_rules = {
+	lua = { 'stylua' },
+	python = { 'black' },
+	bash = { 'shfmt' },
+	sh = { 'shfmt' },
+	nix = { 'nixfmt' },
+}
 
 require('conform').setup({
-	formatters_by_ft = formatters_by_ft,
+	formatters_by_ft = vim.tbl_extend('force', prettier_rules, other_rules),
 	format_on_save = function(bufnr)
 		-- Disable with a global or buffer-local variable
 		if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
