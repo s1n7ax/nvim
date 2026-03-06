@@ -6,11 +6,13 @@ local nmap = mapper('n')
 nmap({
 	{ '<leader>ee', '<cmd>OverseerRun<cr>', 'Run task' },
 	{ '<leader>en', '<cmd>OverseerToggle<cr>', 'Task list' },
+	{ '<leader>ei', '<cmd>OverseerShell<cr>', 'Run task' },
 	{ '<leader>et', '<cmd>OverseerQuickAction<cr>', 'Action recent task' },
 	{ '<leader>es', '<cmd>OverseerLoadBundle<cr>', 'Load bundle' },
 })
 
 require('overseer').setup({
+
 	task_list = {
 		keymaps = {
 			['<C-q>'] = { '<CMD>close<CR>', desc = 'Close task list' },
