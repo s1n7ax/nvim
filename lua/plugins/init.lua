@@ -30,7 +30,7 @@ vim.pack.add({
 		src = 'https://github.com/nvim-treesitter/nvim-treesitter-textobjects',
 		version = 'main',
 	},
-	-- 'https://github.com/rmagatti/auto-session',
+	'https://github.com/rmagatti/auto-session',
 	-- 'https://github.com/folke/persistence.nvim',
 	'https://github.com/s1n7ax/nvim-comment-frame',
 	'https://github.com/s1n7ax/nvim-snips',
@@ -84,7 +84,7 @@ vim.pack.add({
 	'https://github.com/folke/todo-comments.nvim',
 })
 
--- require('plugins.auto-session')
+require('plugins.auto-session')
 require('plugins.autopair')
 -- require('plugins.persistence')
 require('plugins.blink')
