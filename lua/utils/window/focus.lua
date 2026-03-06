@@ -39,13 +39,15 @@ local M = {}
 function M.setup()
 	vim.api.nvim_create_autocmd({ 'WinEnter', 'VimResized' }, {
 		callback = function()
-			local winid = vim.api.nvim_get_current_win()
-			if vim.api.nvim_win_get_config(winid).relative ~= '' then
-				return
-			end
+			vim.schedule(function()
+				local winid = vim.api.nvim_get_current_win()
+				if vim.api.nvim_win_get_config(winid).relative ~= '' then
+					return
+				end
 
-			set_min_win_opts()
-			set_win_size(winid)
+				set_min_win_opts()
+				set_win_size(winid)
+			end)
 		end,
 	})
 end
