@@ -150,6 +150,33 @@ nmap({
 	},
 })
 
+-- github
+nmap({
+	{
+		'<leader>ia',
+		require('utils.github').open_or_create_pr_web,
+		'Open or create PR',
+	},
+})
+
+nmap({
+	{
+		'<leader>io',
+		function()
+			local url = require('utils.github').yank_pr_url()
+
+			if not url then
+				vim.notify('No PR found for current branch', vim.log.levels.WARN)
+				return
+			end
+
+			vim.fn.setreg('+', url)
+			vim.notify('Copied PR url: ' .. url)
+		end,
+		'Open or create PR',
+	},
+})
+
 -- neovim has x mode in keymap for vim.lsp.buf.selection_range
 -- I don't really need that and keymap and this collides with coleman move right
 -- in visual mode keymap
