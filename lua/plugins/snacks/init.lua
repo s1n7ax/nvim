@@ -39,6 +39,7 @@ nmap({
 	{ '<leader>nn', snacks.picker.lsp_definitions, "Goto Definition" },
 	{ '<leader>ni', snacks.picker.lsp_references, { desc = "References", nowait = true } },
 	{ '<leader>nr', snacks.picker.lsp_implementations, "Goto Implementation" },
+	{ "<leader>na", snacks.picker.lsp_type_definitions , "Goto T[y]pe Definition" },
 
 	-- git
 	{ ',s', function () snacks.lazygit() end, "Open lazygit" },
