@@ -54,6 +54,7 @@ nmap({
 	{ '<C-o>', '<C-o>zz', 'Go to prev jump point' },
 	{ '^', '0', 'Go to start of line' },
 	-- Window navigation
+	{ '<c-w><c-w>', '<c-w>p', 'Jump to previous window' },
 	{ '<c-n>', '<c-w>j', 'Window down' },
 	{ '<c-e>', '<c-w>k', 'Window up' },
 	{ '<c-m>', '<c-w>h', 'Window left' },
