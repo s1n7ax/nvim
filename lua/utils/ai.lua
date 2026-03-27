@@ -1,8 +1,8 @@
 local context = require('utils.context')
 local TUI = require('utils').tui
 
--- local ai = TUI:new({ cmd = { 'claude' } })
-local ai = TUI:new({ cmd = { 'opencode', '--prompt' } })
+local ai = TUI:new({ cmd = { 'claude' } })
+-- local ai = TUI:new({ cmd = { 'opencode', '--prompt' } })
 
 local M = {}
 
