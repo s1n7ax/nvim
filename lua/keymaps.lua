@@ -208,3 +208,9 @@ nxomap({
 		'Select child (inner) node',
 	},
 })
+
+-- undotree
+vim.cmd('packadd nvim.undotree')
+nmap({
+	{ '<leader>uu', require('undotree').open, 'Open undotree' },
+})
