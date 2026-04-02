@@ -158,9 +158,7 @@ nmap({
 		require('utils.github').open_or_create_pr_web,
 		'Open or create PR',
 	},
-})
 
-nmap({
 	{
 		'<leader>io',
 		function()
@@ -182,3 +180,31 @@ nmap({
 -- I don't really need that and keymap and this collides with coleman move right
 -- in visual mode keymap
 vim.keymap.del('x', 'in')
+
+-- treesitter node selection
+local nxomap = mapper({ 'n', 'x', 'o' })
+
+nxomap({
+	{
+		',n',
+		function()
+			if vim.treesitter.get_parser(nil, nil, { error = false }) then
+				require('vim.treesitter._select').select_parent(vim.v.count1)
+			else
+				vim.lsp.buf.selection_range(vim.v.count1)
+			end
+		end,
+		'Select parent (outer) node',
+	},
+	{
+		',e',
+		function()
+			if vim.treesitter.get_parser(nil, nil, { error = false }) then
+				require('vim.treesitter._select').select_child(vim.v.count1)
+			else
+				vim.lsp.buf.selection_range(-vim.v.count1)
+			end
+		end,
+		'Select child (inner) node',
+	},
+})
