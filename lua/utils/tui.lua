@@ -76,7 +76,8 @@ function M.open_win(buf, position)
 	else
 		-- Go to leftmost or rightmost window first
 		vim.cmd('wincmd ' .. (position == 'left' and 'H' or 'L'))
-		vim.api.nvim_open_win(buf, true, { split = position })
+		local win = vim.api.nvim_open_win(buf, true, { split = position })
+		vim.wo[win].winfixwidth = true
 	end
 
 	vim.cmd('startinsert')
