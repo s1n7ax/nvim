@@ -22,7 +22,9 @@ function M:toggle(input)
 		input = input:gsub('^%s*(.-)%s*$', '%1')
 	end
 
-	if not self.buf then
+	if not self.buf or not vim.api.nvim_buf_is_valid(self.buf) then
+		self.buf = nil
+		self.chan = nil
 		return self:create_term(input)
 	end
 
@@ -52,7 +54,7 @@ function M:create_term(input)
 	self.buf = vim.api.nvim_create_buf(false, true)
 	vim.bo[self.buf].filetype = self.ft
 	self.open_win(self.buf)
-	local cmd = vim.list_extend(self.cmd, { input })
+	local cmd = vim.list_extend(vim.list_extend({}, self.cmd), { input })
 	self.chan = vim.fn.jobstart(cmd, { term = true })
 	vim.cmd('startinsert')
 end
