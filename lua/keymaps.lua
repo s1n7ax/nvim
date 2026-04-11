@@ -133,6 +133,7 @@ local nxmap = mapper({ 'n', 'x' })
 -- stylua: ignore
 nmap({
 	{ ',a', function() require('utils.ai').toggle() end, 'Toggle AI' },
+	{ ',i', function() require('utils.ai').toggle_right() end, 'Toggle AI (right)' },
 })
 
 -- stylua: ignore

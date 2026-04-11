@@ -10,6 +10,10 @@ function M.toggle()
 	ai:toggle()
 end
 
+function M.toggle_right()
+	ai:toggle(nil, 'right')
+end
+
 function M.setup_cmd()
 	---@see https://github.com/neovim/neovim/discussions/26092
 	vim.api.nvim_create_user_command('PromptAI', function(opts)

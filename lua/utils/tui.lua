@@ -16,8 +16,13 @@ function M:new(args)
 	return o
 end
 
----@param input string
-function M:toggle(input)
+---@alias TUIPosition 'float' | 'left' | 'right'
+
+---@param input? string
+---@param position? TUIPosition
+function M:toggle(input, position)
+	position = position or 'float'
+
 	if type(input) == 'string' then
 		input = input:gsub('^%s*(.-)%s*$', '%1')
 	end
@@ -25,7 +30,7 @@ function M:toggle(input)
 	if not self.buf or not vim.api.nvim_buf_is_valid(self.buf) then
 		self.buf = nil
 		self.chan = nil
-		return self:create_term(input)
+		return self:create_term(input, position)
 	end
 
 	local win = self.find_winid_for_buf(self.buf)
@@ -33,7 +38,7 @@ function M:toggle(input)
 	if win then
 		return self:close_term()
 	else
-		self:open_term_buf_in_win()
+		self:open_term_buf_in_win(position)
 
 		if type(input) == 'string' and input ~= '' then
 			self:send_prompt(input)
@@ -41,26 +46,39 @@ function M:toggle(input)
 	end
 end
 
-function M:open_term_buf_in_win()
+---@param position? TUIPosition
+function M:open_term_buf_in_win(position)
 	if not self.buf then
 		return
 	end
 
-	self.open_win(self.buf)
+	self.open_win(self.buf, position)
 end
 
----@param input string
-function M:create_term(input)
+---@param input? string
+---@param position? TUIPosition
+function M:create_term(input, position)
 	self.buf = vim.api.nvim_create_buf(false, true)
 	vim.bo[self.buf].filetype = self.ft
-	self.open_win(self.buf)
+	self.open_win(self.buf, position)
 	local cmd = vim.list_extend(vim.list_extend({}, self.cmd), { input })
 	self.chan = vim.fn.jobstart(cmd, { term = true })
 	vim.cmd('startinsert')
 end
 
-function M.open_win(buf)
-	vim.api.nvim_open_win(buf, true, M.get_win_config())
+---@param buf number
+---@param position? TUIPosition
+function M.open_win(buf, position)
+	position = position or 'float'
+
+	if position == 'float' then
+		vim.api.nvim_open_win(buf, true, M.get_win_config())
+	else
+		-- Go to leftmost or rightmost window first
+		vim.cmd('wincmd ' .. (position == 'left' and 'H' or 'L'))
+		vim.api.nvim_open_win(buf, true, { split = position })
+	end
+
 	vim.cmd('startinsert')
 end
 
