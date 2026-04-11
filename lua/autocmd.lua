@@ -1,10 +1,10 @@
 local focus = require('utils.window.focus')
+focus.setup()
 focus.add_rule({
 	match = { filetype = 'claude' },
 	focused = { width = 50 },
 	unfocused = { width = 50 },
 })
-focus.setup()
 
 -- Yank highlight functionality
 -- stylua: ignore

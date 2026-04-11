@@ -157,15 +157,6 @@ local function set_min_win_opts()
 	end
 end
 
-local function set_win_size(winid)
-	local width = vim.o.columns
-	local height = vim.o.lines
-
-	vim.api.nvim_win_set_width(winid, width)
-	vim.api.nvim_win_set_height(winid, height)
-	vim.fn.winrestview({ leftcol = 0 })
-end
-
 local function is_floating(winid)
 	return vim.api.nvim_win_get_config(winid).relative ~= ''
 end
@@ -184,20 +175,19 @@ function M.set_rules(new_rules)
 	rules = new_rules
 end
 
-
 function M.setup()
-	local prev_win = nil
+	rules = {}
+
+	local group = vim.api.nvim_create_augroup('WindowFocus', { clear = true })
 
 	vim.api.nvim_create_autocmd({ 'WinEnter', 'VimResized' }, {
+		group = group,
 		callback = function()
 			vim.schedule(function()
 				local winid = vim.api.nvim_get_current_win()
 				if is_floating(winid) then
 					return
 				end
-
-				local prev = prev_win
-				prev_win = winid
 
 				set_min_win_opts()
 

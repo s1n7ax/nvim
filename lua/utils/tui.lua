@@ -63,7 +63,6 @@ function M:create_term(input, position)
 	self.open_win(self.buf, position)
 	local cmd = vim.list_extend(vim.list_extend({}, self.cmd), { input })
 	self.chan = vim.fn.jobstart(cmd, { term = true })
-	vim.cmd('startinsert')
 end
 
 ---@param buf number
