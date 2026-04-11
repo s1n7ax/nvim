@@ -63,7 +63,6 @@ function M:create_term(input, position)
 	self.open_win(self.buf, position)
 	local cmd = vim.list_extend(vim.list_extend({}, self.cmd), { input })
 	self.chan = vim.fn.jobstart(cmd, { term = true })
-	vim.cmd('startinsert')
 end
 
 ---@param buf number
@@ -76,7 +75,8 @@ function M.open_win(buf, position)
 	else
 		-- Go to leftmost or rightmost window first
 		vim.cmd('wincmd ' .. (position == 'left' and 'H' or 'L'))
-		vim.api.nvim_open_win(buf, true, { split = position })
+		local win = vim.api.nvim_open_win(buf, true, { split = position })
+		vim.wo[win].winfixwidth = true
 	end
 
 	vim.cmd('startinsert')
