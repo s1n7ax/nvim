@@ -6,7 +6,7 @@ local M = {}
 local ai = TUI:new({ cmd = { 'claude' } })
 -- local ai = TUI:new({ cmd = { 'opencode', '--prompt' } })
 
-ai:map('t', ',r', function()
+ai:map('t', ',t', function()
 	if M.ctx ~= '' then
 		ai:send_prompt(M.ctx)
 	end

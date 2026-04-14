@@ -8,7 +8,7 @@ vim.pack.add({
 	'https://github.com/folke/flash.nvim',
 	-- 'https://github.com/nvim-focus/focus.nvim',
 	'https://github.com/folke/lazydev.nvim',
-	'https://github.com/folke/noice.nvim',
+	-- 'https://github.com/folke/noice.nvim',
 	'https://github.com/folke/snacks.nvim',
 	'https://github.com/karb94/neoscroll.nvim',
 	'https://github.com/kevinhwang91/nvim-ufo',
@@ -51,7 +51,7 @@ vim.pack.add({
 	'https://github.com/nvim-mini/mini.icons.git',
 	-- 'https://github.com/A7Lavinraj/fyler.nvim',
 
-	'https://github.com/HakonHarnes/img-clip.nvim',
+	-- 'https://github.com/HakonHarnes/img-clip.nvim',
 	'https://github.com/mfussenegger/nvim-dap',
 	'https://github.com/rcarriga/nvim-dap-ui',
 
@@ -106,7 +106,7 @@ require('plugins.lint')
 require('plugins.luasnip')
 require('plugins.mini-move')
 require('plugins.neoscroll')
-require('plugins.noice')
+-- require('plugins.noice')
 -- require('plugins.oil')
 require('plugins.overseer')
 require('plugins.snacks')
@@ -122,7 +122,7 @@ require('plugins.winshift')
 require('plugins.whichkey')
 require('plugins.supermaven')
 require('plugins.grug-far')
-require('plugins.img-clip')
+-- require('plugins.img-clip')
 require('plugins.neotest')
 require('plugins.dap')
 require('plugins.todo-comments')
