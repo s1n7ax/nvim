@@ -131,14 +131,15 @@ vmap({
 local nxmap = mapper({ 'n', 'x' })
 
 -- stylua: ignore
-nmap({
-	{ ',a', function() require('utils.ai').toggle() end, 'Toggle AI' },
-	{ ',i', function() require('utils.ai').toggle_right() end, 'Toggle AI (right)' },
-})
+-- nmap({
+	-- { ',a', function() require('utils.ai').toggle() end, 'Toggle AI' },
+	-- { ',i', function() require('utils.ai').toggle_right() end, 'Toggle AI (right)' },
+-- })
 
 -- stylua: ignore
 nxmap({
-	{ ',r', '<cmd>PromptAI<cr>', 'Ask AI' },
+	{ ',a', '<cmd>PromptAI<cr>', 'Ask AI' },
+	{ ',i', '<cmd>PromptAI right<cr>', 'Ask AI (right)' },
 })
 
 -- git

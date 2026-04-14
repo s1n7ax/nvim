@@ -1,8 +1,15 @@
+---@class TUIKeymap
+---@field mode string|string[]
+---@field lhs string
+---@field rhs string|function
+---@field opts? vim.keymap.set.Opts
+
 ---@class TUI
 ---@field cmd string[]
 ---@field buf number|nil
 ---@field ft string
 ---@field chan number|nil
+---@field keymaps TUIKeymap[]
 local M = {}
 
 ---@param args { cmd: string[], ft?: string }
@@ -10,6 +17,7 @@ function M:new(args)
 	local o = {
 		cmd = args.cmd,
 		ft = args.ft or args.cmd[1],
+		keymaps = {},
 	}
 	setmetatable(o, self)
 	self.__index = self
@@ -63,6 +71,7 @@ function M:create_term(input, position)
 	self.open_win(self.buf, position)
 	local cmd = vim.list_extend(vim.list_extend({}, self.cmd), { input })
 	self.chan = vim.fn.jobstart(cmd, { term = true })
+	self:apply_keymaps()
 end
 
 ---@param buf number
@@ -132,6 +141,26 @@ function M:send_prompt(input)
 	end
 
 	vim.fn.chansend(self.chan, input)
+end
+
+---@param mode string|string[]
+---@param lhs string
+---@param rhs string|function
+---@param opts? vim.keymap.set.Opts
+function M:map(mode, lhs, rhs, opts)
+	table.insert(self.keymaps, { mode = mode, lhs = lhs, rhs = rhs, opts = opts })
+end
+
+---@private
+function M:apply_keymaps()
+	if not self.buf then
+		return
+	end
+
+	for _, km in ipairs(self.keymaps) do
+		local opts = vim.tbl_extend('force', km.opts or {}, { buffer = self.buf })
+		vim.keymap.set(km.mode, km.lhs, km.rhs, opts)
+	end
 end
 
 return M
