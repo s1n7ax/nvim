@@ -104,3 +104,14 @@ require('vim._core.ui2').enable({
 		},
 	},
 })
+
+-- custom options
+-- AI
+
+local focus = require('utils.window.focus')
+focus.setup()
+focus.add_rule({
+	match = { filetype = 'claude' },
+	focused = { width = 80 },
+	unfocused = { width = 80 },
+})

@@ -1,11 +1,3 @@
-local focus = require('utils.window.focus')
-focus.setup()
-focus.add_rule({
-	match = { filetype = 'claude' },
-	focused = { width = 50 },
-	unfocused = { width = 50 },
-})
-
 -- Yank highlight functionality
 -- stylua: ignore
 vim.api.nvim_set_hl( 0, 'YankHighlight', { bg = '#3d59a1', fg = '#ffffff', bold = true })
