@@ -1,6 +1,7 @@
 vim.pack.add({
 	'https://github.com/Goose97/timber.nvim',
 	'https://github.com/L3MON4D3/LuaSnip',
+	'https://github.com/Saghen/blink.lib',
 	'https://github.com/Saghen/blink.cmp',
 	'https://github.com/ThePrimeagen/harpoon',
 	'https://github.com/chrisgrieser/nvim-spider',

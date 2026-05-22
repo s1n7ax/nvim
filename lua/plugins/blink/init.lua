@@ -3,7 +3,6 @@ local blink = require('blink.cmp')
 blink.setup({
 	fuzzy = {
 		implementation = 'prefer_rust',
-		prebuilt_binaries = { force_version = 'v1.6.0' },
 	},
 	signature = { enabled = true, window = { border = 'rounded' } },
 	snippets = { preset = 'luasnip' },
