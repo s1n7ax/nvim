@@ -81,6 +81,7 @@ nmap({
 
 	-- File path
 	{ '<leader>yy', clipboard.copy_file_path, 'Copy file path to clipboard' },
+	{ '<leader>ya', clipboard.copy_file_absolute_path, 'Copy absolute file path to clipboard' },
 	{ '<leader>yn', clipboard.copy_file_name, 'Copy file name to clipboard' },
 	{ '<leader>yt', clipboard.copy_cwd, 'Copy cwd to clipboard' },
 

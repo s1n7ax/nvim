@@ -18,7 +18,7 @@ vim.pack.add({
 	'https://github.com/linrongbin16/gitlinker.nvim',
 	'https://github.com/mfussenegger/nvim-lint',
 	-- 'https://github.com/mistricky/codesnap.nvim',
-	'https://github.com/mistweaverco/kulala.nvim',
+	-- 'https://github.com/mistweaverco/kulala.nvim',
 	'https://github.com/monaqa/dial.nvim',
 	'https://github.com/MunifTanjim/nui.nvim',
 	'https://github.com/neovim/nvim-lspconfig',
@@ -101,7 +101,7 @@ require('plugins.gitlinker')
 require('plugins.gitsigns')
 require('plugins.harpoon')
 require('plugins.hop')
-require('plugins.kulala')
+-- require('plugins.kulala')
 require('plugins.lazydev')
 require('plugins.lint')
 require('plugins.luasnip')
