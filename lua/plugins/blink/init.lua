@@ -1,6 +1,9 @@
 local blink = require('blink.cmp')
 
 blink.setup({
+	enabled = function()
+		return vim.bo.buftype ~= 'terminal'
+	end,
 	fuzzy = {
 		implementation = 'prefer_rust',
 	},
