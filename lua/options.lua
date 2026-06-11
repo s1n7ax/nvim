@@ -1,5 +1,9 @@
 vim.o.autowriteall = true
-vim.o.clipboard = vim.env.SSH_TTY and '' or 'unnamedplus'
+vim.o.clipboard = 'unnamedplus'
+if vim.env.SSH_TTY then
+	-- sync with host clipboard through the terminal (kitty) via OSC 52
+	vim.g.clipboard = 'osc52'
+end
 vim.o.cmdheight = 0
 vim.o.confirm = true
 vim.o.cursorline = true
