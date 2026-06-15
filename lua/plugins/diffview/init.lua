@@ -4,17 +4,9 @@ local nmap = mapper('n')
 local vmap = mapper('x')
 
 local function diffview_default_branch()
-	local handle = utils.git.get_default_branch()
+	local default_branch = utils.git.get_default_branch()
 
-	if not handle then
-		vim.notify('No default branch found', vim.log.levels.ERROR)
-		return
-	end
-
-	local default_branch = handle:read('*a'):gsub('%s+', '')
-	handle:close()
-
-	if default_branch == '' then
+	if not default_branch or default_branch == '' then
 		default_branch = 'main'
 	end
 
