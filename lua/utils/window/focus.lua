@@ -161,6 +161,24 @@ local function is_floating(winid)
 	return vim.api.nvim_win_get_config(winid).relative ~= ''
 end
 
+---@type string[]
+local ignore_tab_filetypes = {}
+
+local function is_ignored_tab()
+	if #ignore_tab_filetypes == 0 then
+		return false
+	end
+	for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+		local ft = vim.bo[vim.api.nvim_win_get_buf(win)].filetype
+		for _, pattern in ipairs(ignore_tab_filetypes) do
+			if ft:match(pattern) then
+				return true
+			end
+		end
+	end
+	return false
+end
+
 local M = {}
 
 ---Add a window focus rule
@@ -175,8 +193,14 @@ function M.set_rules(new_rules)
 	rules = new_rules
 end
 
-function M.setup()
+---@class FocusSetupOpts
+---@field ignore_tab_filetypes? string[] -- lua patterns; tabs containing any matching window are skipped
+
+---@param opts? FocusSetupOpts
+function M.setup(opts)
+	opts = opts or {}
 	rules = {}
+	ignore_tab_filetypes = opts.ignore_tab_filetypes or { '^Diffview' }
 
 	local group = vim.api.nvim_create_augroup('WindowFocus', { clear = true })
 
@@ -186,6 +210,10 @@ function M.setup()
 			vim.schedule(function()
 				local winid = vim.api.nvim_get_current_win()
 				if is_floating(winid) then
+					return
+				end
+
+				if is_ignored_tab() then
 					return
 				end
 
