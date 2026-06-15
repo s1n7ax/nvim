@@ -10,13 +10,6 @@ nmap({
 
 require('noice').setup({
 	cmdline = {
-		enabled = true,
-		view = 'cmdline_popup',
-		opts = {
-			position = {
-				row = '10%',
-				col = '50%',
-			},
-		},
+		enabled = false,
 	},
 })
