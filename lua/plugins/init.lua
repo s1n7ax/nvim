@@ -37,7 +37,7 @@ vim.pack.add({
 	'https://github.com/s1n7ax/nvim-snips',
 	'https://github.com/s1n7ax/nvim-terminal',
 	'https://github.com/s1n7ax/nvim-ts-utils',
-	'https://github.com/sindrets/diffview.nvim',
+	'https://github.com/dlyongemallo/diffview-plus.nvim',
 	'https://github.com/sindrets/winshift.nvim',
 	'https://github.com/smoka7/hop.nvim',
 	'https://github.com/stevearc/conform.nvim',
