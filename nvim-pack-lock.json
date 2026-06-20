@@ -193,10 +193,6 @@
       "rev": "dfbfaa967a6f7ec50789bead7ef87e336c1fa63c",
       "src": "https://github.com/nvim-tree/nvim-web-devicons"
     },
-    "octo.nvim": {
-      "rev": "66b8eeca8e18213a19742f8a031e6947c738342f",
-      "src": "https://github.com/pwntester/octo.nvim"
-    },
     "onedark.vim": {
       "rev": "47bec7a6196a843dad195d2666c3ac84c6e80c78",
       "src": "https://github.com/joshdick/onedark.vim"
