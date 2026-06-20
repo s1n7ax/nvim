@@ -97,6 +97,7 @@ require('snacks').setup({
 		},
 	},
 	picker = {
+		ui_select = true,
 		matcher = {
 			frecency = true,
 			history_bonus = true,

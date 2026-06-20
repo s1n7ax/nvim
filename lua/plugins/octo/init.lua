@@ -8,6 +8,6 @@ require('octo').setup({
 
 -- stylua: ignore
 nmap({
-	{ '<leader>ir', '<cmd>Octo pr list<cr>', 'GitHub PRs (review)' },
-	{ '<leader>iv', '<cmd>Octo review start<cr>', 'Start PR review' },
+	{ '<leader>er', '<cmd>Octo pr list<cr>', 'GitHub PRs (review)' },
+	{ '<leader>ev', '<cmd>Octo review start<cr>', 'Start PR review' },
 })

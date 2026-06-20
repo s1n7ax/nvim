@@ -14,6 +14,8 @@ local ignore_filetypes = {
 	'OverseerList',
 	'OverseerForm',
 	'overseer',
+	'octo',
+	'octo_panel',
 }
 
 -- stylua: ignore

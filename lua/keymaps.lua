@@ -146,7 +146,7 @@ nxmap({
 -- git
 nmap({
 	{
-		'<leader>is',
+		'<leader>es',
 		function()
 			require('utils.git').checkout_file_to_origin_default_state()
 		end,
@@ -157,13 +157,13 @@ nmap({
 -- github
 nmap({
 	{
-		'<leader>ia',
+		'<leader>ea',
 		require('utils.github').open_or_create_pr_web,
 		'Open or create PR',
 	},
 
 	{
-		'<leader>io',
+		'<leader>eo',
 		function()
 			local url = require('utils.github').yank_pr_url()
 
