@@ -1,8 +1,32 @@
 vim.o.autowriteall = true
 vim.o.clipboard = 'unnamedplus'
-if vim.env.SSH_TTY then
-	-- sync with host clipboard through the terminal (kitty) via OSC 52
-	vim.g.clipboard = 'osc52'
+-- When there's no native clipboard (SSH session, or a microvm console with no
+-- Wayland/X display), sync the host clipboard over OSC 52. We can't use the
+-- builtin 'osc52' provider directly: its paste blocks on an OSC 52 read query
+-- and, on terminals that don't answer (e.g. inside the microvm), times out and
+-- returns nothing, so `p` fails with `E353: Nothing in register "`.
+-- Instead copy via OSC 52 but paste from an in-session cache, so `p` always
+-- returns the last yank without touching the terminal.
+if vim.env.SSH_TTY or not (vim.env.WAYLAND_DISPLAY or vim.env.DISPLAY) then
+	local osc52 = require('vim.ui.clipboard.osc52')
+	local cache = { ['+'] = { '' }, ['*'] = { '' } }
+	local function cached_copy(reg)
+		local write = osc52.copy(reg)
+		return function(lines, regtype)
+			cache[reg] = lines
+			write(lines, regtype)
+		end
+	end
+	local function cached_paste(reg)
+		return function()
+			return cache[reg]
+		end
+	end
+	vim.g.clipboard = {
+		name = 'osc52-cached',
+		copy = { ['+'] = cached_copy('+'), ['*'] = cached_copy('*') },
+		paste = { ['+'] = cached_paste('+'), ['*'] = cached_paste('*') },
+	}
 end
 vim.o.cmdheight = 0
 vim.o.confirm = true
