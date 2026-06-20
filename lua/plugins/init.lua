@@ -38,6 +38,7 @@ vim.pack.add({
 	'https://github.com/s1n7ax/nvim-terminal',
 	'https://github.com/s1n7ax/nvim-ts-utils',
 	'https://github.com/dlyongemallo/diffview-plus.nvim',
+	'https://github.com/pwntester/octo.nvim',
 	'https://github.com/sindrets/winshift.nvim',
 	'https://github.com/smoka7/hop.nvim',
 	'https://github.com/stevearc/conform.nvim',
@@ -95,6 +96,7 @@ require('plugins.comment-frame')
 require('plugins.conform')
 require('plugins.dial')
 require('plugins.diffview')
+require('plugins.octo')
 require('plugins.flash')
 -- require('plugins.focus')
 require('plugins.gitlinker')
