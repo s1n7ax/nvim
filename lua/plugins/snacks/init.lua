@@ -44,7 +44,7 @@ nmap({
 	-- git
 	{ ',s', function () snacks.lazygit() end, "Open lazygit" },
 
-	-- gh: <leader>ir is owned by octo.nvim (:Octo pr list) for full PR review
+	-- gh: <leader>er is owned by octo.nvim (:Octo pr list) for full PR review
 
 	-- file
 	{ ',t', function() snacks.explorer.reveal() end, "Explorer"  },
