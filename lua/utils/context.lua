@@ -1,5 +1,9 @@
 local M = {}
 
+local function quote_path(file)
+	return file:find(' ') and ('"' .. file .. '"') or file
+end
+
 function M.get_curr_context(opts)
 	local m = vim.fn.mode()
 
@@ -10,12 +14,12 @@ function M.get_curr_context(opts)
 
 		if opts.range and opts.range == 0 then
 			-- no lines selected
-			return '@' .. file
+			return '@' .. quote_path(file) .. ' '
 		end
 
 		local line_diff = opts.line1 == opts.line2 and (opts.line1 .. 'L')
 			or (opts.line1 .. 'L-' .. opts.line2 .. 'L')
-		template = string.format('@%s %s', file, line_diff)
+		template = string.format('@%s %s', quote_path(file), line_diff)
 	elseif m == 'v' then
 		vim.cmd([[execute "normal! \<ESC>"]])
 		local start_pos = vim.fn.getpos("'<")
@@ -40,9 +44,9 @@ function M.get_curr_context(opts)
 
 		if #lines > 1 then
 			text = string.format('```\n%s\n```', text)
-			template = string.format('%s\n@%s %s', text, file, line_diff)
+			template = string.format('%s\n@%s %s', text, quote_path(file), line_diff)
 		else
-			template = string.format('"%s" @%s %s', text, file, line_diff)
+			template = string.format('"%s" @%s %s', text, quote_path(file), line_diff)
 		end
 	elseif m == 'V' or m == '\22' then -- <C-V>
 		vim.cmd([[execute "normal! \<ESC>"]])
@@ -56,7 +60,7 @@ function M.get_curr_context(opts)
 		local line_diff = start_line == end_line and (start_line .. 'L')
 			or (start_line .. 'L-' .. end_line .. 'L')
 
-		template = string.format('@%s %s', file, line_diff)
+		template = string.format('@%s %s', quote_path(file), line_diff)
 	end
 
 	return template
