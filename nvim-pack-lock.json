@@ -36,10 +36,6 @@
       "rev": "c65ddb4724cc772a77e9eca1478bff451867b2e2",
       "src": "https://github.com/dlyongemallo/diffview-plus.nvim"
     },
-    "diffview.nvim": {
-      "rev": "4516612fe98ff56ae0415a259ff6361a89419b0a",
-      "src": "https://github.com/sindrets/diffview.nvim"
-    },
     "everforest": {
       "rev": "85a86eb62409e3ec88713bff3d1b9d7374e112e4",
       "src": "https://github.com/sainnhe/everforest"
