@@ -24,8 +24,8 @@ wk.setup({
 wk.add({
 	{ '<leader>t', group = 'Finder' },
 	{ '<leader>n', group = 'LSP' },
-	{ '<leader>e', group = 'Task Runner' },
-	{ '<leader>i', group = 'Git' },
+	{ '<leader>e', group = 'Git' },
+	{ '<leader>i', group = 'Task Runner' },
 	{ '<leader>c', group = 'Comments' },
 	{ '<leader>o', group = 'Package Manager' },
 	{ '<leader>u', group = 'Toggle' },
