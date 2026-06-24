@@ -45,7 +45,7 @@ nmap({
 	{ ',s', function () snacks.lazygit() end, "Open lazygit" },
 
 	-- gh
-	{ '<leader>ir', function () snacks.picker.gh_pr() end, "GitHub Pull Requests (open)" },
+	{ '<leader>er', function () snacks.picker.gh_pr() end, "GitHub Pull Requests (open)" },
 
 	-- file
 	{ ',t', function() snacks.explorer.reveal() end, "Explorer"  },

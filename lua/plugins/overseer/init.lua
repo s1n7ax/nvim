@@ -4,11 +4,11 @@ local nmap = mapper('n')
 
 -- stylua: ignore
 nmap({
-	{ '<leader>ee', '<cmd>OverseerRun<cr>', 'Run task' },
-	{ '<leader>en', '<cmd>OverseerToggle<cr>', 'Task list' },
-	{ '<leader>ei', '<cmd>OverseerShell<cr>', 'Run task' },
-	{ '<leader>et', '<cmd>OverseerQuickAction<cr>', 'Action recent task' },
-	{ '<leader>es', '<cmd>OverseerLoadBundle<cr>', 'Load bundle' },
+	{ '<leader>ii', '<cmd>OverseerRun<cr>', 'Run task' },
+	{ '<leader>in', '<cmd>OverseerToggle<cr>', 'Task list' },
+	{ '<leader>it', '<cmd>OverseerQuickAction<cr>', 'Action recent task' },
+	{ '<leader>ie', '<cmd>OverseerLoadBundle<cr>', 'Load bundle' },
+	{ '<leader>is', '<cmd>OverseerShell<cr>', 'Run shell command' },
 })
 
 require('overseer').setup({
