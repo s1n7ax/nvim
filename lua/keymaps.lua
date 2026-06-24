@@ -146,7 +146,7 @@ nxmap({
 -- git
 nmap({
 	{
-		'<leader>es',
+		'<leader>eo',
 		function()
 			require('utils.git').checkout_file_to_origin_default_state()
 		end,
@@ -157,13 +157,13 @@ nmap({
 -- github
 nmap({
 	{
-		'<leader>ea',
+		'<leader>ei',
 		require('utils.github').open_or_create_pr_web,
 		'Open or create PR',
 	},
 
 	{
-		'<leader>eo',
+		'<leader>ea',
 		function()
 			local url = require('utils.github').yank_pr_url()
 
@@ -175,7 +175,7 @@ nmap({
 			vim.fn.setreg('+', url)
 			vim.notify('Copied PR url: ' .. url)
 		end,
-		'Open or create PR',
+		'Copy PR URL',
 	},
 })
 

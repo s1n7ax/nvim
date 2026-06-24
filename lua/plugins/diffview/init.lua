@@ -16,13 +16,13 @@ end
 
 -- stylua: ignore
 nmap({
-	{ '<leader>ee', '<cmd>DiffviewFileHistory %<cr>', 'Git diff file' },
-	{ '<leader>en', diffview_default_branch, 'Git diff main branch' },
-	{ '<leader>et', '<cmd>DiffviewFileHistory<cr>', 'Git diff branch' },
+	{ '<leader>en', diffview_default_branch, 'Diff vs main branch' },
+	{ '<leader>et', '<cmd>DiffviewFileHistory<cr>', 'File history (branch)' },
+	{ '<leader>es', '<cmd>DiffviewFileHistory %<cr>', 'File history (current)' },
 })
 
 vmap({
-	{ '<leader>ee', '<cmd>DiffviewFileHistory %<cr>', 'Git diff selection' },
+	{ '<leader>es', '<cmd>DiffviewFileHistory %<cr>', 'File history (selection)' },
 })
 
 require('diffview').setup()
