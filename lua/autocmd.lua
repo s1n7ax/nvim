@@ -5,7 +5,7 @@ vim.api.nvim_set_hl( 0, 'YankHighlight', { bg = '#3d59a1', fg = '#ffffff', bold 
 vim.api.nvim_create_autocmd('TextYankPost', {
 	group = vim.api.nvim_create_augroup('YankHighlight', { clear = true }),
 	callback = function()
-		vim.hl.on_yank({ higroup = 'YankHighlight', timeout = 100 })
+		vim.hl.hl_op({ higroup = 'YankHighlight', timeout = 100 })
 	end,
 })
 
