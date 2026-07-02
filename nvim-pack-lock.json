@@ -213,10 +213,6 @@
       "rev": "882c996cf28183f4d63640de0b4c02ec886d01f2",
       "src": "https://github.com/folke/snacks.nvim"
     },
-    "supermaven-nvim": {
-      "rev": "07d20fce48a5629686aefb0a7cd4b25e33947d50",
-      "src": "https://github.com/supermaven-inc/supermaven-nvim"
-    },
     "thorn.nvim": {
       "rev": "3653d1508e605fe87ec174e8c2ad0f36ce9844f3",
       "src": "https://github.com/jpwol/thorn.nvim"
