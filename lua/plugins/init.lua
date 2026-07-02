@@ -46,7 +46,6 @@ vim.pack.add({
 	'https://github.com/windwp/nvim-autopairs',
 	'https://github.com/folke/which-key.nvim',
 	'https://github.com/b0o/SchemaStore.nvim',
-	'https://github.com/supermaven-inc/supermaven-nvim',
 	'https://github.com/MagicDuck/grug-far.nvim',
 
 	'https://github.com/nvim-mini/mini.icons.git',
@@ -121,7 +120,6 @@ require('plugins.treesitter-textobjects')
 require('plugins.ufo')
 require('plugins.winshift')
 require('plugins.whichkey')
-require('plugins.supermaven')
 require('plugins.grug-far')
 -- require('plugins.img-clip')
 require('plugins.neotest')

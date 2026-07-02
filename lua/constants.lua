@@ -59,7 +59,6 @@ M.icons = {
 		Snippet = '󱄽 ',
 		String = ' ',
 		Struct = '󰆼 ',
-		Supermaven = ' ',
 		TabNine = '󰏚 ',
 		Text = ' ',
 		TypeParameter = ' ',
