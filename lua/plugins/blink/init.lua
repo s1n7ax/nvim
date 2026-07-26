@@ -38,6 +38,17 @@ blink.setup({
 		['<cr>'] = { 'select_and_accept', 'fallback' },
 		['<c-l>'] = { 'cancel', 'fallback' },
 	},
+	cmdline = {
+		keymap = {
+			preset = 'none',
+			['<c-space>'] = { 'show' },
+			['<c-n>'] = { 'select_next', 'fallback' },
+			['<c-e>'] = { 'select_prev', 'fallback' },
+			['<cr>'] = { 'accept_and_enter', 'fallback' },
+			['<c-l>'] = { 'cancel', 'fallback' },
+		},
+		completion = { menu = { auto_show = false } },
+	},
 	completion = {
 		menu = { border = 'single' },
 		documentation = { window = { border = 'single' } },
