@@ -77,6 +77,7 @@ vim.pack.add({
 	'https://github.com/vague-theme/vague.nvim',
 	'https://github.com/rose-pine/neovim',
 	'https://github.com/joshdick/onedark.vim',
+	'https://github.com/WTFox/luna.nvim',
 
 	-- json
 	'https://github.com/b0o/SchemaStore.nvim',
