@@ -76,6 +76,10 @@
       "rev": "ff2cbcba459b637ec3fd165a2be59b7bbaeedf0d",
       "src": "https://github.com/folke/lazydev.nvim"
     },
+    "luna.nvim": {
+      "rev": "95e1c7beeb7bffa1f02a28f0fe921520d79ce317",
+      "src": "https://github.com/WTFox/luna.nvim"
+    },
     "melange-nvim": {
       "rev": "ce42f6b629beeaa00591ba73a77d3eeac4cf28ce",
       "src": "https://github.com/savq/melange-nvim"
