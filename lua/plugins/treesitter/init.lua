@@ -15,6 +15,7 @@ require('nvim-treesitter')
 		'java',
 		'javascript',
 		'json5',
+		'jsonnet',
 		'lua',
 		'markdown',
 		'markdown_inline',
