@@ -10,6 +10,7 @@ M.servers = {
 	'fish_lsp',
 	'html',
 	'jsonls',
+	'jsonnet_ls',
 	'lua_ls',
 	'nil_ls',
 	'svelte',
