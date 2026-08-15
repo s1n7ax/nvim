@@ -1,12 +1,12 @@
 local context = require('utils.context')
+local float = require('utils.window.float')
 local TUI = require('utils').tui
 
 local M = {}
 
-local SPINNER =
-	{ '⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏' }
+local AI_CMD = 'claude'
 
-local ai = TUI:new({ cmd = { 'claude' } })
+local ai = TUI:new({ cmd = { AI_CMD } })
 -- local ai = TUI:new({ cmd = { 'opencode', '--prompt' } })
 
 ai:map('t', ',t', function()
@@ -23,128 +23,26 @@ function M.toggle_right()
 	ai:toggle(nil, 'right')
 end
 
+---Code to summarize: the visual selection, or the whole buffer in normal mode
 ---@return string code, string label
 local function get_target()
-	local mode = vim.fn.mode()
-	local file = vim.fn.fnamemodify(vim.fn.expand('%:p'), ':.')
+	local file = context.rel_file()
+	local selection = context.get_visual()
 
-	if file == '' then
-		file = '[No Name]'
+	if selection then
+		return selection.text,
+			string.format(
+				'%s %s',
+				file,
+				context.line_label(selection.start_line, selection.end_line)
+			)
 	end
 
-	if mode == 'v' or mode == 'V' or mode == '\22' then
-		vim.cmd([[execute "normal! \<esc>"]])
-		local start_line = vim.fn.getpos("'<")[2]
-		local end_line = vim.fn.getpos("'>")[2]
-		local lines = vim.api.nvim_buf_get_lines(0, start_line - 1, end_line, false)
-
-		return table.concat(lines, '\n'),
-			string.format('%s %dL-%dL', file, start_line, end_line)
-	end
-
-	local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
-
-	return table.concat(lines, '\n'), file
+	return table.concat(vim.api.nvim_buf_get_lines(0, 0, -1, false), '\n'), file
 end
 
----@param title string
----@return number buf, number win
-local function open_float(title)
-	local buf = vim.api.nvim_create_buf(false, true)
-	vim.bo[buf].filetype = 'markdown'
-	vim.bo[buf].bufhidden = 'wipe'
-
-	local width = math.min(100, math.floor(vim.o.columns * 0.8))
-	local height = math.floor(vim.o.lines * 0.6)
-
-	local win = vim.api.nvim_open_win(buf, true, {
-		relative = 'editor',
-		width = width,
-		height = height,
-		col = math.floor((vim.o.columns - width) / 2),
-		row = math.floor((vim.o.lines - height) / 2),
-		style = 'minimal',
-		border = 'rounded',
-		title = title,
-		title_pos = 'center',
-	})
-
-	vim.wo[win].wrap = true
-	vim.wo[win].linebreak = true
-	vim.wo[win].conceallevel = 2
-
-	vim.keymap.set('n', 'q', '<cmd>close<cr>', { buffer = buf })
-	vim.keymap.set('n', '<esc>', '<cmd>close<cr>', { buffer = buf })
-
-	return buf, win
-end
-
----@param buf number
----@param win number
----@param text string
----@param final? boolean
-local function render(buf, win, text, final)
-	if not vim.api.nvim_buf_is_valid(buf) then
-		return
-	end
-
-	vim.bo[buf].modifiable = true
-	vim.api.nvim_buf_set_lines(buf, 0, -1, false, vim.split(text, '\n'))
-	vim.bo[buf].modifiable = false
-
-	if not vim.api.nvim_win_is_valid(win) then
-		return
-	end
-
-	local line = final and 1 or vim.api.nvim_buf_line_count(buf)
-	vim.api.nvim_win_set_cursor(win, { line, 0 })
-end
-
----@param buf number
----@return fun()
-local function start_spinner(buf)
-	local timer = vim.uv.new_timer()
-	local index = 0
-	local stopped = false
-
-	timer:start(
-		0,
-		100,
-		vim.schedule_wrap(function()
-			if stopped or not vim.api.nvim_buf_is_valid(buf) then
-				return
-			end
-
-			index = index % #SPINNER + 1
-			vim.bo[buf].modifiable = true
-			vim.api.nvim_buf_set_lines(buf, 0, -1, false, {
-				SPINNER[index] .. ' Summarizing...',
-			})
-			vim.bo[buf].modifiable = false
-		end)
-	)
-
-	return function()
-		if stopped then
-			return
-		end
-
-		stopped = true
-		timer:stop()
-		timer:close()
-	end
-end
-
----Summarize the visual selection, or the whole file in normal mode, by
----piping it to a headless `claude -p` and streaming the answer to a float
-function M.tldr()
-	local code, label = get_target()
-
-	if code:match('^%s*$') then
-		vim.notify('Nothing to summarize', vim.log.levels.WARN)
-		return
-	end
-
+---@return string
+local function build_prompt()
 	local prompt = {
 		'Give a TLDR of the code below.',
 		'Reply in markdown: one sentence on what it is,',
@@ -156,53 +54,90 @@ function M.tldr()
 		table.insert(prompt, 'The code is ' .. vim.bo.filetype .. '.')
 	end
 
-	local buf, win = open_float(' TLDR ' .. label .. ' ')
-	local stop_spinner = start_spinner(buf)
+	return table.concat(prompt, ' ')
+end
+
+---Summarize the visual selection, or the whole file in normal mode, by piping
+---it to a headless `claude --print` and rendering the answer in a float
+function M.tldr()
+	if vim.fn.executable(AI_CMD) ~= 1 then
+		vim.notify(AI_CMD .. ' is not on PATH', vim.log.levels.ERROR)
+		return
+	end
+
+	local code, label = get_target()
+
+	if code:match('^%s*$') then
+		vim.notify('Nothing to summarize', vim.log.levels.WARN)
+		return
+	end
+
+	local win = float.open({
+		title = ' TLDR ' .. label .. ' ',
+		filetype = 'markdown',
+		max_width = 100,
+	})
+
+	local stop_spinner = win:spinner('Summarizing...')
 	local chunks = {}
+	local job
 
-	local job = vim.system({
-		'claude',
-		'-p',
-		table.concat(prompt, ' '),
-	}, {
-		cwd = vim.fn.getcwd(),
-		stdin = code,
-		text = true,
-		stdout = function(_, data)
-			if not data then
-				return
-			end
+	win:on_close(function()
+		stop_spinner()
 
-			table.insert(chunks, data)
+		if job then
+			job:kill('sigterm')
+		end
+	end)
 
+	local ok, err = pcall(function()
+		job = vim.system({
+			AI_CMD,
+			'--print',
+			'--no-session-persistence',
+			'--strict-mcp-config',
+			'--tools',
+			'',
+			build_prompt(),
+		}, {
+			---keep the summary about the code itself, free of project CLAUDE.md
+			cwd = vim.fn.stdpath('cache'),
+			stdin = code,
+			text = true,
+			stdout = function(_, data)
+				if not data then
+					return
+				end
+
+				table.insert(chunks, data)
+
+				vim.schedule(function()
+					stop_spinner()
+					win:render(table.concat(chunks))
+				end)
+			end,
+		}, function(res)
 			vim.schedule(function()
 				stop_spinner()
-				render(buf, win, table.concat(chunks))
+
+				if res.code ~= 0 then
+					local reason = res.stderr ~= '' and res.stderr
+						or (AI_CMD .. ' exited with ' .. res.code)
+					win:render('# Error\n\n' .. reason)
+				else
+					win:render(table.concat(chunks))
+				end
+
+				win:scroll_to_top()
 			end)
-		end,
-	}, function(res)
-		vim.schedule(function()
-			stop_spinner()
-
-			if res.code ~= 0 then
-				local err = res.stderr ~= '' and res.stderr
-					or ('claude exited with ' .. res.code)
-				render(buf, win, '# Error\n\n' .. err, true)
-				return
-			end
-
-			render(buf, win, table.concat(chunks), true)
 		end)
 	end)
 
-	vim.api.nvim_create_autocmd('BufWipeout', {
-		buffer = buf,
-		once = true,
-		callback = function()
-			stop_spinner()
-			job:kill('sigterm')
-		end,
-	})
+	if not ok then
+		stop_spinner()
+		win:render('# Error\n\n' .. tostring(err))
+		win:scroll_to_top()
+	end
 end
 
 function M.setup_cmd()
