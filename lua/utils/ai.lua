@@ -24,9 +24,10 @@ function M.toggle_right()
 end
 
 ---Code to summarize: the visual selection, or the whole buffer in normal mode
----@return string code, string label
+---@return string code, string label, string filetype
 local function get_target()
 	local file = context.rel_file()
+	local filetype = vim.bo.filetype
 	local selection = context.get_visual()
 
 	if selection then
@@ -35,14 +36,18 @@ local function get_target()
 				'%s %s',
 				file,
 				context.line_label(selection.start_line, selection.end_line)
-			)
+			),
+			filetype
 	end
 
-	return table.concat(vim.api.nvim_buf_get_lines(0, 0, -1, false), '\n'), file
+	return table.concat(vim.api.nvim_buf_get_lines(0, 0, -1, false), '\n'),
+		file,
+		filetype
 end
 
+---@param filetype string filetype of the code, taken before the float steals focus
 ---@return string
-local function build_prompt()
+local function build_prompt(filetype)
 	local prompt = {
 		'Give a TLDR of the code below.',
 		'Reply in markdown: one sentence on what it is,',
@@ -50,8 +55,8 @@ local function build_prompt()
 		'No preamble, no code blocks, no closing remarks.',
 	}
 
-	if vim.bo.filetype ~= '' then
-		table.insert(prompt, 'The code is ' .. vim.bo.filetype .. '.')
+	if filetype ~= '' then
+		table.insert(prompt, 'The code is ' .. filetype .. '.')
 	end
 
 	return table.concat(prompt, ' ')
@@ -65,7 +70,7 @@ function M.tldr()
 		return
 	end
 
-	local code, label = get_target()
+	local code, label, filetype = get_target()
 
 	if code:match('^%s*$') then
 		vim.notify('Nothing to summarize', vim.log.levels.WARN)
@@ -96,9 +101,9 @@ function M.tldr()
 			'--print',
 			'--no-session-persistence',
 			'--strict-mcp-config',
-			'--tools',
-			'',
-			build_prompt(),
+			---`--tools` is variadic, so the space form swallows the prompt
+			'--tools=',
+			build_prompt(filetype),
 		}, {
 			---keep the summary about the code itself, free of project CLAUDE.md
 			cwd = vim.fn.stdpath('cache'),
