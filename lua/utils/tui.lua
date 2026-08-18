@@ -10,6 +10,8 @@
 ---@field ft string
 ---@field chan number|nil
 ---@field keymaps TUIKeymap[]
+local float = require('utils.window.float')
+
 local M = {}
 
 ---@param args { cmd: string[], ft?: string }
@@ -106,18 +108,7 @@ function M:close_term()
 end
 
 function M.get_win_config()
-	local width = math.floor(vim.o.columns * 0.95)
-	local height = vim.o.lines - 1
-	local col = math.floor((vim.o.columns - width) / 2)
-	return {
-		relative = 'editor',
-		width = width,
-		height = height,
-		col = col,
-		row = 0,
-		style = 'minimal',
-		border = 'rounded',
-	}
+	return float.config(math.floor(vim.o.columns * 0.95), vim.o.lines - 1)
 end
 
 ---@private
