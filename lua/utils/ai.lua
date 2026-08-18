@@ -24,28 +24,24 @@ function M.toggle_right()
 end
 
 ---Code to summarize: the visual selection, or the whole buffer in normal mode
----@return string code, string label, string filetype
+---@return string code, string label
 local function get_target()
 	local file = context.rel_file()
-	local filetype = vim.bo.filetype
 	local selection = context.get_visual()
 
 	if selection then
-		return selection.text,
+		return context.selection_text(selection),
 			string.format(
 				'%s %s',
 				file,
 				context.line_label(selection.start_line, selection.end_line)
-			),
-			filetype
+			)
 	end
 
-	return table.concat(vim.api.nvim_buf_get_lines(0, 0, -1, false), '\n'),
-		file,
-		filetype
+	return table.concat(vim.api.nvim_buf_get_lines(0, 0, -1, false), '\n'), file
 end
 
----@param filetype string filetype of the code, taken before the float steals focus
+---@param filetype string
 ---@return string
 local function build_prompt(filetype)
 	local prompt = {
@@ -70,7 +66,9 @@ function M.tldr()
 		return
 	end
 
-	local code, label, filetype = get_target()
+	local code, label = get_target()
+	---read before the float steals focus
+	local prompt = build_prompt(vim.bo.filetype)
 
 	if code:match('^%s*$') then
 		vim.notify('Nothing to summarize', vim.log.levels.WARN)
@@ -84,7 +82,6 @@ function M.tldr()
 	})
 
 	local stop_spinner = win:spinner('Summarizing...')
-	local chunks = {}
 	local job
 
 	win:on_close(function()
@@ -95,6 +92,12 @@ function M.tldr()
 		end
 	end)
 
+	local function fail(reason)
+		stop_spinner()
+		win:render('# Error\n\n' .. reason)
+		win:scroll_to_top()
+	end
+
 	local ok, err = pcall(function()
 		job = vim.system({
 			AI_CMD,
@@ -103,7 +106,7 @@ function M.tldr()
 			'--strict-mcp-config',
 			---`--tools` is variadic, so the space form swallows the prompt
 			'--tools=',
-			build_prompt(filetype),
+			prompt,
 		}, {
 			---keep the summary about the code itself, free of project CLAUDE.md
 			cwd = vim.fn.stdpath('cache'),
@@ -114,34 +117,28 @@ function M.tldr()
 					return
 				end
 
-				table.insert(chunks, data)
-
 				vim.schedule(function()
 					stop_spinner()
-					win:render(table.concat(chunks))
+					win:append(data)
 				end)
 			end,
 		}, function(res)
 			vim.schedule(function()
-				stop_spinner()
-
 				if res.code ~= 0 then
-					local reason = res.stderr ~= '' and res.stderr
-						or (AI_CMD .. ' exited with ' .. res.code)
-					win:render('# Error\n\n' .. reason)
-				else
-					win:render(table.concat(chunks))
+					return fail(
+						res.stderr ~= '' and res.stderr
+							or (AI_CMD .. ' exited with ' .. res.code)
+					)
 				end
 
+				stop_spinner()
 				win:scroll_to_top()
 			end)
 		end)
 	end)
 
 	if not ok then
-		stop_spinner()
-		win:render('# Error\n\n' .. tostring(err))
-		win:scroll_to_top()
+		fail(tostring(err))
 	end
 end
 

@@ -3,29 +3,28 @@ local mapper = require('utils.keymaps').mapper
 local SPINNER =
 	{ '⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏' }
 local SPINNER_INTERVAL_MS = 100
+local WIDTH_RATIO = 0.8
+local HEIGHT_RATIO = 0.6
 
 local nmap = mapper('n')
 
 local M = {}
 
----Centered floating window config with this config's house style
+---Centered floating window config, sized in absolute cells
 ---@param width number
 ---@param height number
----@param opts? { row?: number, title?: string }
+---@param title? string
 ---@return vim.api.keyset.win_config
-function M.config(width, height, opts)
-	opts = opts or {}
-
+function M.config(width, height, title)
 	return {
 		relative = 'editor',
 		width = width,
 		height = height,
 		col = math.floor((vim.o.columns - width) / 2),
-		row = opts.row or math.floor((vim.o.lines - height) / 2),
+		row = math.floor((vim.o.lines - height) / 2),
 		style = 'minimal',
-		border = 'rounded',
-		title = opts.title,
-		title_pos = opts.title and 'center' or nil,
+		title = title,
+		title_pos = title and 'center' or nil,
 	}
 end
 
@@ -33,14 +32,15 @@ end
 ---@class Float
 ---@field buf number
 ---@field win number
+---@field private tail number 0-indexed row of the last, possibly incomplete, line
+---@field private partial string text already written on that line
+---@field private transient boolean contents are a spinner frame, to be overwritten
 local Float = {}
 Float.__index = Float
 
 ---@class FloatOpts
 ---@field title? string
 ---@field filetype? string
----@field width_ratio? number
----@field height_ratio? number
 ---@field max_width? number
 
 ---@param opts? FloatOpts
@@ -53,19 +53,15 @@ function M.open(opts)
 	vim.bo[buf].bufhidden = 'wipe'
 
 	local width = math.min(
-		opts.max_width or vim.o.columns,
-		math.floor(vim.o.columns * (opts.width_ratio or 0.8))
+		opts.max_width or math.huge,
+		math.floor(vim.o.columns * WIDTH_RATIO)
 	)
-	local height = math.floor(vim.o.lines * (opts.height_ratio or 0.6))
+	local height = math.floor(vim.o.lines * HEIGHT_RATIO)
 
-	local win = vim.api.nvim_open_win(
-		buf,
-		true,
-		M.config(width, height, { title = opts.title })
-	)
+	local win =
+		vim.api.nvim_open_win(buf, true, M.config(width, height, opts.title))
 
 	vim.wo[win].wrap = true
-	vim.wo[win].linebreak = true
 	vim.wo[win].conceallevel = 2
 
 	nmap({
@@ -73,12 +69,37 @@ function M.open(opts)
 		{ '<esc>', '<cmd>close<cr>', { buffer = buf, desc = 'Close float' } },
 	})
 
-	return setmetatable({ buf = buf, win = win }, Float)
+	return setmetatable({
+		buf = buf,
+		win = win,
+		tail = 0,
+		partial = '',
+		transient = false,
+	}, Float)
 end
 
 ---@return boolean
 function Float:is_valid()
 	return vim.api.nvim_buf_is_valid(self.buf)
+end
+
+---@private
+---@param from number 0-indexed row to rewrite from
+---@param text string
+function Float:write(from, text)
+	local lines = vim.split(text, '\n')
+
+	vim.bo[self.buf].modifiable = true
+	vim.api.nvim_buf_set_lines(self.buf, from, -1, false, lines)
+	vim.bo[self.buf].modifiable = false
+
+	self.tail = from + #lines - 1
+	self.partial = lines[#lines]
+	self.transient = false
+
+	if vim.api.nvim_win_is_valid(self.win) then
+		vim.api.nvim_win_set_cursor(self.win, { self.tail + 1, 0 })
+	end
 end
 
 ---Replace the contents, keeping the view pinned to the last line
@@ -88,14 +109,17 @@ function Float:render(text)
 		return
 	end
 
-	vim.bo[self.buf].modifiable = true
-	vim.api.nvim_buf_set_lines(self.buf, 0, -1, false, vim.split(text, '\n'))
-	vim.bo[self.buf].modifiable = false
+	self:write(0, text)
+end
 
-	if vim.api.nvim_win_is_valid(self.win) then
-		local line = vim.api.nvim_buf_line_count(self.buf)
-		vim.api.nvim_win_set_cursor(self.win, { line, 0 })
+---Append streamed text, rewriting only the trailing line
+---@param text string
+function Float:append(text)
+	if not self:is_valid() then
+		return
 	end
+
+	self:write(self.tail, self.partial .. text)
 end
 
 function Float:scroll_to_top()
@@ -104,7 +128,8 @@ function Float:scroll_to_top()
 	end
 end
 
----Run a spinner in the float until the returned stop function is called
+---Run a spinner in the float until the returned stop function is called, which
+---also wipes the last frame so the owner can write from a clean buffer
 ---@param message string
 ---@return fun() stop
 function Float:spinner(message)
@@ -120,6 +145,10 @@ function Float:spinner(message)
 		stopped = true
 		timer:stop()
 		timer:close()
+
+		if self.transient then
+			self:render('')
+		end
 	end
 
 	timer:start(
@@ -136,6 +165,7 @@ function Float:spinner(message)
 
 			index = index % #SPINNER + 1
 			self:render(SPINNER[index] .. ' ' .. message)
+			self.transient = true
 		end)
 	)
 

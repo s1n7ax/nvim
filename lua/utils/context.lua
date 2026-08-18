@@ -22,10 +22,11 @@ function M.line_label(start_line, end_line)
 end
 
 ---@class Selection
----@field text string
 ---@field start_line number
 ---@field end_line number
 ---@field mode string charwise `v`, linewise `V` or blockwise `<c-v>`
+---@field start_pos number[] `getpos()` mark, for `selection_text`
+---@field end_pos number[] `getpos()` mark, for `selection_text`
 
 ---Leave visual mode and return the selection it covered, or nil when the
 ---editor was not in visual mode
@@ -43,14 +44,27 @@ function M.get_visual()
 	local end_pos = vim.fn.getpos("'>")
 
 	return {
-		text = table.concat(
-			vim.fn.getregion(start_pos, end_pos, { type = mode }),
-			'\n'
-		),
+		start_pos = start_pos,
+		end_pos = end_pos,
 		start_line = start_pos[2],
 		end_line = end_pos[2],
 		mode = mode,
 	}
+end
+
+---Text a selection covers, read on demand so callers that only want the line
+---range never pay for it
+---@param selection Selection
+---@return string
+function M.selection_text(selection)
+	return table.concat(
+		vim.fn.getregion(
+			selection.start_pos,
+			selection.end_pos,
+			{ type = selection.mode }
+		),
+		'\n'
+	)
 end
 
 function M.get_curr_context(opts)
@@ -81,11 +95,13 @@ function M.get_curr_context(opts)
 		return ref
 	end
 
+	local text = M.selection_text(selection)
+
 	if selection.start_line ~= selection.end_line then
-		return string.format('```\n%s\n```\n%s', selection.text, ref)
+		return string.format('```\n%s\n```\n%s', text, ref)
 	end
 
-	return string.format('"%s" %s', selection.text, ref)
+	return string.format('"%s" %s', text, ref)
 end
 
 return M
