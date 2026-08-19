@@ -137,7 +137,10 @@ require('vim._core.ui2').enable({
 -- AI
 
 local focus = require('utils.window.focus')
-focus.setup()
+focus.setup({
+	---dap-ui lays out several fixed splits; auto-sizing them fights the layout
+	ignore_tab_filetypes = { '^Diffview', '^dapui_', '^dap%-repl$' },
+})
 focus.add_rule({
 	match = { filetype = 'claude' },
 	focused = { width = 80 },

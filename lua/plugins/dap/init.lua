@@ -31,16 +31,38 @@ vim.fn.sign_define('DapStopped', {
 	numhl = '',
 })
 
+---@type { height: integer, width: integer }?
+local saved_win_min
+
 --- Opens the UI from a clean state.
---- `dapui.open()` leaves the layout half-built when a split fails with E36
---- (not enough room, e.g. neotest windows are taking up the screen), and every
---- later open then errors with "Invalid 'win': Expected Lua number". Closing
---- first resets the tracked windows so each attempt starts fresh.
+--- dap-ui stacks one split per element, which fails with `E36: Not enough room`
+--- against the large `winminheight`/`winminwidth` that utils.window.focus sets.
+--- A failed split leaves the layout half-built and every later open then errors
+--- with "Invalid 'win': Expected Lua number", so relax the minimums while the UI
+--- is up and close first so each attempt starts fresh.
 local function open_dapui()
 	dapui.close()
+
+	if not saved_win_min then
+		saved_win_min = { height = vim.o.winminheight, width = vim.o.winminwidth }
+	end
+	vim.o.winminheight = 1
+	vim.o.winminwidth = 1
+
 	local ok, err = pcall(dapui.open)
 	if not ok then
 		vim.notify('dap-ui: ' .. tostring(err), vim.log.levels.WARN)
+	end
+end
+
+--- Closes the UI and restores the window minimums taken by `open_dapui`.
+local function close_dapui()
+	dapui.close()
+
+	if saved_win_min then
+		vim.o.winminheight = saved_win_min.height
+		vim.o.winminwidth = saved_win_min.width
+		saved_win_min = nil
 	end
 end
 
@@ -49,10 +71,10 @@ dap.listeners.after.event_initialized['dapui_config'] = function()
 	open_dapui()
 end
 dap.listeners.before.event_terminated['dapui_config'] = function()
-	dapui.close()
+	close_dapui()
 end
 dap.listeners.before.event_exited['dapui_config'] = function()
-	dapui.close()
+	close_dapui()
 end
 
 -- stylua: ignore
