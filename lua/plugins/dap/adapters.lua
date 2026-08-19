@@ -1,14 +1,14 @@
 local dap = require('dap')
 
 -- Node.js / JavaScript / TypeScript
--- Requires: npm install -g vscode-js-debug
+-- Requires: pkgs.vscode-js-debug (provides the `js-debug` binary)
 dap.adapters['pwa-node'] = {
 	type = 'server',
-	host = 'localhost',
+	host = '127.0.0.1',
 	port = '${port}',
 	executable = {
-		command = 'js-debug-adapter',
-		args = { '${port}' },
+		command = 'js-debug',
+		args = { '${port}', '127.0.0.1' },
 	},
 }
 
