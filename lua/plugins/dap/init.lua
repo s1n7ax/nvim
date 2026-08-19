@@ -31,9 +31,22 @@ vim.fn.sign_define('DapStopped', {
 	numhl = '',
 })
 
+--- Opens the UI from a clean state.
+--- `dapui.open()` leaves the layout half-built when a split fails with E36
+--- (not enough room, e.g. neotest windows are taking up the screen), and every
+--- later open then errors with "Invalid 'win': Expected Lua number". Closing
+--- first resets the tracked windows so each attempt starts fresh.
+local function open_dapui()
+	dapui.close()
+	local ok, err = pcall(dapui.open)
+	if not ok then
+		vim.notify('dap-ui: ' .. tostring(err), vim.log.levels.WARN)
+	end
+end
+
 -- Auto open/close UI
 dap.listeners.after.event_initialized['dapui_config'] = function()
-	dapui.open()
+	open_dapui()
 end
 dap.listeners.before.event_terminated['dapui_config'] = function()
 	dapui.close()
