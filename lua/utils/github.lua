@@ -62,8 +62,8 @@ function M.open_or_create_pr_web()
 end
 
 function M.yank_pr_url()
-	local res = gh(PR_URL_ARGS, repo_dir()):wait()
-	local url = res.code == 0 and vim.trim(res.stdout or '') or ''
+	local res = gh(PR_URL_ARGS, repo_dir()):wait(5000)
+	local url = res and res.code == 0 and vim.trim(res.stdout or '') or ''
 
 	return url ~= '' and url or nil
 end
