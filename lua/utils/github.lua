@@ -4,35 +4,57 @@ local function repo_dir()
 	return vim.fs.root(0, '.git') or vim.uv.cwd()
 end
 
-local function gh(args, on_done)
+local function gh(args, cwd, on_done)
 	vim.system(
 		vim.list_extend({ 'gh' }, args),
-		{ cwd = repo_dir(), text = true },
+		{ cwd = cwd, text = true },
 		vim.schedule_wrap(on_done)
 	)
 end
 
+local function notify_failure(what, res)
+	vim.notify(
+		what .. ' failed: ' .. vim.trim(res.stderr or ''),
+		vim.log.levels.ERROR
+	)
+end
+
+local function create_pr_web(cwd)
+	vim.notify('No PR for this branch, opening the create page')
+
+	gh({ 'pr', 'create', '--web' }, cwd, function(create)
+		if create.code ~= 0 then
+			notify_failure('gh pr create', create)
+		end
+	end)
+end
+
+local function open_pr_web(cwd, url)
+	gh({ 'pr', 'view', '--web' }, cwd, function(open)
+		if open.code ~= 0 then
+			notify_failure('gh pr view --web', open)
+			return
+		end
+
+		vim.notify('Opened PR in browser: ' .. url)
+	end)
+end
+
 function M.open_or_create_pr_web()
-	gh({ 'pr', 'view', '--web' }, function(view)
-		if view.code == 0 then
-			return
-		end
+	local cwd = repo_dir()
 
-		local err = vim.trim(view.stderr or '')
-
-		if not err:match('no pull requests found') then
-			vim.notify('gh pr view failed: ' .. err, vim.log.levels.ERROR)
-			return
-		end
-
-		gh({ 'pr', 'create', '--web' }, function(create)
-			if create.code ~= 0 then
-				vim.notify(
-					'gh pr create failed: ' .. vim.trim(create.stderr or ''),
-					vim.log.levels.ERROR
-				)
+	gh({ 'pr', 'view', '--json', 'url', '-q', '.url' }, cwd, function(view)
+		if view.code ~= 0 then
+			if vim.trim(view.stderr or ''):match('no pull requests found') then
+				create_pr_web(cwd)
+			else
+				notify_failure('gh pr view', view)
 			end
-		end)
+
+			return
+		end
+
+		open_pr_web(cwd, vim.trim(view.stdout or ''))
 	end)
 end
 
