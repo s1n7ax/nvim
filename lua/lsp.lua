@@ -3,7 +3,7 @@ local M = {}
 M.servers = {
 	'bashls',
 	'cssls',
-	'tsgo',
+	'tsc',
 	'docker_compose_language_service',
 	'emmet_language_server',
 	'eslint',
