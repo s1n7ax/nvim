@@ -10,6 +10,7 @@
 ---@field ft string
 ---@field chan number|nil
 ---@field keymaps TUIKeymap[]
+---@field mode string|nil
 local float = require('utils.window.float')
 
 local M = {}
@@ -62,7 +63,7 @@ function M:open_term_buf_in_win(position)
 		return
 	end
 
-	self.open_win(self.buf, position)
+	self.open_win(self.buf, position, self.mode ~= 'n')
 end
 
 ---@param input? string
@@ -78,8 +79,13 @@ end
 
 ---@param buf number
 ---@param position? TUIPosition
-function M.open_win(buf, position)
+---@param start_insert? boolean
+function M.open_win(buf, position, start_insert)
 	position = position or 'float'
+
+	if start_insert == nil then
+		start_insert = true
+	end
 
 	if position == 'float' then
 		vim.api.nvim_open_win(buf, true, M.get_win_config())
@@ -90,7 +96,11 @@ function M.open_win(buf, position)
 		vim.wo[win].winfixwidth = true
 	end
 
-	vim.cmd('startinsert')
+	if start_insert then
+		vim.cmd('startinsert')
+	else
+		vim.cmd('stopinsert')
+	end
 end
 
 function M:close_term()
@@ -104,6 +114,7 @@ function M:close_term()
 		return
 	end
 
+	self.mode = vim.fn.mode()
 	vim.api.nvim_win_close(win, false)
 end
 
