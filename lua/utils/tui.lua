@@ -63,7 +63,7 @@ function M:open_term_buf_in_win(position)
 		return
 	end
 
-	self.open_win(self.buf, position, self.mode ~= 'n')
+	self.open_win(self.buf, position, self.mode)
 end
 
 ---@param input? string
@@ -71,7 +71,7 @@ end
 function M:create_term(input, position)
 	self.buf = vim.api.nvim_create_buf(false, true)
 	vim.bo[self.buf].filetype = self.ft
-	self.open_win(self.buf, position)
+	self.open_win(self.buf, position, 'i')
 	local cmd = vim.list_extend(vim.list_extend({}, self.cmd), { input })
 	self.chan = vim.fn.jobstart(cmd, { term = true })
 	self:apply_keymaps()
@@ -79,13 +79,10 @@ end
 
 ---@param buf number
 ---@param position? TUIPosition
----@param start_insert? boolean
-function M.open_win(buf, position, start_insert)
+---@param mode? string
+function M.open_win(buf, position, mode)
 	position = position or 'float'
-
-	if start_insert == nil then
-		start_insert = true
-	end
+	mode = mode or 'i'
 
 	if position == 'float' then
 		vim.api.nvim_open_win(buf, true, M.get_win_config())
@@ -96,10 +93,10 @@ function M.open_win(buf, position, start_insert)
 		vim.wo[win].winfixwidth = true
 	end
 
-	if start_insert then
-		vim.cmd('startinsert')
-	else
+	if mode == 'n' then
 		vim.cmd('stopinsert')
+	else
+		vim.cmd('startinsert')
 	end
 end
 
