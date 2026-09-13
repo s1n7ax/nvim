@@ -111,6 +111,7 @@ function M:close_term()
 		return
 	end
 
+	vim.api.nvim_set_current_win(win)
 	self.mode = vim.fn.mode()
 	vim.api.nvim_win_close(win, false)
 end
