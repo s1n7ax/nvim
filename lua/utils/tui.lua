@@ -75,6 +75,14 @@ function M:create_term(input, position)
 	local cmd = vim.list_extend(vim.list_extend({}, self.cmd), { input })
 	self.chan = vim.fn.jobstart(cmd, { term = true })
 	self:apply_keymaps()
+
+	-- WinLeave covers every close path (<c-q>, :q, toggle) and still reports terminal mode
+	vim.api.nvim_create_autocmd('WinLeave', {
+		buffer = self.buf,
+		callback = function()
+			self.mode = vim.fn.mode()
+		end,
+	})
 end
 
 ---@param buf number
@@ -111,8 +119,6 @@ function M:close_term()
 		return
 	end
 
-	vim.api.nvim_set_current_win(win)
-	self.mode = vim.fn.mode()
 	vim.api.nvim_win_close(win, false)
 end
 
