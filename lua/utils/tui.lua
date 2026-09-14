@@ -10,6 +10,7 @@
 ---@field ft string
 ---@field chan number|nil
 ---@field keymaps TUIKeymap[]
+---@field insert boolean|nil whether the window was last used in terminal mode
 local float = require('utils.window.float')
 
 local M = {}
@@ -37,22 +38,19 @@ function M:toggle(input, position)
 		input = input:gsub('^%s*(.-)%s*$', '%1')
 	end
 
-	if not self.buf or not vim.api.nvim_buf_is_valid(self.buf) then
-		self.buf = nil
-		self.chan = nil
+	if self.buf and self.find_winid_for_buf(self.buf) then
+		return self:close_term()
+	end
+
+	if not self:is_running() then
+		self:discard()
 		return self:create_term(input, position)
 	end
 
-	local win = self.find_winid_for_buf(self.buf)
+	self:open_term_buf_in_win(position)
 
-	if win then
-		return self:close_term()
-	else
-		self:open_term_buf_in_win(position)
-
-		if type(input) == 'string' and input ~= '' then
-			self:send_prompt(input)
-		end
+	if type(input) == 'string' and input ~= '' then
+		self:send_prompt(input)
 	end
 end
 
@@ -62,23 +60,83 @@ function M:open_term_buf_in_win(position)
 		return
 	end
 
-	self.open_win(self.buf, position)
+	self.open_win(self.buf, position, self.insert)
 end
 
 ---@param input? string
 ---@param position? TUIPosition
 function M:create_term(input, position)
+	---checked before `open_win` rearranges the layout
+	if vim.fn.executable(self.cmd[1]) ~= 1 then
+		vim.notify(self.cmd[1] .. ' is not executable', vim.log.levels.ERROR)
+		return
+	end
+
 	self.buf = vim.api.nvim_create_buf(false, true)
 	vim.bo[self.buf].filetype = self.ft
-	self.open_win(self.buf, position)
+	self:apply_keymaps()
+	self:track_mode()
+	self.open_win(self.buf, position, false)
 	local cmd = vim.list_extend(vim.list_extend({}, self.cmd), { input })
 	self.chan = vim.fn.jobstart(cmd, { term = true })
-	self:apply_keymaps()
+	vim.cmd('startinsert')
+end
+
+---@private
+---@return boolean
+function M:is_running()
+	return self.buf ~= nil
+		and vim.api.nvim_buf_is_valid(self.buf)
+		and self.chan ~= nil
+		and vim.fn.jobwait({ self.chan }, 0)[1] == -1
+end
+
+---Delete the terminal buffer, if any, and forget its state
+---@private
+function M:discard()
+	if self.buf and vim.api.nvim_buf_is_valid(self.buf) then
+		vim.api.nvim_buf_delete(self.buf, { force = true })
+	end
+
+	self.buf = nil
+	self.chan = nil
+	self.insert = nil
+end
+
+---Record whether the window is used in terminal or normal mode. Only entering
+---terminal mode, or leaving it while staying in the window, counts. Entering
+---the window from elsewhere (`n` -> `nt`) is ignored, and leaving terminal mode
+---is checked a tick later so that doing it only as a side effect of leaving the
+---window (mouse click, `<C-\><C-o><C-w>h`, a `<C-\><C-n><C-w>h` mapping)
+---keeps terminal mode. Closing the window records nothing, so the last mode
+---used inside it is what gets restored
+---@private
+function M:track_mode()
+	vim.api.nvim_create_autocmd('ModeChanged', {
+		buffer = self.buf,
+		callback = function()
+			local old, new = vim.v.event.old_mode, vim.v.event.new_mode
+
+			if new == 't' then
+				self.insert = true
+			elseif old == 't' and new == 'nt' then
+				vim.schedule(function()
+					if
+						vim.api.nvim_get_current_buf() == self.buf
+						and vim.fn.mode(1) == 'nt'
+					then
+						self.insert = false
+					end
+				end)
+			end
+		end,
+	})
 end
 
 ---@param buf number
 ---@param position? TUIPosition
-function M.open_win(buf, position)
+---@param insert? boolean enter terminal mode, defaults to true
+function M.open_win(buf, position, insert)
 	position = position or 'float'
 
 	if position == 'float' then
@@ -90,7 +148,9 @@ function M.open_win(buf, position)
 		vim.wo[win].winfixwidth = true
 	end
 
-	vim.cmd('startinsert')
+	if insert ~= false then
+		vim.cmd('startinsert')
+	end
 end
 
 function M:close_term()
