@@ -74,17 +74,17 @@ function M:create_term(input, position)
 	self:track_mode()
 	self.open_win(self.buf, position)
 	local cmd = vim.list_extend(vim.list_extend({}, self.cmd), { input })
-	local ok, chan = pcall(vim.fn.jobstart, cmd, { term = true })
+	local ok, result = pcall(vim.fn.jobstart, cmd, { term = true })
 
 	if not ok then
 		vim.cmd('stopinsert')
 		vim.api.nvim_buf_delete(self.buf, { force = true })
 		self:reset()
-		vim.notify(chan, vim.log.levels.ERROR)
+		vim.notify(result, vim.log.levels.ERROR)
 		return
 	end
 
-	self.chan = chan
+	self.chan = result
 end
 
 ---@private
