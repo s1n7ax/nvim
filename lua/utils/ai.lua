@@ -9,12 +9,10 @@ local AI_CMD = 'claude'
 local ai = TUI:new({ cmd = { AI_CMD } })
 -- local ai = TUI:new({ cmd = { 'opencode', '--prompt' } })
 
-ai:map({ 'n', 't' }, ',t', function()
+ai:map('t', ',t', function()
 	if M.ctx ~= '' then
 		ai:send_prompt(M.ctx)
 	end
-
-	vim.cmd('startinsert')
 end, { desc = 'Insert file context' })
 
 function M.toggle()
