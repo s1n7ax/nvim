@@ -80,11 +80,6 @@
       "rev": "95e1c7beeb7bffa1f02a28f0fe921520d79ce317",
       "src": "https://github.com/WTFox/luna.nvim"
     },
-    "md-render.nvim": {
-      "rev": "00a83b8a25b9d2d50dd15efaf4c701c19de21688",
-      "src": "https://github.com/delphinus/md-render.nvim",
-      "version": "3.0.0 - 4.0.0"
-    },
     "melange-nvim": {
       "rev": "ce42f6b629beeaa00591ba73a77d3eeac4cf28ce",
       "src": "https://github.com/savq/melange-nvim"
