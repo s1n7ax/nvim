@@ -80,6 +80,11 @@
       "rev": "95e1c7beeb7bffa1f02a28f0fe921520d79ce317",
       "src": "https://github.com/WTFox/luna.nvim"
     },
+    "md-render.nvim": {
+      "rev": "00a83b8a25b9d2d50dd15efaf4c701c19de21688",
+      "src": "https://github.com/delphinus/md-render.nvim",
+      "version": "3.0.0 - 4.0.0"
+    },
     "melange-nvim": {
       "rev": "ce42f6b629beeaa00591ba73a77d3eeac4cf28ce",
       "src": "https://github.com/savq/melange-nvim"
@@ -212,6 +217,10 @@
     "promise-async": {
       "rev": "119e8961014c9bfaf1487bf3c2a393d254f337e2",
       "src": "https://github.com/kevinhwang91/promise-async"
+    },
+    "render-markdown.nvim": {
+      "rev": "640a3ec6d538bad17c328be373c7cad0293d9589",
+      "src": "https://github.com/MeanderingProgrammer/render-markdown.nvim"
     },
     "snacks.nvim": {
       "rev": "882c996cf28183f4d63640de0b4c02ec886d01f2",

@@ -83,6 +83,12 @@ vim.pack.add({
 	'https://github.com/b0o/SchemaStore.nvim',
 
 	'https://github.com/folke/todo-comments.nvim',
+
+	'https://github.com/MeanderingProgrammer/render-markdown.nvim',
+	{
+		src = 'https://github.com/delphinus/md-render.nvim',
+		version = vim.version.range('3'),
+	},
 })
 
 require('plugins.auto-session')
@@ -128,3 +134,4 @@ require('plugins.dap')
 require('plugins.todo-comments')
 require('plugins.lint')
 -- require('plugins.fyler')
+require('plugins.markdown')
