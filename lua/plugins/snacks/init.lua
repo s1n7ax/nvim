@@ -95,6 +95,9 @@ require('snacks').setup({
 		win = {
 			width = 0,
 			height = HEIGHT,
+			keys = {
+				hide_term = { 'q', 'hide', mode = 't', desc = 'Hide lazygit' },
+			},
 		},
 	},
 	picker = {
