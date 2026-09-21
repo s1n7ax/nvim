@@ -50,7 +50,7 @@ blink.setup({
 		completion = { menu = { auto_show = false } },
 	},
 	completion = {
-		menu = { border = 'single' },
+		menu = { border = 'padded' },
 		documentation = { window = { border = 'single' } },
 		ghost_text = {
 			enabled = false,
