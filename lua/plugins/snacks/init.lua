@@ -1,4 +1,3 @@
-local snacks = require('snacks')
 local utils = require('utils.keymaps')
 local nmap = utils.mapper('n')
 
@@ -6,52 +5,60 @@ local WIDTH = 0.7
 local HEIGHT = 0
 
 local open_grep = function()
-	snacks.picker.grep()
+	Snacks.picker.grep()
 end
 
 -- stylua: ignore
 local open_files = function()
-	snacks.picker.smart({ filter = { cwd = true } })
+	Snacks.picker.smart({ filter = { cwd = true } })
+end
+
+--- Wraps a `Snacks.picker` source so that indexing it - which pulls in the
+--- picker module - happens on the keypress rather than while mapping.
+local function picker(source)
+	return function()
+		Snacks.picker[source]()
+	end
 end
 
 -- stylua: ignore
 nmap({
 	{ ',,', open_files, 'Find files' },
-	{ ',p', function() snacks.zen() end, 'Zen mode' },
+	{ ',p', function() Snacks.zen() end, 'Zen mode' },
 	{ '<leader>/', open_grep, 'Find text' },
 
-	{ '<leader>tn', snacks.picker.lines, 'Find lines' },
-	{ '<leader>te', snacks.picker.commands, 'Find commands' },
-	{ '<leader>ti', snacks.picker.lsp_symbols, 'Find symbols' },
+	{ '<leader>tn', picker('lines'), 'Find lines' },
+	{ '<leader>te', picker('commands'), 'Find commands' },
+	{ '<leader>ti', picker('lsp_symbols'), 'Find symbols' },
 	-- { '<leader>to', snacks.picker.buffers, 'Find buffers' },
-	{ "<leader>tl", snacks.picker.lsp_type_definitions, "Find type definition" },
-	{ "<leader>tp", snacks.picker.colorschemes, "Find colorschemes" },
+	{ "<leader>tl", picker('lsp_type_definitions'), "Find type definition" },
+	{ "<leader>tp", picker('colorschemes'), "Find colorschemes" },
 
-	{ '<leader>tt', snacks.picker.diagnostics, 'Find diagnostics' },
-	{ '<leader>ts', snacks.picker.git_branches, 'Find git branches' },
-	{ '<leader>tr', snacks.picker.lsp_workspace_symbols, 'Find workspace symbols', },
-	{ '<leader>ta', snacks.picker.keymaps, 'Find keymaps' },
-	{ '<leader>th', snacks.picker.help, 'Find help' },
+	{ '<leader>tt', picker('diagnostics'), 'Find diagnostics' },
+	{ '<leader>ts', picker('git_branches'), 'Find git branches' },
+	{ '<leader>tr', picker('lsp_workspace_symbols'), 'Find workspace symbols', },
+	{ '<leader>ta', picker('keymaps'), 'Find keymaps' },
+	{ '<leader>th', picker('help'), 'Find help' },
 
-	{ '<leader>tf', snacks.picker.files, 'Find help' },
+	{ '<leader>tf', picker('files'), 'Find help' },
 
 	-- lsp keymaps
-	{ '<leader>nn', snacks.picker.lsp_definitions, "Goto Definition" },
-	{ '<leader>ni', snacks.picker.lsp_references, { desc = "References", nowait = true } },
-	{ '<leader>nr', snacks.picker.lsp_implementations, "Goto Implementation" },
-	{ "<leader>na", snacks.picker.lsp_type_definitions , "Goto T[y]pe Definition" },
+	{ '<leader>nn', picker('lsp_definitions'), "Goto Definition" },
+	{ '<leader>ni', picker('lsp_references'), { desc = "References", nowait = true } },
+	{ '<leader>nr', picker('lsp_implementations'), "Goto Implementation" },
+	{ "<leader>na", picker('lsp_type_definitions'), "Goto T[y]pe Definition" },
 
 	-- git
-	{ ',s', function () snacks.lazygit() end, "Open lazygit" },
+	{ ',s', function () Snacks.lazygit() end, "Open lazygit" },
 
 	-- gh
-	{ '<leader>er', function () snacks.picker.gh_pr() end, "GitHub Pull Requests (open)" },
+	{ '<leader>er', function () Snacks.picker.gh_pr() end, "GitHub Pull Requests (open)" },
 
 	-- file
-	{ ',t', function() snacks.explorer.reveal() end, "Explorer"  },
+	{ ',t', function() Snacks.explorer.reveal() end, "Explorer"  },
 
-	{ "<leader>us",  function() snacks.scratch() end, { desc = "Toggle Scratch Buffer" }},
-	{ "<leader>to",  function() snacks.scratch.select() end, { desc = "Select Scratch Buffer" } },
+	{ "<leader>us",  function() Snacks.scratch() end, { desc = "Toggle Scratch Buffer" }},
+	{ "<leader>to",  function() Snacks.scratch.select() end, { desc = "Select Scratch Buffer" } },
 
 })
 

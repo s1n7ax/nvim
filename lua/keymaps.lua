@@ -89,9 +89,10 @@ nmap({
 	{ '<leader>oo', function () vim.pack.update() end, "Update packages" },
 	{ '<leader>on', function () vim.pack.update(nil, { target = 'lockfile' }) end, "Restore packages to lockfile" },
 	{ '<leader>ot', function ()
+    local lazy = require('utils.lazy')
     local pkgs = vim.iter(vim.pack.get())
-     :filter(function(x) return not x.active end)
      :map(function(x) return x.spec.name end)
+     :filter(function(name) return not lazy.is_declared(name) end)
      :totable()
 
 		if(#pkgs == 0) then

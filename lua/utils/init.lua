@@ -1,12 +1,28 @@
+--- Aggregates the `utils.*` submodules.
+---
+--- Access is resolved on first use, so requiring this module costs nothing for
+--- the submodules a caller never touches.
 local M = {}
 
-M.keymaps = require('utils.keymaps')
-M.editing = require('utils.editing')
-M.lsp = require('utils.lsp')
-M.git = require('utils.git')
-M.tui = require('utils.tui')
-M.context = require('utils.context')
+local submodules = {
+	'keymaps',
+	'editing',
+	'lsp',
+	'git',
+	'tui',
+	'context',
+}
 
-M.mapper = M.keymaps.mapper
+return setmetatable(M, {
+	__index = function(_, key)
+		if key == 'mapper' then
+			return require('utils.keymaps').mapper
+		end
 
-return M
+		if vim.tbl_contains(submodules, key) then
+			local mod = require('utils.' .. key)
+			rawset(M, key, mod)
+			return mod
+		end
+	end,
+})

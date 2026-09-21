@@ -36,14 +36,30 @@ local other_rules = {
 	nix = { 'nixfmt' },
 }
 
-require('conform').setup({
-	formatters_by_ft = vim.tbl_extend('force', prettier_rules, other_rules),
-	format_on_save = function(bufnr)
-		-- Disable with a global or buffer-local variable
-		if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
+local M = {}
+
+function M.setup()
+	require('conform').setup({
+		formatters_by_ft = vim.tbl_extend('force', prettier_rules, other_rules),
+	})
+end
+
+--- Format-on-save lives here rather than in conform's `format_on_save` option
+--- so that the plugin only has to exist once a write actually happens: the
+--- `require` below is what pulls it onto 'runtimepath'.
+vim.api.nvim_create_autocmd('BufWritePre', {
+	group = vim.api.nvim_create_augroup('ConformFormatOnSave', { clear = true }),
+	callback = function(event)
+		--- Disable with a global or buffer-local variable
+		if vim.g.disable_autoformat or vim.b[event.buf].disable_autoformat then
 			return
 		end
-		return { timeout_ms = 5000, lsp_format = 'fallback' }
+
+		require('conform').format({
+			bufnr = event.buf,
+			timeout_ms = 5000,
+			lsp_format = 'fallback',
+		})
 	end,
 })
 
@@ -89,3 +105,5 @@ vim.api.nvim_create_user_command('FormatEnable', function()
 end, {
 	desc = 'Re-enable autoformat-on-save',
 })
+
+return M
