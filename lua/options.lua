@@ -36,7 +36,7 @@ vim.o.hlsearch = false
 vim.o.ignorecase = true
 vim.o.laststatus = 0
 vim.o.linebreak = true
-vim.o.messagesopt = 'hit-enter,history:5000'
+vim.o.messagesopt = 'hit-enter,history:5000,timeout:5000,maxheight:50'
 vim.o.more = false
 vim.o.number = true
 vim.o.pumblend = 10
@@ -117,15 +117,11 @@ require('vim._core.ui2').enable({
 			wmsg = 'msg',
 			typed_cmd = 'cmd',
 		},
-		cmd = {
-			height = 0.5,
-		},
 		dialog = {
 			height = 0.5,
 		},
 		msg = {
 			height = 0.3,
-			timeout = 5000,
 		},
 		pager = {
 			height = 0.5,
