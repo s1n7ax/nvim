@@ -20,11 +20,4 @@ for _, server in ipairs(lsp.servers) do
 	vim.lsp.config(server, { capabilities = capabilities })
 end
 
-require('ufo').setup({
-	-- nvim-diff panes own their folds; ufo's would replace them.
-	provider_selector = function(bufnr)
-		if vim.b[bufnr].nvim_diff_pane then
-			return ''
-		end
-	end,
-})
+require('ufo').setup()
