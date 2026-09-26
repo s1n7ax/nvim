@@ -87,6 +87,10 @@ vim.pack.add({
 	'https://github.com/MeanderingProgrammer/render-markdown.nvim',
 })
 
+local pack = require('utils.pack')
+
+pack.add_local_or_remote('https://github.com/s1n7ax/nvim-diff')
+
 require('plugins.auto-session')
 require('plugins.autopair')
 -- require('plugins.persistence')
