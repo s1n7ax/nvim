@@ -4,7 +4,7 @@ local TUI = require('utils').tui
 
 local M = {}
 
-local AI_CMD = 'claude'
+local AI_CMD = 'pi'
 
 local ai = TUI:new({ cmd = { AI_CMD } })
 -- local ai = TUI:new({ cmd = { 'opencode', '--prompt' } })
