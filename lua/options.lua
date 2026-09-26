@@ -143,7 +143,7 @@ focus.setup({
 	},
 })
 focus.add_rule({
-	match = { filetype = { 'claude', 'pi' } },
+	match = { filetype = { 'claude', 'pi', 'cursor' } },
 	focused = { width = 80 },
 	unfocused = { width = 80 },
 })

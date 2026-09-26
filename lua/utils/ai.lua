@@ -6,7 +6,8 @@ local M = {}
 
 ---@class AIAgent
 ---@field cmd string[] interactive TUI command
----@field print_args string[] flags for a one-shot, tool-less headless run
+---@field ft? string buffer filetype override
+---@field print_args? string[] flags for a one-shot, tool-less headless run
 
 ---@type table<string, AIAgent>
 local AGENTS = {
@@ -32,6 +33,10 @@ local AGENTS = {
 			'--no-prompt-templates',
 		},
 	},
+	cursor = {
+		cmd = { 'agent' },
+		ft = 'cursor',
+	},
 }
 
 local DEFAULT_AGENT = 'pi'
@@ -52,7 +57,7 @@ local agent = read_agent()
 local ai
 
 local function new_tui()
-	ai = TUI:new({ cmd = AGENTS[agent].cmd })
+	ai = TUI:new({ cmd = AGENTS[agent].cmd, ft = AGENTS[agent].ft })
 
 	ai:map('t', ',t', function()
 		if M.ctx ~= '' then
@@ -141,7 +146,13 @@ end
 ---Summarize the visual selection, or the whole file in normal mode, by piping
 ---it to the headless agent (`--print`) and rendering the answer in a float
 function M.tldr()
-	local cmd = AGENTS[agent].cmd[1]
+	local spec = AGENTS[agent]
+	local cmd = spec.cmd[1]
+
+	if not spec.print_args then
+		vim.notify(agent .. ' does not support headless summaries yet', vim.log.levels.WARN)
+		return
+	end
 
 	if vim.fn.executable(cmd) ~= 1 then
 		vim.notify(cmd .. ' is not on PATH', vim.log.levels.ERROR)
@@ -181,7 +192,7 @@ function M.tldr()
 	end
 
 	local ok, err = pcall(function()
-		local args = vim.list_extend({ cmd }, AGENTS[agent].print_args)
+		local args = vim.list_extend({ cmd }, spec.print_args)
 		table.insert(args, prompt)
 
 		job = vim.system(args, {
