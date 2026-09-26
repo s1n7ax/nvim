@@ -4,16 +4,96 @@ local TUI = require('utils').tui
 
 local M = {}
 
-local AI_CMD = 'pi'
+---@class AIAgent
+---@field cmd string[] interactive TUI command
+---@field print_args string[] flags for a one-shot, tool-less headless run
 
-local ai = TUI:new({ cmd = { AI_CMD } })
--- local ai = TUI:new({ cmd = { 'opencode', '--prompt' } })
+---@type table<string, AIAgent>
+local AGENTS = {
+	claude = {
+		cmd = { 'claude' },
+		print_args = {
+			'--print',
+			'--no-session-persistence',
+			'--strict-mcp-config',
+			---`--tools` is variadic, so the space form swallows the prompt
+			'--tools=',
+		},
+	},
+	pi = {
+		cmd = { 'pi' },
+		print_args = {
+			'--print',
+			'--no-session',
+			'--no-tools',
+			'--no-context-files',
+			'--no-extensions',
+			'--no-skills',
+			'--no-prompt-templates',
+		},
+	},
+}
 
-ai:map('t', ',t', function()
-	if M.ctx ~= '' then
-		ai:send_prompt(M.ctx)
+local DEFAULT_AGENT = 'pi'
+
+---Remembers the selected agent across Neovim instances
+local STATE_FILE = vim.fn.stdpath('state') .. '/ai-agent'
+
+---@return string
+local function read_agent()
+	local ok, lines = pcall(vim.fn.readfile, STATE_FILE)
+	local name = ok and lines[1] or nil
+	return AGENTS[name] and name or DEFAULT_AGENT
+end
+
+local agent = read_agent()
+
+---@type TUI
+local ai
+
+local function new_tui()
+	ai = TUI:new({ cmd = AGENTS[agent].cmd })
+
+	ai:map('t', ',t', function()
+		if M.ctx ~= '' then
+			ai:send_prompt(M.ctx)
+		end
+	end, { desc = 'Insert file context' })
+end
+
+new_tui()
+
+---Switch the AI agent for this and every new Neovim instance. A running
+---session of the previous agent is closed
+---@param name string
+function M.set_agent(name)
+	if not AGENTS[name] then
+		vim.notify('Unknown AI agent: ' .. name, vim.log.levels.ERROR)
+		return
 	end
-end, { desc = 'Insert file context' })
+
+	vim.fn.mkdir(vim.fs.dirname(STATE_FILE), 'p')
+	vim.fn.writefile({ name }, STATE_FILE)
+
+	if name ~= agent then
+		ai:discard()
+		agent = name
+		new_tui()
+	end
+
+	vim.notify('AI agent: ' .. name)
+end
+
+---Pick the AI agent from a list
+function M.select_agent()
+	vim.ui.select(vim.tbl_keys(AGENTS), {
+		prompt = 'AI agent (current: ' .. agent .. ')',
+	}, function(name)
+		if name then
+			M.set_agent(name)
+		end
+	end)
+end
 
 function M.toggle()
 	ai:toggle()
@@ -59,10 +139,12 @@ local function build_prompt(filetype)
 end
 
 ---Summarize the visual selection, or the whole file in normal mode, by piping
----it to a headless `claude --print` and rendering the answer in a float
+---it to the headless agent (`--print`) and rendering the answer in a float
 function M.tldr()
-	if vim.fn.executable(AI_CMD) ~= 1 then
-		vim.notify(AI_CMD .. ' is not on PATH', vim.log.levels.ERROR)
+	local cmd = AGENTS[agent].cmd[1]
+
+	if vim.fn.executable(cmd) ~= 1 then
+		vim.notify(cmd .. ' is not on PATH', vim.log.levels.ERROR)
 		return
 	end
 
@@ -99,15 +181,10 @@ function M.tldr()
 	end
 
 	local ok, err = pcall(function()
-		job = vim.system({
-			AI_CMD,
-			'--print',
-			'--no-session-persistence',
-			'--strict-mcp-config',
-			---`--tools` is variadic, so the space form swallows the prompt
-			'--tools=',
-			prompt,
-		}, {
+		local args = vim.list_extend({ cmd }, AGENTS[agent].print_args)
+		table.insert(args, prompt)
+
+		job = vim.system(args, {
 			---keep the summary about the code itself, free of project CLAUDE.md
 			cwd = vim.fn.stdpath('cache'),
 			stdin = code,
@@ -127,7 +204,7 @@ function M.tldr()
 				if res.code ~= 0 then
 					return fail(
 						res.stderr ~= '' and res.stderr
-							or (AI_CMD .. ' exited with ' .. res.code)
+							or (cmd .. ' exited with ' .. res.code)
 					)
 				end
 
@@ -149,6 +226,19 @@ function M.setup_cmd()
 		local position = opts.fargs[1]
 		ai:toggle(nil, position)
 	end, { range = true, nargs = '?' })
+
+	vim.api.nvim_create_user_command('AIAgent', function(opts)
+		if opts.args == '' then
+			M.select_agent()
+		else
+			M.set_agent(opts.args)
+		end
+	end, {
+		nargs = '?',
+		complete = function()
+			return vim.tbl_keys(AGENTS)
+		end,
+	})
 end
 
 return M
