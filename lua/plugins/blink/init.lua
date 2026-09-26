@@ -39,6 +39,7 @@ blink.setup({
 		['<c-l>'] = { 'cancel', 'fallback' },
 	},
 	cmdline = {
+		enabled = false,
 		keymap = {
 			preset = 'none',
 			['<c-space>'] = { 'show' },
