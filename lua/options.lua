@@ -138,7 +138,7 @@ focus.setup({
 	ignore_tab_filetypes = { '^Diffview', '^dapui_', '^dap%-repl$' },
 })
 focus.add_rule({
-	match = { filetype = 'claude' },
+	match = { filetype = { 'claude', 'pi' } },
 	focused = { width = 80 },
 	unfocused = { width = 80 },
 })

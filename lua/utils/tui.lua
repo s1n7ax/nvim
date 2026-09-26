@@ -92,7 +92,6 @@ function M:is_running()
 end
 
 ---Delete the terminal buffer, if any, and forget its state
----@private
 function M:discard()
 	if self.buf and vim.api.nvim_buf_is_valid(self.buf) then
 		vim.api.nvim_buf_delete(self.buf, { force = true })
