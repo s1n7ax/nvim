@@ -15,4 +15,23 @@ function M.pick_pkg_to_update()
 	end)
 end
 
+--- Adds a plugin from a local checkout at `~/<name>` or `~/Workspace/<name>`,
+--- falling back to installing it from `src` with `vim.pack.add`.
+---@param src string git URL of the plugin
+function M.add_local_or_remote(src)
+	local name = vim.fs.basename(src):gsub('%.git$', '')
+
+	local local_path = vim.iter({ '~/' .. name, '~/Workspace/' .. name })
+		:map(vim.fs.normalize)
+		:find(function(path)
+			return vim.fn.isdirectory(path) == 1
+		end)
+
+	if local_path then
+		vim.opt.runtimepath:prepend(local_path)
+	else
+		vim.pack.add({ src })
+	end
+end
+
 return M
