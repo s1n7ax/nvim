@@ -33,6 +33,17 @@ local AGENTS = {
 			'--no-prompt-templates',
 		},
 	},
+	codex = {
+		cmd = { 'codex' },
+		print_args = {
+			'exec',
+			'--skip-git-repo-check',
+			'--sandbox',
+			'read-only',
+			'--ask-for-approval',
+			'never',
+		},
+	},
 	cursor = {
 		cmd = { 'agent' },
 		ft = 'cursor',
