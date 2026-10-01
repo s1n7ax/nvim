@@ -142,6 +142,7 @@ nxmap({
 	{ ',a', '<cmd>PromptAI<cr>', 'Ask AI' },
 	{ ',i', '<cmd>PromptAI right<cr>', 'Ask AI (right)' },
 	{ ',A', function() require('utils.ai').tldr() end, 'AI TLDR of selection/file' },
+	{ ',g', function() require('utils.ai').select_agent() end, 'Select AI agent' },
 })
 
 -- git
