@@ -30,52 +30,52 @@ require('nvim-treesitter-textobjects').setup({
 	},
 })
 
-local to_select = function(key, sel)
+local to_select = function(key, sel, desc)
 	vim.keymap.set({ 'x', 'o' }, key, function()
 		require('nvim-treesitter-textobjects.select').select_textobject(
 			sel,
 			'textobjects'
 		)
-	end)
+	end, { desc = desc })
 end
 
-to_select('ak', '@block.outer')
-to_select('hk', '@block.inner')
-to_select('ac', '@class.outer')
-to_select('hc', '@class.inner')
-to_select('af', '@function.outer')
-to_select('hf', '@function.inner')
-to_select('al', '@loop.outer')
-to_select('hl', '@loop.inner')
-to_select('aa', '@parameter.outer')
-to_select('ha', '@parameter.inner')
+to_select('ak', '@block.outer', 'Select around block')
+to_select('hk', '@block.inner', 'Select inside block')
+to_select('ac', '@class.outer', 'Select around class')
+to_select('hc', '@class.inner', 'Select inside class')
+to_select('af', '@function.outer', 'Select around function')
+to_select('hf', '@function.inner', 'Select inside function')
+to_select('al', '@loop.outer', 'Select around loop')
+to_select('hl', '@loop.inner', 'Select inside loop')
+to_select('aa', '@parameter.outer', 'Select around parameter')
+to_select('ha', '@parameter.inner', 'Select inside parameter')
 
-local move_next = function(key, mov)
+local move_next = function(key, mov, desc)
 	vim.keymap.set({ 'n', 'x', 'o' }, key, function()
 		require('nvim-treesitter-textobjects.move').goto_next_start(
 			mov,
 			'textobjects'
 		)
-	end)
+	end, { desc = desc })
 end
 
-local move_prev = function(key, mov)
+local move_prev = function(key, mov, desc)
 	vim.keymap.set({ 'n', 'x', 'o' }, key, function()
 		require('nvim-treesitter-textobjects.move').goto_previous_start(
 			mov,
 			'textobjects'
 		)
-	end)
+	end, { desc = desc })
 end
 
-move_next(']a', '@parameter.inner')
-move_next(']f', '@function.outer')
-move_next(']c', '@call.inner')
-move_next(']v', '@assignment.inner')
-move_next(']r', '@return.inner')
+move_next(']a', '@parameter.inner', 'Next parameter')
+move_next(']f', '@function.outer', 'Next function')
+move_next(']c', '@call.inner', 'Next call')
+move_next(']v', '@assignment.inner', 'Next assignment')
+move_next(']r', '@return.inner', 'Next return')
 
-move_prev('[a', '@parameter.inner')
-move_prev('[f', '@function.outer')
-move_prev('[c', '@call.inner')
-move_prev('[v', '@assignment.inner')
-move_prev('[r', '@return.inner')
+move_prev('[a', '@parameter.inner', 'Previous parameter')
+move_prev('[f', '@function.outer', 'Previous function')
+move_prev('[c', '@call.inner', 'Previous call')
+move_prev('[v', '@assignment.inner', 'Previous assignment')
+move_prev('[r', '@return.inner', 'Previous return')

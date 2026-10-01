@@ -4,7 +4,6 @@ local nmap = mapper('n')
 
 -- stylua: ignore
 nmap({
-	{ '<leader>r', '', '+Rest' },
 	{ '<leader>ra', function() require('kulala').run_all() end, 'Send all requests', },
 	{ '<leader>rr', function() require('kulala').run() end, 'Send the request', },
 	{ '<leader>rt', function() require('kulala').toggle_view() end, 'Toggle headers/body', },

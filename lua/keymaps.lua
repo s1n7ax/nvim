@@ -16,7 +16,7 @@ local vmap = mapper('v')
 
 -- colemak remaps
 amap({
-	{ '<c-l>', '<c-i>', 'Jump to previous jump point' },
+	{ '<c-l>', '<c-i>', 'Jump to next jump point' },
 	{ 'E', 'K', 'Keyword lookup' },
 	{ 'H', 'I', 'Insert at line start' },
 	{ 'K', 'N', 'Find prev' },
@@ -46,7 +46,7 @@ nmap({
 	{ '<leader>p', 'a <esc>p', 'Paste After a Space' },
 	{ '[<leader>', add_line_above, 'Add line above' },
 	{ ']<leader>', add_line_below, 'Add line below' },
-	{ 'x', '"_x', 'Delete Character' },
+	{ 'x', '"_x', 'Delete character (no yank)' },
 	{ '<leader>uz', '<cmd>set spell!<cr>', 'Toggle spell check' },
 	{ "''", '``zz', 'Go to last jump point' },
 	{ '0', '^5zH', 'Go to first character of line' },
@@ -111,7 +111,7 @@ imap({
 	{ '<c-v>', '<esc>pa', 'Paste' },
 	{ '<m-a>', '<esc>I', '(Insert) Jump to line start' },
 	{ '<m-e>', '<esc>A', '(Insert) Jump to line end' },
-	{ '<m-h>', '<esc>O', 'Insert new line below' },
+	{ '<m-h>', '<esc>O', 'Insert new line above' },
 	{ '<m-k>', '<esc>ddi', 'Delete current line' },
 	{ '<m-y>', duplicate_line, 'Duplicate current line' },
 })
@@ -125,7 +125,7 @@ tmap({
 -- visual mode keymaps
 vmap({
 	{ 'p', 'P', 'Paste yanked text' },
-	{ '$', 'g_', 'Select until end of line' },
+	{ '$', 'g_', 'Select to last non-blank char' },
 })
 
 -- opencode
@@ -217,4 +217,5 @@ nxomap({
 vim.cmd('packadd nvim.undotree')
 nmap({
 	{ '<leader>uu', require('undotree').open, 'Open undotree' },
+	{ '<leader>ui', function() require('utils.ai').select_agent() end, 'Select AI agent' },
 })

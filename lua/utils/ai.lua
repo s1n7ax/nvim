@@ -248,19 +248,6 @@ function M.setup_cmd()
 		local position = opts.fargs[1]
 		ai:toggle(nil, position)
 	end, { range = true, nargs = '?' })
-
-	vim.api.nvim_create_user_command('AIAgent', function(opts)
-		if opts.args == '' then
-			M.select_agent()
-		else
-			M.set_agent(opts.args)
-		end
-	end, {
-		nargs = '?',
-		complete = function()
-			return vim.tbl_keys(AGENTS)
-		end,
-	})
 end
 
 return M
