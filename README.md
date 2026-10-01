@@ -54,6 +54,10 @@ nvim
 
 ## Plugin Keymaps (Frequency-Based)
 
+`,` (comma leader) is for the most frequent commands. `<leader>u` is for choice
+selections (`vim.ui.select` menus) and toggles — infrequent, pick-one-or-flip-it
+actions.
+
 ### Comma-based (Most Frequent)
 - `,,` - Find files (snacks.picker.files)
 - `,a` - Zen mode (snacks.zen)
@@ -91,6 +95,14 @@ nvim
 - `<leader>er` - Task action
 - `<leader>ea` - Clear cache
 - `<leader>el` - Load bundle
+
+### Toggle (`<leader>u`) - Selections & Toggles
+- `<leader>uu` - Open undotree
+- `<leader>ui` - Select AI agent
+- `<leader>ut` - Toggle auto-formatting
+- `<leader>un` - Toggle markdown rendering
+- `<leader>us` - Toggle scratch buffer
+- `<leader>uz` - Toggle spell check
 
 ### Git Tools (`<leader>i`) - Diffview & Gitlinker
 - `<leader>ii` - Git diff file
