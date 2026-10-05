@@ -144,6 +144,10 @@
       "rev": "cc9dd33aade7f20bae414d0cba163bc60d4d4b43",
       "src": "https://github.com/rcarriga/nvim-dap-ui"
     },
+    "nvim-diff": {
+      "rev": "63e78f44674873cf7edfc438e67a98661867c73b",
+      "src": "https://github.com/s1n7ax/nvim-diff"
+    },
     "nvim-lint": {
       "rev": "3d55c8f67c6ae5c15e1042571e107c7a3d5c5f4e",
       "src": "https://github.com/mfussenegger/nvim-lint"
