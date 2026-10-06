@@ -11,7 +11,20 @@ vim.api.nvim_create_autocmd('FileType', {
 	callback = function(event)
 		-- stylua: ignore
 		nmap({
-			{ '<leader>un', render_markdown.buf_toggle, { buffer = event.buf, desc = 'Toggle markdown rendering' } },
+			{
+				'<leader>un',
+				function()
+					render_markdown.buf_toggle()
+					local ok, state = pcall(require, 'render-markdown.state')
+					if ok then
+						local config_ok, config = pcall(state.get, event.buf)
+						if config_ok then
+							require('utils.toggle').notify('Markdown rendering', config.enabled)
+						end
+					end
+				end,
+				{ buffer = event.buf, desc = 'Toggle markdown rendering' },
+			},
 		})
 	end,
 })
