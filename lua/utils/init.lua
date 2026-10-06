@@ -1,5 +1,6 @@
 local M = {}
 
+M.toggle = require('utils.toggle')
 M.keymaps = require('utils.keymaps')
 M.editing = require('utils.editing')
 M.lsp = require('utils.lsp')

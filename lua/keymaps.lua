@@ -47,7 +47,10 @@ nmap({
 	{ '[<leader>', add_line_above, 'Add line above' },
 	{ ']<leader>', add_line_below, 'Add line below' },
 	{ 'x', '"_x', 'Delete character (no yank)' },
-	{ '<leader>uz', '<cmd>set spell!<cr>', 'Toggle spell check' },
+	{ '<leader>uz', function()
+		vim.wo.spell = not vim.wo.spell
+		utils.toggle.notify('Spell check', vim.wo.spell)
+	end, 'Toggle spell check' },
 	{ "''", '``zz', 'Go to last jump point' },
 	{ '0', '^5zH', 'Go to first character of line' },
 	{ '<C-l>', '<C-i>zz', 'Go to next jump point' },
