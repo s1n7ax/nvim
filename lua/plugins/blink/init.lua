@@ -38,6 +38,8 @@ blink.setup({
 		['<cr>'] = { 'select_and_accept', 'fallback' },
 		['<c-l>'] = { 'cancel', 'fallback' },
 	},
+	-- Keep terminal TUIs (for example, LazyGit) in control of their own input.
+	term = { enabled = false },
 	cmdline = {
 		enabled = false,
 		keymap = {
