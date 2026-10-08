@@ -1,4 +1,5 @@
 local snacks = require('snacks')
+local lazygit = require('plugins.snacks.lazygit')
 local utils = require('utils.keymaps')
 local nmap = utils.mapper('n')
 
@@ -42,7 +43,7 @@ nmap({
 	{ "<leader>na", snacks.picker.lsp_type_definitions , "Goto type definition" },
 
 	-- git
-	{ ',s', function () snacks.lazygit() end, "Open lazygit" },
+	{ ',s', lazygit.toggle, "Open lazygit" },
 
 	-- gh
 	{ '<leader>er', function () snacks.picker.gh_pr() end, "GitHub Pull Requests (open)" },
