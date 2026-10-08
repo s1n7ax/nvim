@@ -125,7 +125,7 @@ function M.toggle_right()
 end
 
 ---Code to summarize: the visual selection, or the whole buffer in normal mode
----@return string code, string label
+---@return string code, string label, Selection|nil selection
 local function get_target()
 	local file = context.rel_file()
 	local selection = context.get_visual()
@@ -136,21 +136,96 @@ local function get_target()
 				'%s %s',
 				file,
 				context.line_label(selection.start_line, selection.end_line)
-			)
+			),
+			selection
 	end
 
-	return table.concat(vim.api.nvim_buf_get_lines(0, 0, -1, false), '\n'), file
+	return table.concat(vim.api.nvim_buf_get_lines(0, 0, -1, false), '\n'),
+		file,
+		nil
+end
+
+---Wrap text in a tag the prompt can point at
+---@param tag string
+---@param attrs string
+---@param text string
+---@return string
+local function block(tag, attrs, text)
+	return string.format('<%s %s>\n%s\n</%s>', tag, attrs, text, tag)
+end
+
+---What the agent reads on stdin: the code, plus for a selection the lines
+---around it and the definitions of the names it uses, since a selection like
+---a lone function name says nothing on its own
+---@param bufnr number buffer the code comes from
+---@param code string
+---@param label string
+---@param selection Selection|nil
+---@param callback fun(input: string)
+local function build_input(bufnr, code, label, selection, callback)
+	local code_block = block('code', string.format('source="%s"', label), code)
+
+	if not selection then
+		return callback(code_block)
+	end
+
+	local file = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(bufnr), ':.')
+	local shown, surrounding = context.surrounding(bufnr, selection)
+
+	context.definitions(bufnr, selection, shown, function(definitions)
+		local blocks = {
+			code_block,
+			block(
+				'surrounding',
+				string.format(
+					'source="%s %s"',
+					file,
+					context.line_label(shown.start_line, shown.end_line)
+				),
+				surrounding
+			),
+		}
+
+		for _, def in ipairs(definitions) do
+			table.insert(
+				blocks,
+				block(
+					'definition',
+					string.format(
+						'name="%s" source="%s %s"',
+						def.name,
+						def.path,
+						context.line_label(def.start_line, def.end_line)
+					),
+					def.text
+				)
+			)
+		end
+
+		callback(table.concat(blocks, '\n\n'))
+	end)
 end
 
 ---@param filetype string
+---@param has_context boolean
 ---@return string
-local function build_prompt(filetype)
-	local prompt = {
-		'Give a TLDR of the code below.',
+local function build_prompt(filetype, has_context)
+	local prompt = { 'Give a TLDR of the code in the <code> block.' }
+
+	if has_context then
+		vim.list_extend(prompt, {
+			'The <surrounding> and <definition> blocks are context only:',
+			'use them to work out what the names in <code> refer to and how',
+			'<code> is used. If <code> is just a name, summarize what it',
+			'refers to. Never mention these blocks or what was provided.',
+		})
+	end
+
+	vim.list_extend(prompt, {
 		'Reply in markdown: one sentence on what it is,',
 		'then at most 5 short bullets on what it does.',
 		'No preamble, no code blocks, no closing remarks.',
-	}
+	})
 
 	if filetype ~= '' then
 		table.insert(prompt, 'The code is ' .. filetype .. '.')
@@ -166,7 +241,10 @@ function M.tldr()
 	local cmd = spec.cmd[1]
 
 	if not spec.print_args then
-		vim.notify(agent .. ' does not support headless summaries yet', vim.log.levels.WARN)
+		vim.notify(
+			agent .. ' does not support headless summaries yet',
+			vim.log.levels.WARN
+		)
 		return
 	end
 
@@ -175,9 +253,10 @@ function M.tldr()
 		return
 	end
 
-	local code, label = get_target()
+	local code, label, selection = get_target()
 	---read before the float steals focus
-	local prompt = build_prompt(vim.bo.filetype)
+	local bufnr = vim.api.nvim_get_current_buf()
+	local prompt = build_prompt(vim.bo.filetype, selection ~= nil)
 
 	if code:match('^%s*$') then
 		vim.notify('Nothing to summarize', vim.log.levels.WARN)
@@ -207,43 +286,53 @@ function M.tldr()
 		win:scroll_to_top()
 	end
 
-	local ok, err = pcall(function()
-		local args = vim.list_extend({ cmd }, spec.print_args)
-		table.insert(args, prompt)
+	---@param input string
+	local function run(input)
+		---closed while the language server was still answering
+		if not win:is_valid() then
+			return
+		end
 
-		job = vim.system(args, {
-			---keep the summary about the code itself, free of project CLAUDE.md
-			cwd = vim.fn.stdpath('cache'),
-			stdin = code,
-			text = true,
-			stdout = function(_, data)
-				if not data then
-					return
-				end
+		local ok, err = pcall(function()
+			local args = vim.list_extend({ cmd }, spec.print_args)
+			table.insert(args, prompt)
 
+			job = vim.system(args, {
+				---keep the summary about the code itself, free of project CLAUDE.md
+				cwd = vim.fn.stdpath('cache'),
+				stdin = input,
+				text = true,
+				stdout = function(_, data)
+					if not data then
+						return
+					end
+
+					vim.schedule(function()
+						stop_spinner()
+						win:append(data)
+					end)
+				end,
+			}, function(res)
 				vim.schedule(function()
-					stop_spinner()
-					win:append(data)
-				end)
-			end,
-		}, function(res)
-			vim.schedule(function()
-				if res.code ~= 0 then
-					return fail(
-						res.stderr ~= '' and res.stderr
-							or (cmd .. ' exited with ' .. res.code)
-					)
-				end
+					if res.code ~= 0 then
+						return fail(
+							res.stderr ~= '' and res.stderr
+								or (cmd .. ' exited with ' .. res.code)
+						)
+					end
 
-				stop_spinner()
-				win:scroll_to_top()
+					stop_spinner()
+					win:scroll_to_top()
+				end)
 			end)
 		end)
-	end)
 
-	if not ok then
-		fail(tostring(err))
+		if not ok then
+			fail(tostring(err))
+		end
 	end
+
+	build_input(bufnr, code, label, selection, run)
 end
 
 function M.setup_cmd()
