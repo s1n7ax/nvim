@@ -1,6 +1,7 @@
 require('lint').linters_by_ft = {
 	lua = { 'luacheck' },
-	shellcheck = { 'sh', 'bash' },
+	sh = { 'shellcheck' },
+	bash = { 'shellcheck' },
 }
 
 -- luacheck resolves .luacheckrc relative to its cwd, not the linted file's
@@ -8,15 +9,18 @@ require('lint').linters_by_ft = {
 -- .luacheckrc next to the file (e.g. hyprland/binds.lua) is silently
 -- ignored when the project is opened from a parent directory. Walk up from
 -- the buffer to the nearest .luacheckrc and run luacheck from there.
-require('lint').linters.luacheck.cwd = function(bufnr)
+local function luacheck_cwd(bufnr)
 	local file = vim.api.nvim_buf_get_name(bufnr)
-	local root = vim.fs.root(file, '.luacheckrc')
-	return root or vim.fn.getcwd()
+	return vim.fs.root(file, '.luacheckrc') or vim.fn.getcwd()
 end
 
 -- Auto-run linting on save and text changes
 vim.api.nvim_create_autocmd({ 'BufWritePost', 'TextChanged', 'InsertLeave' }, {
 	callback = function()
-		require('lint').try_lint()
+		local opts
+		if vim.bo.filetype == 'lua' then
+			opts = { cwd = luacheck_cwd(0) }
+		end
+		require('lint').try_lint(nil, opts)
 	end,
 })
