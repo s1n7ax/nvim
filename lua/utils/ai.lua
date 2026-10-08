@@ -7,7 +7,7 @@ local M = {}
 ---@class AIAgent
 ---@field cmd string[] interactive TUI command
 ---@field ft? string buffer filetype override
----@field print_args? string[] flags for a one-shot, tool-less headless run
+---@field print_args? string[] flags for a one-shot, read-only headless run
 
 ---@type table<string, AIAgent>
 local AGENTS = {
@@ -18,7 +18,7 @@ local AGENTS = {
 			'--no-session-persistence',
 			'--strict-mcp-config',
 			---`--tools` is variadic, so the space form swallows the prompt
-			'--tools=',
+			'--tools=Read,Grep,Glob',
 		},
 	},
 	pi = {
@@ -26,11 +26,8 @@ local AGENTS = {
 		print_args = {
 			'--print',
 			'--no-session',
-			'--no-tools',
-			'--no-context-files',
-			'--no-extensions',
-			'--no-skills',
-			'--no-prompt-templates',
+			'--tools',
+			'read,grep,find,ls',
 		},
 	},
 	codex = {
@@ -124,36 +121,59 @@ function M.toggle_right()
 	ai:toggle(nil, 'right')
 end
 
+---@class AITarget
+---@field code string the selection, or the whole buffer in normal mode
+---@field label string float title, e.g. `lua/foo.lua 2L-7L`
+---@field subject string what the prompt asks about, e.g. `lines 2-7 of lua/foo.lua`
+
 ---Code to summarize: the visual selection, or the whole buffer in normal mode
----@return string code, string label
+---@return AITarget
 local function get_target()
 	local file = context.rel_file()
+	local has_file = vim.api.nvim_buf_get_name(0) ~= ''
 	local selection = context.get_visual()
 
-	if selection then
-		return context.selection_text(selection),
-			string.format(
-				'%s %s',
-				file,
-				context.line_label(selection.start_line, selection.end_line)
-			)
+	if not selection then
+		return {
+			code = table.concat(vim.api.nvim_buf_get_lines(0, 0, -1, false), '\n'),
+			label = file,
+			subject = has_file and ('the file ' .. file) or 'an unsaved buffer',
+		}
 	end
 
-	return table.concat(vim.api.nvim_buf_get_lines(0, 0, -1, false), '\n'), file
+	local s, e = selection.start_line, selection.end_line
+	local lines = s == e and ('line ' .. s) or string.format('lines %d-%d', s, e)
+
+	return {
+		code = context.selection_text(selection),
+		label = string.format('%s %s', file, context.line_label(s, e)),
+		subject = has_file and string.format('%s of %s', lines, file)
+			or (lines .. ' of an unsaved buffer'),
+	}
 end
 
----@param filetype string
+---@param target AITarget
 ---@return string
-local function build_prompt(filetype)
+local function build_prompt(target)
 	local prompt = {
-		'Give a TLDR of the code below.',
+		'Give a TLDR of ' .. target.subject .. ', piped in below.',
+		'Read the file and any related code you need',
+		'to explain what it does in the context of this project.',
+		'Do not modify anything.',
 		'Reply in markdown: one sentence on what it is,',
 		'then at most 5 short bullets on what it does.',
 		'No preamble, no code blocks, no closing remarks.',
 	}
 
-	if filetype ~= '' then
-		table.insert(prompt, 'The code is ' .. filetype .. '.')
+	if vim.bo.modified then
+		table.insert(
+			prompt,
+			'The buffer has unsaved changes, so trust the piped code over the file on disk.'
+		)
+	end
+
+	if vim.bo.filetype ~= '' then
+		table.insert(prompt, 'The code is ' .. vim.bo.filetype .. '.')
 	end
 
 	return table.concat(prompt, ' ')
@@ -175,17 +195,18 @@ function M.tldr()
 		return
 	end
 
-	local code, label = get_target()
+	local target = get_target()
 	---read before the float steals focus
-	local prompt = build_prompt(vim.bo.filetype)
+	local prompt = build_prompt(target)
+	local cwd = vim.fn.getcwd()
 
-	if code:match('^%s*$') then
+	if target.code:match('^%s*$') then
 		vim.notify('Nothing to summarize', vim.log.levels.WARN)
 		return
 	end
 
 	local win = float.open({
-		title = ' TLDR ' .. label .. ' ',
+		title = ' TLDR ' .. target.label .. ' ',
 		filetype = 'markdown',
 		max_width = 100,
 	})
@@ -212,9 +233,10 @@ function M.tldr()
 		table.insert(args, prompt)
 
 		job = vim.system(args, {
-			---keep the summary about the code itself, free of project CLAUDE.md
-			cwd = vim.fn.stdpath('cache'),
-			stdin = code,
+			---run in the project like a normal session, so the agent picks up
+			---AGENTS.md/CLAUDE.md and can read the code around the selection
+			cwd = cwd,
+			stdin = target.code,
 			text = true,
 			stdout = function(_, data)
 				if not data then
