@@ -9,7 +9,7 @@
       "src": "https://github.com/L3MON4D3/LuaSnip"
     },
     "SchemaStore.nvim": {
-      "rev": "ba1c08d07452528a430d319c53fba46e5884ef11",
+      "rev": "31626d9d0a95418bf12a8b3f0e8f9f42e73e1f35",
       "src": "https://github.com/b0o/SchemaStore.nvim"
     },
     "auto-session": {
@@ -33,7 +33,7 @@
       "src": "https://github.com/monaqa/dial.nvim"
     },
     "diffview-plus.nvim": {
-      "rev": "875d16dd8c8aa86f1a5c3b5cef49e1133980ae94",
+      "rev": "814ddc9fab8e55688c6403e2d2a3ece7f92d9dcf",
       "src": "https://github.com/dlyongemallo/diffview-plus.nvim"
     },
     "everforest": {
@@ -145,15 +145,15 @@
       "src": "https://github.com/rcarriga/nvim-dap-ui"
     },
     "nvim-diff": {
-      "rev": "bb3af404c1244517d06947bf6f117830922a1083",
+      "rev": "395e6aab2e17d55bb0d65ac19dd6853f1c89ca02",
       "src": "https://github.com/s1n7ax/nvim-diff"
     },
     "nvim-lint": {
-      "rev": "3d55c8f67c6ae5c15e1042571e107c7a3d5c5f4e",
+      "rev": "f6230a5c06ba59e6059c14637f1dbe29a7978b9b",
       "src": "https://github.com/mfussenegger/nvim-lint"
     },
     "nvim-lspconfig": {
-      "rev": "33497f4930d40f28a465d38a763a00fc6902c658",
+      "rev": "db68de3575fff9dd9bb78b34c8371759ed35fe34",
       "src": "https://github.com/neovim/nvim-lspconfig"
     },
     "nvim-nio": {
@@ -242,7 +242,7 @@
       "src": "https://github.com/folke/tokyonight.nvim"
     },
     "vague.nvim": {
-      "rev": "f9060fdaf7b20f68575d6f8214da6f1cf0c72825",
+      "rev": "73f8aaa866bf3d14dd0b0ab9e48c11794c1cb7ab",
       "src": "https://github.com/vague-theme/vague.nvim"
     },
     "which-key.nvim": {
