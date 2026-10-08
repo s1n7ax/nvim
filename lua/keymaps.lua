@@ -41,6 +41,13 @@ cmap({
 -- stylua: ignore
 nmap({
 	{ '<c-q>', '<cmd>confirm quit<cr>', 'Close' },
+	{ '<m-q>', function()
+		if vim.fn.tabpagenr('$') == 1 then
+			vim.notify('Cannot close the last tab', vim.log.levels.WARN)
+			return
+		end
+		vim.cmd.tabclose()
+	end, 'Close tab' },
 	{ '<c-s>', '<cmd>silent w<cr>', 'Save' },
 	{ '<leader><leader>o', '<cmd>messages<cr>', 'Open messages window' },
 	{ '<leader>p', 'a <esc>p', 'Paste After a Space' },

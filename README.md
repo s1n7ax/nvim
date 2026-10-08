@@ -37,6 +37,7 @@ nvim
 ### Core Keymaps
 - `<C-s>` - Save file
 - `<C-d>` - Close/quit
+- `<A-q>` - Close tab
 - `<C-m/n/e/i>` - Window navigation
 - `<A-m/n/e/i>` - Window splitting
 - `gd` - LSP go to definition
