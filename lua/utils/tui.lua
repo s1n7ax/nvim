@@ -32,14 +32,22 @@ end
 ---@param input? string
 ---@param position? TUIPosition
 function M:toggle(input, position)
+	if self.buf and self.find_winid_for_buf(self.buf) then
+		return self:close_term()
+	end
+
+	self:open(input, position)
+end
+
+---Show the terminal, starting it if it is not running. A visible terminal is
+---focused instead of being opened in a second window
+---@param input? string
+---@param position? TUIPosition
+function M:open(input, position)
 	position = position or 'float'
 
 	if type(input) == 'string' then
 		input = input:gsub('^%s*(.-)%s*$', '%1')
-	end
-
-	if self.buf and self.find_winid_for_buf(self.buf) then
-		return self:close_term()
 	end
 
 	if not self:is_running() then
@@ -47,7 +55,17 @@ function M:toggle(input, position)
 		return self:create_term(input, position)
 	end
 
-	self:open_term_buf_in_win(position)
+	local win = self.find_winid_for_buf(self.buf)
+
+	if win then
+		vim.api.nvim_set_current_win(win)
+
+		if self.insert ~= false then
+			vim.cmd('startinsert')
+		end
+	else
+		self:open_term_buf_in_win(position)
+	end
 
 	if type(input) == 'string' and input ~= '' then
 		self:send_prompt(input)

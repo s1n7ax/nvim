@@ -100,14 +100,19 @@ function M.set_agent(name)
 	vim.notify('AI agent: ' .. name)
 end
 
----Pick the AI agent from a list
+---Pick the AI agent from a list and open it
 function M.select_agent()
 	vim.ui.select(vim.tbl_keys(AGENTS), {
 		prompt = 'AI agent (current: ' .. agent .. ')',
 	}, function(name)
-		if name then
-			M.set_agent(name)
+		if not name then
+			return
 		end
+
+		M.set_agent(name)
+		---same file reference `PromptAI` captures without a range
+		M.ctx = context.get_curr_context({ range = 0 })
+		ai:open()
 	end)
 end
 
