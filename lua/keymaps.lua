@@ -190,6 +190,26 @@ nmap({
 	},
 })
 
+nxmap({
+	{
+		'<leader>vv',
+		function()
+			require('utils.read_aloud').read()
+		end,
+		'Read aloud (selection or buffer)',
+	},
+})
+
+nmap({
+	{
+		'<leader>vs',
+		function()
+			require('utils.read_aloud').stop()
+		end,
+		'Stop reading aloud',
+	},
+})
+
 -- neovim has x mode in keymap for vim.lsp.buf.selection_range
 -- I don't really need that and keymap and this collides with coleman move right
 -- in visual mode keymap
