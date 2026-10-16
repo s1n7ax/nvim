@@ -247,5 +247,11 @@ nxomap({
 vim.cmd('packadd nvim.undotree')
 nmap({
 	{ '<leader>uu', require('undotree').open, 'Open undotree' },
-	{ '<leader>ui', function() require('utils.ai').select_agent() end, 'Select AI agent' },
+	{
+		'<leader>ui',
+		function()
+			require('utils.ai').select_agent()
+		end,
+		'Select AI agent',
+	},
 })
