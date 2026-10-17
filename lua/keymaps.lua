@@ -192,6 +192,13 @@ nmap({
 
 nxmap({
 	{
+		',v',
+		function()
+			require('utils.read_aloud').read()
+		end,
+		'Read aloud (selection or buffer)',
+	},
+	{
 		'<leader>vv',
 		function()
 			require('utils.read_aloud').read()
