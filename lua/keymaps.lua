@@ -192,7 +192,7 @@ nmap({
 
 nxmap({
 	{
-		',v',
+		',r',
 		function()
 			require('utils.read_aloud').read()
 		end,
