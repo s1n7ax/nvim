@@ -190,6 +190,33 @@ nmap({
 	},
 })
 
+nxmap({
+	{
+		',r',
+		function()
+			require('utils.read_aloud').read()
+		end,
+		'Read aloud (selection or buffer)',
+	},
+	{
+		'<leader>vv',
+		function()
+			require('utils.read_aloud').read()
+		end,
+		'Read aloud (selection or buffer)',
+	},
+})
+
+nmap({
+	{
+		'<leader>vs',
+		function()
+			require('utils.read_aloud').stop()
+		end,
+		'Stop reading aloud',
+	},
+})
+
 -- neovim has x mode in keymap for vim.lsp.buf.selection_range
 -- I don't really need that and keymap and this collides with coleman move right
 -- in visual mode keymap
@@ -227,5 +254,11 @@ nxomap({
 vim.cmd('packadd nvim.undotree')
 nmap({
 	{ '<leader>uu', require('undotree').open, 'Open undotree' },
-	{ '<leader>ui', function() require('utils.ai').select_agent() end, 'Select AI agent' },
+	{
+		'<leader>ui',
+		function()
+			require('utils.ai').select_agent()
+		end,
+		'Select AI agent',
+	},
 })
