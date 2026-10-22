@@ -4,15 +4,60 @@ local TUI = require('utils').tui
 
 local M = {}
 
+---Claude Code attaches only the lines of `@file#L5-10` or `@file#L5`, and the
+---whole file for any other anchor. A quoted path keeps the anchor inside
+---@type FileRef
+local function claude_ref(file, lines)
+	if lines then
+		file = file .. '#L' .. lines.start_line
+
+		if lines.end_line ~= lines.start_line then
+			file = file .. '-' .. lines.end_line
+		end
+	end
+
+	return '@' .. context.quote_path(file)
+end
+
+---`(lines 5-10)` or `(line 5)` after the path, for agents with no line syntax.
+---Kept apart from the path so their file mention still resolves
+---@param lines LineRange|nil
+---@return string
+local function lines_suffix(lines)
+	if not lines then
+		return ''
+	end
+
+	if lines.start_line == lines.end_line then
+		return string.format(' (line %d)', lines.start_line)
+	end
+
+	return string.format(' (lines %d-%d)', lines.start_line, lines.end_line)
+end
+
+---`@file`, the mention pi and Cursor insert from their `@` file pickers
+---@type FileRef
+local function at_ref(file, lines)
+	return '@' .. context.quote_path(file) .. lines_suffix(lines)
+end
+
+---Codex's `@` file picker swaps the `@` query for the bare path
+---@type FileRef
+local function codex_ref(file, lines)
+	return context.quote_path(file) .. lines_suffix(lines)
+end
+
 ---@class AIAgent
 ---@field cmd string[] interactive TUI command
 ---@field ft? string buffer filetype override
 ---@field print_args? string[] flags for a one-shot, tool-less headless run
+---@field file_ref FileRef how its prompt references a file or lines of it
 
 ---@type table<string, AIAgent>
 local AGENTS = {
 	claude = {
 		cmd = { 'claude' },
+		file_ref = claude_ref,
 		print_args = {
 			'--print',
 			'--no-session-persistence',
@@ -23,6 +68,7 @@ local AGENTS = {
 	},
 	pi = {
 		cmd = { 'pi' },
+		file_ref = at_ref,
 		print_args = {
 			'--print',
 			'--no-session',
@@ -35,6 +81,7 @@ local AGENTS = {
 	},
 	codex = {
 		cmd = { 'codex' },
+		file_ref = codex_ref,
 		print_args = {
 			'exec',
 			'--skip-git-repo-check',
@@ -47,6 +94,7 @@ local AGENTS = {
 	cursor = {
 		cmd = { 'agent' },
 		ft = 'cursor',
+		file_ref = at_ref,
 	},
 }
 
@@ -111,7 +159,7 @@ function M.select_agent()
 
 		M.set_agent(name)
 		---same file reference `PromptAI` captures without a range
-		M.ctx = context.get_curr_context({ range = 0 })
+		M.ctx = context.get_curr_context({ range = 0 }, AGENTS[name].file_ref)
 		ai:open()
 	end)
 end
@@ -338,7 +386,7 @@ end
 function M.setup_cmd()
 	---@see https://github.com/neovim/neovim/discussions/26092
 	vim.api.nvim_create_user_command('PromptAI', function(opts)
-		M.ctx = context.get_curr_context(opts)
+		M.ctx = context.get_curr_context(opts, AGENTS[agent].file_ref)
 		local position = opts.fargs[1]
 		ai:toggle(nil, position)
 	end, { range = true, nargs = '?' })

@@ -12,7 +12,9 @@ local MAX_DEFINITION_LINES = 60
 ---budgeted in lines rather than count, so one-line aliases cost next to nothing
 local MAX_DEFINITION_TOTAL_LINES = 200
 
-local function quote_path(file)
+---@param file string
+---@return string
+function M.quote_path(file)
 	return file:find(' ') and ('"' .. file .. '"') or file
 end
 
@@ -33,9 +35,7 @@ function M.line_label(start_line, end_line)
 		or (start_line .. 'L-' .. end_line .. 'L')
 end
 
----@class Selection
----@field start_line number
----@field end_line number
+---@class Selection: LineRange
 ---@field mode string charwise `v`, linewise `V` or blockwise `<c-v>`
 ---@field start_pos number[] `getpos()` mark, for `selection_text`
 ---@field end_pos number[] `getpos()` mark, for `selection_text`
@@ -463,16 +463,23 @@ function M.definitions(bufnr, selection, shown, callback)
 	end
 end
 
-function M.get_curr_context(opts)
+---@alias FileRef fun(file: string, lines?: LineRange): string
+
+---Reference to the current file, its command range or its visual selection,
+---in the syntax the agent understands
+---@param opts table `nvim_create_user_command` callback args
+---@param file_ref FileRef
+---@return string
+function M.get_curr_context(opts, file_ref)
 	if vim.fn.mode() == 'n' then
-		local file = quote_path(M.rel_file())
+		local file = M.rel_file()
 
 		---a range of 0 means the command was run without any lines selected
 		if opts.range and opts.range == 0 then
-			return '@' .. file .. ' '
+			return file_ref(file) .. ' '
 		end
 
-		return string.format('@%s %s', file, M.line_label(opts.line1, opts.line2))
+		return file_ref(file, { start_line = opts.line1, end_line = opts.line2 })
 	end
 
 	local selection = M.get_visual()
@@ -481,11 +488,7 @@ function M.get_curr_context(opts)
 		return ''
 	end
 
-	local ref = string.format(
-		'@%s %s',
-		quote_path(M.rel_file()),
-		M.line_label(selection.start_line, selection.end_line)
-	)
+	local ref = file_ref(M.rel_file(), selection)
 
 	if selection.mode ~= 'v' then
 		return ref
