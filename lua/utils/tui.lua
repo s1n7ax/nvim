@@ -11,16 +11,18 @@
 ---@field chan number|nil
 ---@field keymaps TUIKeymap[]
 ---@field insert boolean|nil whether the window was last used in terminal mode
+---@field on_create? fun(buf: number) called with the new buffer before it is shown
 local float = require('utils.window.float')
 
 local M = {}
 
----@param args { cmd: string[], ft?: string }
+---@param args { cmd: string[], ft?: string, on_create?: fun(buf: number) }
 function M:new(args)
 	local o = {
 		cmd = args.cmd,
 		ft = args.ft or args.cmd[1],
 		keymaps = {},
+		on_create = args.on_create,
 	}
 	setmetatable(o, self)
 	self.__index = self
@@ -81,9 +83,11 @@ function M:open_term_buf_in_win(position)
 	self.open_win(self.buf, position, self.insert)
 end
 
+---Start the terminal in a new window at `position`, or in `win` when given
 ---@param input? string
 ---@param position? TUIPosition
-function M:create_term(input, position)
+---@param win? number existing window to start it in
+function M:create_term(input, position, win)
 	---checked before `open_win` rearranges the layout
 	if vim.fn.executable(self.cmd[1]) ~= 1 then
 		vim.notify(self.cmd[1] .. ' is not executable', vim.log.levels.ERROR)
@@ -94,7 +98,18 @@ function M:create_term(input, position)
 	vim.bo[self.buf].filetype = self.ft
 	self:apply_keymaps()
 	self:track_mode()
-	self.open_win(self.buf, position, false)
+
+	if self.on_create then
+		self.on_create(self.buf)
+	end
+
+	if win then
+		vim.api.nvim_set_current_win(win)
+		vim.api.nvim_win_set_buf(win, self.buf)
+	else
+		self.open_win(self.buf, position, false)
+	end
+
 	local cmd = vim.list_extend(vim.list_extend({}, self.cmd), { input })
 	self.chan = vim.fn.jobstart(cmd, { term = true })
 	vim.cmd('startinsert')
