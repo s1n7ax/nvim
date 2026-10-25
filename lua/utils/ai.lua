@@ -4,10 +4,54 @@ local TUI = require('utils').tui
 
 local M = {}
 
+---Claude Code attaches only the lines of `@file#L5-10` or `@file#L5`, and the
+---whole file for any other anchor. A quoted path keeps the anchor inside
+---@type FileRef
+local function claude_ref(file, lines)
+	if lines then
+		file = file .. '#L' .. lines.start_line
+
+		if lines.end_line ~= lines.start_line then
+			file = file .. '-' .. lines.end_line
+		end
+	end
+
+	return '@' .. context.quote_path(file)
+end
+
+---`(lines 5-10)` or `(line 5)` after the path, for agents with no line syntax.
+---Kept apart from the path so their file mention still resolves
+---@param lines LineRange|nil
+---@return string
+local function lines_suffix(lines)
+	if not lines then
+		return ''
+	end
+
+	if lines.start_line == lines.end_line then
+		return string.format(' (line %d)', lines.start_line)
+	end
+
+	return string.format(' (lines %d-%d)', lines.start_line, lines.end_line)
+end
+
+---`@file`, the mention pi and Cursor insert from their `@` file pickers
+---@type FileRef
+local function at_ref(file, lines)
+	return '@' .. context.quote_path(file) .. lines_suffix(lines)
+end
+
+---Codex's `@` file picker swaps the `@` query for the bare path
+---@type FileRef
+local function codex_ref(file, lines)
+	return context.quote_path(file) .. lines_suffix(lines)
+end
+
 ---@class AIAgent
 ---@field cmd string[] interactive TUI command
 ---@field ft? string buffer filetype override
 ---@field print_args? string[] flags for a one-shot, tool-less headless run
+---@field file_ref FileRef how its prompt references a file or lines of it
 ---@field title? fun(title: string, dir: string): string|nil the session title
 ---in the terminal title the agent sets, nil while it has none. `dir` is the
 ---name of the directory the agent runs in
@@ -16,6 +60,7 @@ local M = {}
 local AGENTS = {
 	claude = {
 		cmd = { 'claude' },
+		file_ref = claude_ref,
 		print_args = {
 			'--print',
 			'--no-session-persistence',
@@ -32,6 +77,7 @@ local AGENTS = {
 	},
 	pi = {
 		cmd = { 'pi' },
+		file_ref = at_ref,
 		print_args = {
 			'--print',
 			'--no-session',
@@ -59,6 +105,7 @@ local AGENTS = {
 	},
 	codex = {
 		cmd = { 'codex' },
+		file_ref = codex_ref,
 		print_args = {
 			'exec',
 			'--skip-git-repo-check',
@@ -71,6 +118,7 @@ local AGENTS = {
 	cursor = {
 		cmd = { 'agent' },
 		ft = 'cursor',
+		file_ref = at_ref,
 	},
 }
 
@@ -388,10 +436,13 @@ end
 local show
 
 ---@param tui TUI
-local function map_keys(tui)
+---@param kind string
+local function map_keys(tui, kind)
 	tui:map('t', ',t', function()
-		if M.ctx and M.ctx ~= '' then
-			tui:send_prompt(M.ctx)
+		local ctx = M.ctx and M.ctx(AGENTS[kind].file_ref)
+
+		if ctx and ctx ~= '' then
+			tui:send_prompt(ctx)
 		end
 	end, { desc = 'Insert file context' })
 
@@ -418,7 +469,7 @@ local function start(position, win)
 	local spec = AGENTS[agent]
 	local tui = TUI:new({ cmd = spec.cmd, ft = spec.ft, on_create = watch })
 
-	map_keys(tui)
+	map_keys(tui, agent)
 	table.insert(sessions, {
 		kind = agent,
 		tui = tui,
@@ -496,8 +547,9 @@ function M.set_agent(name)
 	vim.notify('AI agent: ' .. name)
 end
 
----Remember the file reference `,t` inserts. An agent's own terminal is not a
----file, so pressed in an agent window this keeps the reference it has
+---Remember the file context `,t` inserts, to write it in the syntax of the
+---agent it goes to. An agent's own terminal is not a file, so pressed in an
+---agent window this keeps the context it has
 ---@param opts { range: number, line1?: number, line2?: number }
 local function capture_ctx(opts)
 	if not vim.b.ai_agent then
