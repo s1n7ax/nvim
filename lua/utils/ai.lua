@@ -198,6 +198,9 @@ local function session_title(session)
 	return title ~= '' and title or nil
 end
 
+local ELLIPSIS = '…'
+
+---Cut by cells, not characters, so wide characters such as CJK count twice
 ---@param text string
 ---@param width number cells
 ---@return string
@@ -206,7 +209,20 @@ local function truncate(text, width)
 		return text
 	end
 
-	return vim.fn.strcharpart(text, 0, width - 1) .. '…'
+	local room = width - vim.fn.strdisplaywidth(ELLIPSIS)
+	local kept = {}
+
+	for _, char in ipairs(vim.fn.split(text, '\\zs')) do
+		room = room - vim.fn.strdisplaywidth(char)
+
+		if room < 0 then
+			break
+		end
+
+		table.insert(kept, char)
+	end
+
+	return table.concat(kept) .. ELLIPSIS
 end
 
 ---Winbar of an agent window: every running agent by slot, with its kind and
