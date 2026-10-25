@@ -153,12 +153,12 @@ vim.api.nvim_create_autocmd('ColorScheme', { callback = set_tab_hl })
 ---@field tui TUI
 ---@field dir string name of the directory the agent runs in
 
----Agents by slot. An agent keeps its slot until it exits, when `TermClose`
----frees it
----@type table<number, AISession>
+---Agents in the order they started, numbered by position. When one exits,
+---`TermClose` removes it and the agents after it move down a number
+---@type AISession[]
 local sessions = {}
 
----Slot of the agent shown last
+---Buffer of the agent shown last. A buffer, not a number, since numbers move
 ---@type number|nil
 local last
 
@@ -169,26 +169,10 @@ local function is_running(n)
 	return sessions[n] ~= nil and sessions[n].tui.buf ~= nil
 end
 
----@param n number
----@return boolean
-local function is_free(n)
-	return not is_running(n)
-end
-
----@param match fun(n: number): boolean
----@return number|nil
-local function lowest(match)
-	for n = 1, MAX_AGENTS do
-		if match(n) then
-			return n
-		end
-	end
-end
-
----@param buf number
+---@param buf number|nil
 ---@return number|nil
 local function slot_of(buf)
-	for n, session in pairs(sessions) do
+	for n, session in ipairs(sessions) do
 		if session.tui.buf == buf then
 			return n
 		end
@@ -268,7 +252,7 @@ local function truncate(text, width)
 	return table.concat(kept) .. ELLIPSIS
 end
 
----Winbar of an agent window: every running agent by slot, with its kind and
+---Winbar of an agent window: every running agent by number, with its kind and
 ---session title, the one the window shows highlighted. `%{}` evaluates it with
 ---the winbar's window as the current one
 ---@return string
@@ -361,7 +345,7 @@ local function watch(buf)
 	vim.api.nvim_create_autocmd('BufEnter', {
 		buffer = buf,
 		callback = function()
-			last = slot_of(buf) or last
+			last = buf
 		end,
 	})
 
@@ -382,7 +366,7 @@ local function watch(buf)
 			local n = slot_of(buf)
 
 			if n then
-				sessions[n] = nil
+				table.remove(sessions, n)
 			end
 
 			vim.schedule(function()
@@ -418,41 +402,48 @@ local function map_keys(tui)
 	end
 end
 
----Start an agent of the selected kind in slot `n`, in `win` or in a new
+---Start an agent of the selected kind as the next number, in `win` or in a new
 ---window at `position`
----@param n number
 ---@param position? TUIPosition
 ---@param win? number
-local function start(n, position, win)
+local function start(position, win)
+	if #sessions >= MAX_AGENTS then
+		vim.notify(
+			'All ' .. MAX_AGENTS .. ' AI agents are running',
+			vim.log.levels.WARN
+		)
+		return
+	end
+
 	local spec = AGENTS[agent]
 	local tui = TUI:new({ cmd = spec.cmd, ft = spec.ft, on_create = watch })
 
 	map_keys(tui)
-	sessions[n] = {
+	table.insert(sessions, {
 		kind = agent,
 		tui = tui,
 		dir = vim.fs.basename(vim.fn.getcwd()),
-	}
+	})
 	tui:create_term(position, win)
 
 	---not installed
 	if not tui.buf then
-		sessions[n] = nil
+		table.remove(sessions)
 		return
 	end
 
-	last = n
+	last = tui.buf
 	redraw_headers()
 end
 
----Show agent `n` in the current window, in the mode the window is in, or
----start it there when its slot is free
+---Show agent `n` in the current window, in the mode the window is in. A
+---number past the running agents starts a new one, as the next number
 ---@param n number
 function show(n)
 	local win = vim.api.nvim_get_current_win()
 
-	if is_free(n) then
-		return start(n, nil, win)
+	if not is_running(n) then
+		return start(nil, win)
 	end
 
 	local tui = sessions[n].tui
@@ -461,7 +452,7 @@ function show(n)
 end
 
 ---Close the agent window when one is open. Otherwise open the agent shown
----last, else the lowest-numbered running one, else start one
+---last, else agent 1, else start one
 ---@param position? TUIPosition
 function M.toggle(position)
 	local win = find_agent_win()
@@ -470,13 +461,12 @@ function M.toggle(position)
 		return vim.api.nvim_win_close(win, false)
 	end
 
-	local n = is_running(last) and last or lowest(is_running)
+	local n = slot_of(last) or (is_running(1) and 1)
 
 	if n then
 		sessions[n].tui:open_term_buf_in_win(position)
 	else
-		---none is running, so every slot is free
-		start(1, position)
+		start(position)
 	end
 end
 
@@ -484,20 +474,10 @@ function M.toggle_right()
 	M.toggle('right')
 end
 
----Start an agent of the selected kind in the lowest free slot, in the agent
----window when one is open, otherwise in a float
+---Start an agent of the selected kind as the next number, in the agent window
+---when one is open, otherwise in a float
 function M.new()
-	local n = lowest(is_free)
-
-	if not n then
-		vim.notify(
-			'All ' .. MAX_AGENTS .. ' AI agents are running',
-			vim.log.levels.WARN
-		)
-		return
-	end
-
-	start(n, nil, find_agent_win())
+	start(nil, find_agent_win())
 end
 
 ---Set the kind new agents start as, for this and every new Neovim instance.

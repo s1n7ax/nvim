@@ -123,19 +123,19 @@ actions.
 - `<leader>tn` - Add multiline comment frame
 
 ### AI Agents
-Up to 9 agents (claude, pi, codex, cursor) run at once, each in its own
-numbered slot.
+Up to 9 agents (claude, pi, codex, cursor) run at once, numbered 1 to 9 in
+the order they started. When one exits, the agents after it move down a
+number to fill its place.
 - `,a` / `,i` - Open/close the agent window (float / right split). It opens
-  the agent you were in last. If that one has exited, it opens the
-  lowest-numbered running agent. If none is running, it starts agent 1.
+  the agent you were in last. If that one has exited, it opens agent 1. If
+  none is running, it starts one.
 - `<C-1>` to `<C-9>` (inside an agent window, terminal or normal mode) - Show
-  agent N in the window. A free slot starts a new agent there.
+  agent N in the window. A number past the running agents starts a new one.
 - `,t` (inside an agent, terminal mode) - Insert the file context
-- `<leader>ui` - Pick the kind new agents start as, and start one in the
-  lowest free slot. Running agents keep running.
+- `<leader>ui` - Pick the kind new agents start as, and start one. Running
+  agents keep running.
 - The window header shows every running agent as a tab: number, kind, and
-  session title. The agent in the window is the highlighted tab. An agent
-  keeps its number until it exits.
+  session title. The agent in the window is the highlighted tab.
 
 ### File Navigation & Bookmarks
 - `<C-1>` to `<C-5>` - Navigate to harpoon files 1-5 (outside agent windows)
