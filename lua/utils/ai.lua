@@ -449,6 +449,15 @@ function M.set_agent(name)
 	vim.notify('AI agent: ' .. name)
 end
 
+---Remember the file reference `,t` inserts. An agent's own terminal is not a
+---file, so pressed in an agent window this keeps the reference it has
+---@param opts { range: number, line1?: number, line2?: number }
+local function capture_ctx(opts)
+	if not vim.b.ai_agent then
+		M.ctx = context.get_curr_context(opts)
+	end
+end
+
 ---Pick a kind of AI agent from a list and start one
 function M.select_agent()
 	vim.ui.select(vim.tbl_keys(AGENTS), {
@@ -460,7 +469,7 @@ function M.select_agent()
 
 		M.set_agent(name)
 		---same file reference `PromptAI` captures without a range
-		M.ctx = context.get_curr_context({ range = 0 })
+		capture_ctx({ range = 0 })
 		M.new()
 	end)
 end
@@ -679,7 +688,7 @@ end
 function M.setup_cmd()
 	---@see https://github.com/neovim/neovim/discussions/26092
 	vim.api.nvim_create_user_command('PromptAI', function(opts)
-		M.ctx = context.get_curr_context(opts)
+		capture_ctx(opts)
 		M.toggle(opts.fargs[1])
 	end, { range = true, nargs = '?' })
 end
