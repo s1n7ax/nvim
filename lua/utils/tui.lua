@@ -1,3 +1,5 @@
+local float = require('utils.window.float')
+
 ---@class TUIKeymap
 ---@field mode string|string[]
 ---@field lhs string
@@ -12,11 +14,10 @@
 ---@field keymaps TUIKeymap[]
 ---@field insert boolean|nil whether the window was last used in terminal mode
 ---@field on_create? fun(buf: number) called with the new buffer before it is shown
-local float = require('utils.window.float')
-
 local M = {}
 
 ---@param args { cmd: string[], ft?: string, on_create?: fun(buf: number) }
+---@return TUI
 function M:new(args)
 	local o = {
 		cmd = args.cmd,
