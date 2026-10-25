@@ -31,49 +31,6 @@ end
 
 ---@alias TUIPosition 'float' | 'left' | 'right'
 
----@param input? string
----@param position? TUIPosition
-function M:toggle(input, position)
-	if self.buf and self.find_winid_for_buf(self.buf) then
-		return self:close_term()
-	end
-
-	self:open(input, position)
-end
-
----Show the terminal, starting it if it is not running. A visible terminal is
----focused instead of being opened in a second window
----@param input? string
----@param position? TUIPosition
-function M:open(input, position)
-	position = position or 'float'
-
-	if type(input) == 'string' then
-		input = input:gsub('^%s*(.-)%s*$', '%1')
-	end
-
-	if not self:is_running() then
-		self:discard()
-		return self:create_term(input, position)
-	end
-
-	local win = self.find_winid_for_buf(self.buf)
-
-	if win then
-		vim.api.nvim_set_current_win(win)
-
-		if self.insert ~= false then
-			vim.cmd('startinsert')
-		end
-	else
-		self:open_term_buf_in_win(position)
-	end
-
-	if type(input) == 'string' and input ~= '' then
-		self:send_prompt(input)
-	end
-end
-
 ---@param position? TUIPosition
 function M:open_term_buf_in_win(position)
 	if not self.buf then
@@ -84,10 +41,9 @@ function M:open_term_buf_in_win(position)
 end
 
 ---Start the terminal in a new window at `position`, or in `win` when given
----@param input? string
 ---@param position? TUIPosition
 ---@param win? number existing window to start it in
-function M:create_term(input, position, win)
+function M:create_term(position, win)
 	---checked before `open_win` rearranges the layout
 	if vim.fn.executable(self.cmd[1]) ~= 1 then
 		vim.notify(self.cmd[1] .. ' is not executable', vim.log.levels.ERROR)
@@ -110,29 +66,8 @@ function M:create_term(input, position, win)
 		self.open_win(self.buf, position, false)
 	end
 
-	local cmd = vim.list_extend(vim.list_extend({}, self.cmd), { input })
-	self.chan = vim.fn.jobstart(cmd, { term = true })
+	self.chan = vim.fn.jobstart(self.cmd, { term = true })
 	vim.cmd('startinsert')
-end
-
----@private
----@return boolean
-function M:is_running()
-	return self.buf ~= nil
-		and vim.api.nvim_buf_is_valid(self.buf)
-		and self.chan ~= nil
-		and vim.fn.jobwait({ self.chan }, 0)[1] == -1
-end
-
----Delete the terminal buffer, if any, and forget its state
-function M:discard()
-	if self.buf and vim.api.nvim_buf_is_valid(self.buf) then
-		vim.api.nvim_buf_delete(self.buf, { force = true })
-	end
-
-	self.buf = nil
-	self.chan = nil
-	self.insert = nil
 end
 
 ---Record whether the window is used in terminal or normal mode. Only entering
@@ -185,37 +120,8 @@ function M.open_win(buf, position, insert)
 	end
 end
 
-function M:close_term()
-	if not self.buf then
-		return
-	end
-
-	local win = self.find_winid_for_buf(self.buf)
-
-	if not win or not vim.api.nvim_win_is_valid(win) then
-		return
-	end
-
-	vim.api.nvim_win_close(win, false)
-end
-
 function M.get_win_config()
 	return float.config(math.floor(vim.o.columns * 0.95), vim.o.lines - 1)
-end
-
----@private
----@param buf number
----@return integer|nil
-function M.find_winid_for_buf(buf)
-	if not vim.api.nvim_buf_is_valid(buf) then
-		return
-	end
-
-	for _, win in ipairs(vim.api.nvim_list_wins()) do
-		if vim.api.nvim_win_get_buf(win) == buf then
-			return win
-		end
-	end
 end
 
 function M:send_prompt(input)

@@ -383,7 +383,7 @@ local function start(n, position, win)
 		tui = tui,
 		dir = vim.fs.basename(vim.fn.getcwd()),
 	}
-	tui:create_term(nil, position, win)
+	tui:create_term(position, win)
 
 	---not installed
 	if not tui.buf then
