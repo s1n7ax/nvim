@@ -425,7 +425,8 @@ function M.toggle(position)
 	if n then
 		sessions[n].tui:open_term_buf_in_win(position)
 	else
-		start(lowest(is_free) --[[@as number]], position)
+		---none is running, so every slot is free
+		start(1, position)
 	end
 end
 
