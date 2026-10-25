@@ -259,6 +259,6 @@ nmap({
 		function()
 			require('utils.ai').select_agent()
 		end,
-		'Select AI agent',
+		'New AI agent (pick kind)',
 	},
 })
