@@ -61,7 +61,8 @@ actions.
 
 ### Comma-based (Most Frequent)
 - `,,` - Find files (snacks.picker.files)
-- `,a` - Zen mode (snacks.zen)
+- `,a` - Open/close the AI agent window (see [AI Agents](#ai-agents))
+- `,i` - Same, in a right split
 - `,d` - Insert log below (timber)
 - `,t` - Open/close file explorer (oil)
 - `,l` - Add file to harpoon
@@ -99,7 +100,7 @@ actions.
 
 ### Toggle (`<leader>u`) - Selections & Toggles
 - `<leader>uu` - Open undotree
-- `<leader>ui` - Select AI agent
+- `<leader>ui` - Pick an AI agent kind and start a new agent of it
 - `<leader>ut` - Toggle auto-formatting
 - `<leader>un` - Toggle markdown rendering
 - `<leader>us` - Toggle scratch buffer
@@ -121,8 +122,23 @@ actions.
 - `<leader>tt` - Add comment frame
 - `<leader>tn` - Add multiline comment frame
 
+### AI Agents
+Up to 9 agents (claude, pi, codex, cursor) run at once, each in its own
+numbered slot.
+- `,a` / `,i` - Open/close the agent window (float / right split). It opens
+  the agent you were in last. If that one has exited, it opens the
+  lowest-numbered running agent. If none is running, it starts agent 1.
+- `<C-1>` to `<C-9>` (inside an agent window, terminal or normal mode) - Show
+  agent N in the window. A free slot starts a new agent there.
+- `,t` (inside an agent, terminal mode) - Insert the file context
+- `<leader>ui` - Pick the kind new agents start as, and start one in the
+  lowest free slot. Running agents keep running.
+- The window header lists every running agent: number, kind, and session
+  title. The agent in the window is highlighted. An agent keeps its number
+  until it exits.
+
 ### File Navigation & Bookmarks
-- `<C-1>` to `<C-5>` - Navigate to harpoon files 1-5
+- `<C-1>` to `<C-5>` - Navigate to harpoon files 1-5 (outside agent windows)
 
 ### Motion & Navigation Plugins
 - `s` - Hop to word
