@@ -93,17 +93,60 @@ local agent = read_agent()
 local MAX_AGENTS = 9
 ---Cells a session title may take in the header
 local TITLE_WIDTH = 30
----How the other agents' entries shrink, step by step, until the header fits:
----the cells their titles may take, and whether their kind stays
+---How the entries shrink, step by step, until the header fits: the cells the
+---other agents' titles may take and whether their kind stays, then the cells
+---the current agent's title may take
 local SHRINK = {
-	{ title = TITLE_WIDTH, kind = true },
-	{ title = 10, kind = true },
-	{ title = 0, kind = true },
-	{ title = 0, kind = false },
+	{ title = TITLE_WIDTH, kind = true, current = TITLE_WIDTH },
+	{ title = 10, kind = true, current = TITLE_WIDTH },
+	{ title = 0, kind = true, current = TITLE_WIDTH },
+	{ title = 0, kind = false, current = TITLE_WIDTH },
+	{ title = 0, kind = false, current = 10 },
 }
----padded outside `%{}`, which strips leading spaces from plain text
-local HEADER = " %{%v:lua.require'utils.ai'.header()%}"
-local HEADER_SEPARATOR = ' │ '
+local HEADER = "%{%v:lua.require'utils.ai'.header()%}"
+---Rounded ends of a tab
+local TAB_LEFT, TAB_RIGHT = '', ''
+local TAB_GAP = ' '
+
+---Tab colours come from the colorscheme, so they follow it: the current agent
+---in the colour of the window border, the others muted. The rounded ends and
+---the gaps take the window's own background, which differs for a float
+local function set_tab_hl()
+	local function get(name)
+		return vim.api.nvim_get_hl(0, { name = name, link = false })
+	end
+
+	local accent = get('FloatBorder').fg or get('Title').fg
+	local muted = get('PmenuSel').bg or get('CursorLine').bg
+	local normal = get('Normal').bg
+
+	vim.api.nvim_set_hl(0, 'AIAgentTab', { fg = get('Comment').fg, bg = muted })
+	vim.api.nvim_set_hl(
+		0,
+		'AIAgentTabSel',
+		{ fg = normal, bg = accent, bold = true }
+	)
+
+	for suffix, base in pairs({
+		Float = get('NormalFloat').bg or normal,
+		Split = normal,
+	}) do
+		vim.api.nvim_set_hl(0, 'AIAgentHeader' .. suffix, { bg = base })
+		vim.api.nvim_set_hl(
+			0,
+			'AIAgentTabEdge' .. suffix,
+			{ fg = muted, bg = base }
+		)
+		vim.api.nvim_set_hl(
+			0,
+			'AIAgentTabSelEdge' .. suffix,
+			{ fg = accent, bg = base }
+		)
+	end
+end
+
+set_tab_hl()
+vim.api.nvim_create_autocmd('ColorScheme', { callback = set_tab_hl })
 
 ---@class AISession
 ---@field kind string
@@ -232,6 +275,9 @@ end
 function M.header()
 	local win = vim.api.nvim_get_current_win()
 	local current = slot_of(vim.api.nvim_win_get_buf(win))
+	local suffix = vim.api.nvim_win_get_config(win).relative ~= '' and 'Float'
+		or 'Split'
+	local fill = '%#AIAgentHeader' .. suffix .. '#'
 	local entries = {}
 
 	for n = 1, MAX_AGENTS do
@@ -244,15 +290,14 @@ function M.header()
 		end
 	end
 
-	---@param other { title: number, kind: boolean } how much of the other
-	---agents to show
+	---@param step { title: number, kind: boolean, current: number } a SHRINK step
 	---@return string text, string winbar
-	local function render(other)
+	local function render(step)
 		local labels, items = {}, {}
 
 		for _, entry in ipairs(entries) do
 			local is_current = entry.n == current
-			local shown = is_current and SHRINK[1] or other
+			local shown = is_current and { title = step.current, kind = true } or step
 			local label = tostring(entry.n)
 
 			if shown.kind then
@@ -260,33 +305,38 @@ function M.header()
 			end
 
 			if entry.title and shown.title > 0 then
-				label = label .. ': ' .. truncate(entry.title, shown.title)
+				label = label .. ' · ' .. truncate(entry.title, shown.title)
 			end
 
-			if is_current then
-				label = '[' .. label .. ']'
-			end
+			label = ' ' .. label .. ' '
+			table.insert(labels, TAB_LEFT .. label .. TAB_RIGHT)
 
-			table.insert(labels, label)
-			local escaped = label:gsub('%%', '%%%%')
+			local hl = is_current and 'AIAgentTabSel' or 'AIAgentTab'
+			local edge = '%#' .. hl .. 'Edge' .. suffix .. '#'
+			local item = edge
+				.. TAB_LEFT
+				.. '%#'
+				.. hl
+				.. '#'
+				.. label:gsub('%%', '%%%%')
+				.. edge
+				.. TAB_RIGHT
+				.. fill
 
 			---a header that still does not fit is cut after the current agent
-			table.insert(
-				items,
-				is_current and ('%#TabLineSel#' .. escaped .. '%*%<') or escaped
-			)
+			table.insert(items, is_current and (item .. '%<') or item)
 		end
 
-		return table.concat(labels, HEADER_SEPARATOR),
-			table.concat(items, HEADER_SEPARATOR)
+		return table.concat(labels, TAB_GAP),
+			fill .. ' ' .. table.concat(items, TAB_GAP)
 	end
 
 	---less the padding
 	local available = vim.api.nvim_win_get_width(win) - 1
 	local text, winbar
 
-	for _, other in ipairs(SHRINK) do
-		text, winbar = render(other)
+	for _, step in ipairs(SHRINK) do
+		text, winbar = render(step)
 
 		if vim.fn.strdisplaywidth(text) <= available then
 			break

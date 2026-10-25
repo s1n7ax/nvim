@@ -133,9 +133,9 @@ numbered slot.
 - `,t` (inside an agent, terminal mode) - Insert the file context
 - `<leader>ui` - Pick the kind new agents start as, and start one in the
   lowest free slot. Running agents keep running.
-- The window header lists every running agent: number, kind, and session
-  title. The agent in the window is highlighted. An agent keeps its number
-  until it exits.
+- The window header shows every running agent as a tab: number, kind, and
+  session title. The agent in the window is the highlighted tab. An agent
+  keeps its number until it exits.
 
 ### File Navigation & Bookmarks
 - `<C-1>` to `<C-5>` - Navigate to harpoon files 1-5 (outside agent windows)
