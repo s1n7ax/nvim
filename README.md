@@ -101,6 +101,7 @@ actions.
 ### Toggle (`<leader>u`) - Selections & Toggles
 - `<leader>uu` - Open undotree
 - `<leader>ui` - Pick an AI agent kind and start a new agent of it
+- `<leader>ul` - List LSP servers and the config each one resolves to
 - `<leader>ut` - Toggle auto-formatting
 - `<leader>un` - Toggle markdown rendering
 - `<leader>us` - Toggle scratch buffer

@@ -254,6 +254,7 @@ nxomap({
 vim.cmd('packadd nvim.undotree')
 nmap({
 	{ '<leader>uu', require('undotree').open, 'Open undotree' },
+	{ '<leader>ul', require('utils.lsp').show, 'List LSP server configs' },
 	{
 		'<leader>ui',
 		function()
