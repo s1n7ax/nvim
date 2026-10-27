@@ -53,6 +53,10 @@ blink.setup({
 		completion = { menu = { auto_show = false } },
 	},
 	completion = {
+		-- A trigger character right after accepting an item would re-open the
+		-- menu with the tag's closing bracket, so `<cr>` accepted it again and
+		-- `<html></html>` became `<html></html></html>`
+		trigger = { show_on_accept_on_trigger_character = false },
 		menu = { border = 'padded' },
 		documentation = { window = { border = 'single' } },
 		ghost_text = {
