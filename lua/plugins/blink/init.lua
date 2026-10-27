@@ -56,7 +56,14 @@ blink.setup({
 		-- A trigger character right after accepting an item would re-open the
 		-- menu with the tag's closing bracket, so `<cr>` accepted it again and
 		-- `<html></html>` became `<html></html></html>`
-		trigger = { show_on_accept_on_trigger_character = false },
+		--
+		-- Entering insert mode after a trigger character (`a` on the `>` of
+		-- `<body></body>`) must not open the menu either. Typing a trigger
+		-- character still opens it: that is `show_on_trigger_character`.
+		trigger = {
+			show_on_accept_on_trigger_character = false,
+			show_on_insert_on_trigger_character = false,
+		},
 		menu = { border = 'padded' },
 		documentation = { window = { border = 'single' } },
 		ghost_text = {
