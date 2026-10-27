@@ -1,3 +1,5 @@
+local float = require('utils.window.float')
+
 ---@class TUIKeymap
 ---@field mode string|string[]
 ---@field lhs string
@@ -11,16 +13,17 @@
 ---@field chan number|nil
 ---@field keymaps TUIKeymap[]
 ---@field insert boolean|nil whether the window was last used in terminal mode
-local float = require('utils.window.float')
-
+---@field on_create? fun(buf: number) called with the new buffer before it is shown
 local M = {}
 
----@param args { cmd: string[], ft?: string }
+---@param args { cmd: string[], ft?: string, on_create?: fun(buf: number) }
+---@return TUI
 function M:new(args)
 	local o = {
 		cmd = args.cmd,
 		ft = args.ft or args.cmd[1],
 		keymaps = {},
+		on_create = args.on_create,
 	}
 	setmetatable(o, self)
 	self.__index = self
@@ -28,49 +31,6 @@ function M:new(args)
 end
 
 ---@alias TUIPosition 'float' | 'left' | 'right'
-
----@param input? string
----@param position? TUIPosition
-function M:toggle(input, position)
-	if self.buf and self.find_winid_for_buf(self.buf) then
-		return self:close_term()
-	end
-
-	self:open(input, position)
-end
-
----Show the terminal, starting it if it is not running. A visible terminal is
----focused instead of being opened in a second window
----@param input? string
----@param position? TUIPosition
-function M:open(input, position)
-	position = position or 'float'
-
-	if type(input) == 'string' then
-		input = input:gsub('^%s*(.-)%s*$', '%1')
-	end
-
-	if not self:is_running() then
-		self:discard()
-		return self:create_term(input, position)
-	end
-
-	local win = self.find_winid_for_buf(self.buf)
-
-	if win then
-		vim.api.nvim_set_current_win(win)
-
-		if self.insert ~= false then
-			vim.cmd('startinsert')
-		end
-	else
-		self:open_term_buf_in_win(position)
-	end
-
-	if type(input) == 'string' and input ~= '' then
-		self:send_prompt(input)
-	end
-end
 
 ---@param position? TUIPosition
 function M:open_term_buf_in_win(position)
@@ -81,9 +41,10 @@ function M:open_term_buf_in_win(position)
 	self.open_win(self.buf, position, self.insert)
 end
 
----@param input? string
+---Start the terminal in a new window at `position`, or in `win` when given
 ---@param position? TUIPosition
-function M:create_term(input, position)
+---@param win? number existing window to start it in
+function M:create_term(position, win)
 	---checked before `open_win` rearranges the layout
 	if vim.fn.executable(self.cmd[1]) ~= 1 then
 		vim.notify(self.cmd[1] .. ' is not executable', vim.log.levels.ERROR)
@@ -94,30 +55,20 @@ function M:create_term(input, position)
 	vim.bo[self.buf].filetype = self.ft
 	self:apply_keymaps()
 	self:track_mode()
-	self.open_win(self.buf, position, false)
-	local cmd = vim.list_extend(vim.list_extend({}, self.cmd), { input })
-	self.chan = vim.fn.jobstart(cmd, { term = true })
-	vim.cmd('startinsert')
-end
 
----@private
----@return boolean
-function M:is_running()
-	return self.buf ~= nil
-		and vim.api.nvim_buf_is_valid(self.buf)
-		and self.chan ~= nil
-		and vim.fn.jobwait({ self.chan }, 0)[1] == -1
-end
-
----Delete the terminal buffer, if any, and forget its state
-function M:discard()
-	if self.buf and vim.api.nvim_buf_is_valid(self.buf) then
-		vim.api.nvim_buf_delete(self.buf, { force = true })
+	if self.on_create then
+		self.on_create(self.buf)
 	end
 
-	self.buf = nil
-	self.chan = nil
-	self.insert = nil
+	if win then
+		vim.api.nvim_set_current_win(win)
+		vim.api.nvim_win_set_buf(win, self.buf)
+	else
+		self.open_win(self.buf, position, false)
+	end
+
+	self.chan = vim.fn.jobstart(self.cmd, { term = true })
+	vim.cmd('startinsert')
 end
 
 ---Record whether the window is used in terminal or normal mode. Only entering
@@ -170,37 +121,8 @@ function M.open_win(buf, position, insert)
 	end
 end
 
-function M:close_term()
-	if not self.buf then
-		return
-	end
-
-	local win = self.find_winid_for_buf(self.buf)
-
-	if not win or not vim.api.nvim_win_is_valid(win) then
-		return
-	end
-
-	vim.api.nvim_win_close(win, false)
-end
-
 function M.get_win_config()
 	return float.config(math.floor(vim.o.columns * 0.95), vim.o.lines - 1)
-end
-
----@private
----@param buf number
----@return integer|nil
-function M.find_winid_for_buf(buf)
-	if not vim.api.nvim_buf_is_valid(buf) then
-		return
-	end
-
-	for _, win in ipairs(vim.api.nvim_list_wins()) do
-		if vim.api.nvim_win_get_buf(win) == buf then
-			return win
-		end
-	end
 end
 
 function M:send_prompt(input)

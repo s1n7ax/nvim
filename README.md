@@ -61,7 +61,8 @@ actions.
 
 ### Comma-based (Most Frequent)
 - `,,` - Find files (snacks.picker.files)
-- `,a` - Zen mode (snacks.zen)
+- `,a` - Open/close the AI agent window (see [AI Agents](#ai-agents))
+- `,i` - Same, in a right split
 - `,d` - Insert log below (timber)
 - `,t` - Open/close file explorer (oil)
 - `,l` - Add file to harpoon
@@ -99,8 +100,8 @@ actions.
 
 ### Toggle (`<leader>u`) - Selections & Toggles
 - `<leader>uu` - Open undotree
+- `<leader>ui` - Pick an AI agent kind and start a new agent of it
 - `<leader>ul` - List LSP servers and the config each one resolves to
-- `<leader>ui` - Select AI agent
 - `<leader>ut` - Toggle auto-formatting
 - `<leader>un` - Toggle markdown rendering
 - `<leader>us` - Toggle scratch buffer
@@ -122,8 +123,23 @@ actions.
 - `<leader>tt` - Add comment frame
 - `<leader>tn` - Add multiline comment frame
 
+### AI Agents
+Up to 9 agents (claude, pi, codex, cursor) run at once, numbered 1 to 9 in
+the order they started. When one exits, the agents after it move down a
+number to fill its place.
+- `,a` / `,i` - Open/close the agent window (float / right split). It opens
+  the agent you were in last. If that one has exited, it opens agent 1. If
+  none is running, it starts one.
+- `<C-1>` to `<C-9>` (inside an agent window, terminal or normal mode) - Show
+  agent N in the window. A number past the running agents starts a new one.
+- `,t` (inside an agent, terminal mode) - Insert the file context
+- `<leader>ui` - Pick the kind new agents start as, and start one. Running
+  agents keep running.
+- The window header shows every running agent as a tab: number, kind, and
+  session title. The agent in the window is the highlighted tab.
+
 ### File Navigation & Bookmarks
-- `<C-1>` to `<C-5>` - Navigate to harpoon files 1-5
+- `<C-1>` to `<C-5>` - Navigate to harpoon files 1-5 (outside agent windows)
 
 ### Motion & Navigation Plugins
 - `s` - Hop to word
