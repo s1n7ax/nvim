@@ -99,6 +99,7 @@ actions.
 
 ### Toggle (`<leader>u`) - Selections & Toggles
 - `<leader>uu` - Open undotree
+- `<leader>ul` - List LSP servers and the config each one resolves to
 - `<leader>ui` - Select AI agent
 - `<leader>ut` - Toggle auto-formatting
 - `<leader>un` - Toggle markdown rendering
