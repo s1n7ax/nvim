@@ -35,7 +35,11 @@ blink.setup({
 		['<c-space>'] = { 'show' },
 		['<c-n>'] = { 'select_next', 'snippet_forward', 'fallback' },
 		['<c-e>'] = { 'select_prev', 'snippet_backward', 'fallback' },
-		['<cr>'] = { 'select_and_accept', 'fallback' },
+		-- `accept` only accepts an item the user explicitly selected with
+		-- `<c-n>`/`<c-e>`. `select_and_accept` would instead grab the first
+		-- item whenever the menu happened to be open, so pressing `<cr>` in
+		-- `.hello {|}` inserted a property instead of a newline.
+		['<cr>'] = { 'accept', 'fallback' },
 		['<c-l>'] = { 'cancel', 'fallback' },
 	},
 	-- Keep terminal TUIs (for example, LazyGit) in control of their own input.
