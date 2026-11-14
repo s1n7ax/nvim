@@ -67,10 +67,15 @@ local function read_json(path)
 	return decoded and type(value) == 'table' and value or nil
 end
 
+---Session files never move, so a path once found is not globbed again
+---@type table<string, string>
+local matched = {}
+
 ---@param pattern string
 ---@return string|nil
 local function first_match(pattern)
-	return vim.fn.glob(pattern, false, true)[1]
+	matched[pattern] = matched[pattern] or vim.fn.glob(pattern, false, true)[1]
+	return matched[pattern]
 end
 
 ---@param env string variable that moves the agent's data directory
@@ -138,8 +143,10 @@ local AGENTS = {
 
 			return first_match(dir .. '/projects/*/' .. live.sessionId .. '.jsonl')
 		end,
-		---Skill bodies and command output are entries too. A slash command is
-		---kept as `<command-name>/name</command-name>` and its `<command-args>`
+		---Skill bodies and command output are entries too. A slash command sent
+		---to the model is kept as `<command-message>` then `<command-name>/name`
+		---and its `<command-args>`. One Claude Code runs itself, such as
+		---`/clear` or `/model`, starts with `<command-name>` and is skipped
 		user_text = function(entry)
 			local message = entry.message
 
@@ -149,7 +156,11 @@ local AGENTS = {
 
 			local text = text_of(message.content)
 
-			if not text or vim.startswith(text, '<local-command') then
+			if
+				not text
+				or vim.startswith(text, '<local-command')
+				or vim.startswith(text, '<command-name>')
+			then
 				return nil
 			end
 
@@ -420,12 +431,13 @@ local function refresh_prompt(session)
 	local spec = AGENTS[session.kind]
 	local file = spec.session_file(session)
 
-	---the first message of a session never changes
-	if file == session.prompt_file and session.prompt then
+	---a file not found or not written yet keeps the prompt shown. The first
+	---message of a session never changes
+	if not file or (file == session.prompt_file and session.prompt) then
 		return false
 	end
 
-	local text = file and first_in_jsonl(file, spec.user_text)
+	local text = first_in_jsonl(file, spec.user_text)
 	local prompt = text and vim.trim((text:gsub('%s+', ' ')))
 	prompt = prompt ~= '' and prompt or nil
 	local changed = prompt ~= session.prompt
