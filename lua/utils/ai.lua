@@ -35,6 +35,56 @@ local function lines_suffix(lines)
 	return string.format(' (lines %d-%d)', lines.start_line, lines.end_line)
 end
 
+---Text of a message's content: a string, or blocks of which the text ones count
+---@param content any
+---@return string|nil
+local function text_of(content)
+	if type(content) == 'string' then
+		return content
+	end
+
+	if type(content) ~= 'table' then
+		return nil
+	end
+
+	local texts = {}
+
+	for _, block in ipairs(content) do
+		if type(block) == 'table' and block.type == 'text' then
+			table.insert(texts, block.text)
+		end
+	end
+
+	return #texts > 0 and table.concat(texts, ' ') or nil
+end
+
+---@param path string
+---@return table|nil
+local function read_json(path)
+	local ok, lines = pcall(vim.fn.readfile, path)
+	local decoded, value =
+		pcall(vim.json.decode, ok and table.concat(lines) or '')
+	return decoded and type(value) == 'table' and value or nil
+end
+
+---Session files never move, so a path once found is not globbed again
+---@type table<string, string>
+local matched = {}
+
+---@param pattern string
+---@return string|nil
+local function first_match(pattern)
+	matched[pattern] = matched[pattern] or vim.fn.glob(pattern, false, true)[1]
+	return matched[pattern]
+end
+
+---@param env string variable that moves the agent's data directory
+---@param default string the data directory under the home directory
+---@return string
+local function data_dir(env, default)
+	return vim.env[env] or vim.fs.joinpath(vim.env.HOME, default)
+end
+
 ---`@file`, the mention pi and Cursor insert from their `@` file pickers
 ---@type FileRef
 local function at_ref(file, lines)
@@ -55,6 +105,12 @@ end
 ---@field title? fun(title: string, dir: string): string|nil the session title
 ---in the terminal title the agent sets, nil while it has none. `dir` is the
 ---name of the directory the agent runs in
+---@field session_id_flag? string flag that starts the agent with a session ID
+---it is given
+---@field session_file? fun(session: AISession): string|nil the JSONL file the
+---agent keeps its current session in
+---@field user_text? fun(entry: table): string|nil text the user sent, from an
+---entry of the session file, nil for any other entry
 
 ---@type table<string, AIAgent>
 local AGENTS = {
@@ -73,6 +129,50 @@ local AGENTS = {
 		title = function(title)
 			title = title:gsub('^[\128-\255]+%s+', '')
 			return title ~= 'Claude Code' and title or nil
+		end,
+		---The process names its current session, which `/clear` and `/resume`
+		---replace, in `sessions/<pid>.json`
+		session_file = function(session)
+			local dir = data_dir('CLAUDE_CONFIG_DIR', '.claude')
+			local ok, pid = pcall(vim.fn.jobpid, session.tui.chan)
+			local live = ok and read_json(dir .. '/sessions/' .. pid .. '.json')
+
+			if not live or type(live.sessionId) ~= 'string' then
+				return nil
+			end
+
+			return first_match(dir .. '/projects/*/' .. live.sessionId .. '.jsonl')
+		end,
+		---Skill bodies and command output are entries too. A slash command sent
+		---to the model is kept as `<command-message>` then `<command-name>/name`
+		---and its `<command-args>`. One Claude Code runs itself, such as
+		---`/clear` or `/model`, starts with `<command-name>` and is skipped
+		user_text = function(entry)
+			local message = entry.message
+
+			if entry.type ~= 'user' or entry.isMeta or type(message) ~= 'table' then
+				return nil
+			end
+
+			local text = text_of(message.content)
+
+			if
+				not text
+				or vim.startswith(text, '<local-command')
+				or vim.startswith(text, '<command-name>')
+			then
+				return nil
+			end
+
+			local name = text:match('<command%-name>(.-)</command%-name>')
+
+			if name then
+				return name
+					.. ' '
+					.. (text:match('<command%-args>(.-)</command%-args>') or '')
+			end
+
+			return text
 		end,
 	},
 	pi = {
@@ -101,6 +201,21 @@ local AGENTS = {
 
 			local suffix = ' - ' .. dir
 			return vim.endswith(rest, suffix) and rest:sub(1, -#suffix - 1) or rest
+		end,
+		session_id_flag = '--session-id',
+		---`<timestamp>_<id>.jsonl`, in a directory named after the working one
+		session_file = function(session)
+			local dir = data_dir('PI_CODING_AGENT_DIR', '.pi/agent')
+			return first_match(dir .. '/sessions/*/*_' .. session.id .. '.jsonl')
+		end,
+		user_text = function(entry)
+			local message = entry.message
+
+			if entry.type ~= 'message' or type(message) ~= 'table' then
+				return nil
+			end
+
+			return message.role == 'user' and text_of(message.content) or nil
 		end,
 	},
 	codex = {
@@ -200,6 +315,10 @@ vim.api.nvim_create_autocmd('ColorScheme', { callback = set_tab_hl })
 ---@field kind string
 ---@field tui TUI
 ---@field dir string name of the directory the agent runs in
+---@field id string session ID handed to agents with a `session_id_flag`
+---@field prompt? string first message sent in the session, shown until the
+---agent sets a title
+---@field prompt_file? string session file `prompt` was read from
 
 ---Agents in the order they started, numbered by position. When one exits,
 ---`TermClose` removes it and the agents after it move down a number
@@ -248,9 +367,10 @@ local function redraw_headers()
 	vim.cmd.redrawstatus({ bang = true })
 end
 
+---The title the agent itself set
 ---@param session AISession
 ---@return string|nil
-local function session_title(session)
+local function agent_title(session)
 	local title = vim.b[session.tui.buf].term_title
 
 	---the terminal is named `term://...` until the agent sets a title
@@ -271,6 +391,100 @@ local function session_title(session)
 	end
 
 	return title ~= '' and title or nil
+end
+
+---@param session AISession
+---@return string|nil
+local function session_title(session)
+	return agent_title(session) or session.prompt
+end
+
+---Value `extract` takes from the first JSONL line it accepts. Lines it rejects
+---or that do not decode are skipped
+---@param path string
+---@param extract fun(entry: table): string|nil
+---@return string|nil
+local function first_in_jsonl(path, extract)
+	local file = io.open(path)
+
+	if not file then
+		return nil
+	end
+
+	for line in file:lines() do
+		local decoded, entry = pcall(vim.json.decode, line)
+		local ok, value = pcall(extract, decoded and entry or {})
+
+		if ok and value then
+			file:close()
+			return value
+		end
+	end
+
+	file:close()
+end
+
+---Read the first message of the session the agent is in now
+---@param session AISession
+---@return boolean changed
+local function refresh_prompt(session)
+	local spec = AGENTS[session.kind]
+	local file = spec.session_file(session)
+
+	---a file not found or not written yet keeps the prompt shown. The first
+	---message of a session never changes
+	if not file or (file == session.prompt_file and session.prompt) then
+		return false
+	end
+
+	local text = first_in_jsonl(file, spec.user_text)
+	local prompt = text and vim.trim((text:gsub('%s+', ' ')))
+	prompt = prompt ~= '' and prompt or nil
+	local changed = prompt ~= session.prompt
+
+	session.prompt_file = file
+	session.prompt = prompt
+
+	return changed
+end
+
+---Session files are read on a timer, since the header is drawn on every redraw
+---and pi sets no title when a message is sent
+local poll = assert(vim.uv.new_timer())
+
+local function poll_prompts()
+	if #sessions == 0 then
+		return poll:stop()
+	end
+
+	local changed = false
+
+	for _, session in ipairs(sessions) do
+		local reads = AGENTS[session.kind].session_file
+			and session.tui.buf
+			and not agent_title(session)
+
+		if reads and refresh_prompt(session) then
+			changed = true
+		end
+	end
+
+	if changed then
+		redraw_headers()
+	end
+end
+
+---A random version 4 UUID
+---@return string
+local function uuid()
+	local b = { assert(vim.uv.random(16)):byte(1, 16) }
+	b[7] = b[7] % 16 + 0x40
+	b[9] = b[9] % 64 + 0x80
+
+	return string.format(
+		'%02x%02x%02x%02x-%02x%02x-%02x%02x-%02x%02x-%02x%02x%02x%02x%02x%02x',
+		unpack(b)
+	)
 end
 
 local ELLIPSIS = '…'
@@ -467,13 +681,18 @@ local function start(position, win)
 	end
 
 	local spec = AGENTS[agent]
-	local tui = TUI:new({ cmd = spec.cmd, ft = spec.ft, on_create = watch })
+	local id = uuid()
+	local cmd = spec.session_id_flag
+			and vim.list_extend(vim.deepcopy(spec.cmd), { spec.session_id_flag, id })
+		or spec.cmd
+	local tui = TUI:new({ cmd = cmd, ft = spec.ft, on_create = watch })
 
 	map_keys(tui, agent)
 	table.insert(sessions, {
 		kind = agent,
 		tui = tui,
 		dir = vim.fs.basename(vim.fn.getcwd()),
+		id = id,
 	})
 	tui:create_term(position, win)
 
@@ -485,6 +704,10 @@ local function start(position, win)
 
 	last = tui.buf
 	redraw_headers()
+
+	if not poll:is_active() then
+		poll:start(1000, 1000, vim.schedule_wrap(poll_prompts))
+	end
 end
 
 ---Show agent `n` in the current window, in the mode the window is in. A
