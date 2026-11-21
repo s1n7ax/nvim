@@ -686,6 +686,11 @@ local function map_keys(tui, kind)
 		end
 	end, { desc = 'Insert file context' })
 
+	---some agents ignore EOF, so end the job instead of sending it
+	tui:map('t', '<c-d>', function()
+		vim.fn.jobstop(tui.chan)
+	end, { desc = 'Terminate AI agent' })
+
 	for n = 1, MAX_AGENTS do
 		tui:map({ 'n', 't' }, '<c-' .. n .. '>', function()
 			show(n)
