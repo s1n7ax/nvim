@@ -626,12 +626,38 @@ local function watch(buf)
 		once = true,
 		callback = function()
 			local n = slot_of(buf)
+			---agent that takes over its windows: the one before it, else the
+			---one that moves into its number
+			local heir
 
 			if n then
 				table.remove(sessions, n)
+				heir = sessions[math.max(n - 1, 1)]
 			end
 
 			vim.schedule(function()
+				if heir and vim.api.nvim_buf_is_valid(heir.tui.buf) then
+					---a window that is not current gets no `BufEnter`
+					if last == buf then
+						last = heir.tui.buf
+					end
+
+					for _, win in ipairs(vim.fn.win_findbuf(buf)) do
+						---the current window keeps its mode, as with `show`
+						local current = win == vim.api.nvim_get_current_win()
+
+						if current then
+							heir.tui.insert = vim.fn.mode() == 't'
+						end
+
+						vim.api.nvim_win_set_buf(win, heir.tui.buf)
+
+						if current and heir.tui.insert then
+							vim.cmd('startinsert')
+						end
+					end
+				end
+
 				if vim.api.nvim_buf_is_valid(buf) then
 					if #vim.fn.win_findbuf(buf) == 0 then
 						vim.api.nvim_buf_delete(buf, { force = true })
@@ -659,6 +685,11 @@ local function map_keys(tui, kind)
 			tui:send_prompt(ctx)
 		end
 	end, { desc = 'Insert file context' })
+
+	---some agents ignore EOF, so end the job instead of sending it
+	tui:map('t', '<c-d>', function()
+		vim.fn.jobstop(tui.chan)
+	end, { desc = 'Terminate AI agent' })
 
 	for n = 1, MAX_AGENTS do
 		tui:map({ 'n', 't' }, '<c-' .. n .. '>', function()
