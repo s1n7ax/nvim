@@ -636,7 +636,12 @@ local function watch(buf)
 			end
 
 			vim.schedule(function()
-				if heir and heir.tui.buf then
+				if heir and vim.api.nvim_buf_is_valid(heir.tui.buf) then
+					---a window that is not current gets no `BufEnter`
+					if last == buf then
+						last = heir.tui.buf
+					end
+
 					for _, win in ipairs(vim.fn.win_findbuf(buf)) do
 						---the current window keeps its mode, as with `show`
 						local current = win == vim.api.nvim_get_current_win()
