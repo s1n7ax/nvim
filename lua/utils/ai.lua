@@ -628,26 +628,26 @@ local function watch(buf)
 			local n = slot_of(buf)
 			---agent that takes over its windows: the one before it, else the
 			---one that moves into its number
-			local next
+			local heir
 
 			if n then
 				table.remove(sessions, n)
-				next = sessions[math.max(n - 1, 1)]
+				heir = sessions[math.max(n - 1, 1)]
 			end
 
 			vim.schedule(function()
-				if next and next.tui.buf then
+				if heir and heir.tui.buf then
 					for _, win in ipairs(vim.fn.win_findbuf(buf)) do
 						---the current window keeps its mode, as with `show`
 						local current = win == vim.api.nvim_get_current_win()
 
 						if current then
-							next.tui.insert = vim.fn.mode() == 't'
+							heir.tui.insert = vim.fn.mode() == 't'
 						end
 
-						vim.api.nvim_win_set_buf(win, next.tui.buf)
+						vim.api.nvim_win_set_buf(win, heir.tui.buf)
 
-						if current and next.tui.insert then
+						if current and heir.tui.insert then
 							vim.cmd('startinsert')
 						end
 					end
